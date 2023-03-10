@@ -9,6 +9,7 @@ class Bullet extends Object {
     this.y = player.y
     this.direction = player.direction
     this.speed = constants.BULLET_SPEED
+    this.firer = player.username
 
   }
   serialize(){

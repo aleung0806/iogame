@@ -19,10 +19,10 @@ let animationFrameRequestId;
 const render = () => {
   const state = getCurrentState()
   const { me, players, bullets } = state
-  console.log(`state ${JSON.stringify(state)}`)
+  //console.log(`state ${JSON.stringify(state)}`)
   if (!_.isEmpty(state)){
-    console.log(`rendering... ${JSON.stringify(state, 2, null)}`)
-
+    //console.log(`rendering... ${JSON.stringify(state, 2, null)}`)
+    console.log(`bullets ${bullets.length}`)
     renderBackground(me)
     renderPlayer(me, me)
     players.forEach(player => {
@@ -38,7 +38,7 @@ const render = () => {
 
 const renderBackground = (me) => {
   const {x, y} = me
-  console.log(`${x}, ${y}`)
+  //console.log(`${x}, ${y}`)
   const backgroundX = MAP_SIZE / 2 - x + canvas.width / 2;
   const backgroundY = MAP_SIZE / 2 - y + canvas.height / 2;
   const backgroundGradient = context.createRadialGradient(

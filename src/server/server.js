@@ -31,7 +31,7 @@ io.on('connection', (socket) => {
   })
 
   socket.on(constants.MSG_TYPES.INPUT, (input) => {
-    console.log(`input ${JSON.stringify(input, 2, null)} received`)
+    //console.log(`input ${JSON.stringify(input, 2, null)} received`)
     handleInput(socket.id, input)
   })
 
@@ -46,7 +46,7 @@ io.on('connection', (socket) => {
 const handleInput = (socketId, input) => {
   
   if (input.type === 'direction'){
-    console.log(`new direction is ${input.value}`)
+    //console.log(`new direction is ${input.value}`)
     game.setPlayerDirection(socketId, input.value)
   }
 }

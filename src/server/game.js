@@ -85,7 +85,6 @@ const createGame = () => {
 
 
   const update = () => {
-
     let now = new Date()
     dt = (now - lastUpdate) / 10000
     lastUpdate = now
@@ -96,12 +95,10 @@ const createGame = () => {
     //update player positions
     for (const id in players){
       players[id].updatePosition(dt)
-      playersUpdated.push(players[id].serialize())
     }
 
     //create bullets
     for (const id in players){
-      console.log(now - players[id].lastFired)
       if((now - players[id].lastFired) / 1000 > constants.PLAYER_FIRE_COOLDOWN){
         let bullet = new Bullet(players[id])
         bullets.push(bullet)
@@ -112,8 +109,41 @@ const createGame = () => {
     //update bullet positions
     bullets.forEach(bullet => {
       bullet.updatePosition(dt)
+    })
+
+    //check for bullets hitting border
+    const filteredBullets = bullets.filter(bullet => {
+
+      //check for bullets hitting border
+      if (Math.abs(bullet.x) > constants.MAP_SIZE / 2 || Math.abs(bullet.y) > constants.MAP_SIZE / 2){
+        console.log('BORDER')
+        
+        return true
+      }
+
+      //check for bullets hitting players
+      for (const id in players){
+        if(players[id].username !== bullet.firer &&  checkCollision(bullet, players[id])){
+          sockets[id].emit(constants.MSG_TYPES.GAME_OVER)
+          return false
+        }
+      }
+      return true
+    })
+
+    bullets = filteredBullets
+
+
+    bullets.forEach(bullet => {
       bulletsUpdated.push(bullet.serialize())
     })
+
+    for (const id in players){
+      players[id].updatePosition(dt)
+      playersUpdated.push(players[id].serialize())
+    }
+
+
 
     state = {
       players: playersUpdated,
@@ -122,7 +152,15 @@ const createGame = () => {
   }
 
 
-
+  const checkCollision = (bullet, player) => {
+    console.log(`bullet: ${JSON.stringify(bullet.serialize())}, player: ${JSON.stringify(player.serialize())}`)
+    if (Math.abs(bullet.x - player.x) < constants.PLAYER_RADIUS * 2
+      && Math.abs(bullet.x - player.y) < constants.PLAYER_RADIUS * 2){
+        console.log('COLLISION')
+      return true
+    }
+    return false
+  }
 
   const sendUpdates = () => {
     for (const id in sockets){
@@ -152,8 +190,8 @@ const createGame = () => {
   setInterval(sendUpdates, 1000/30)
 
 
-  setInterval(() => console.log(`state: ${JSON.stringify(state, 2, null)}`), 1000)
-0
+  //setInterval(() => console.log(`state: ${JSON.stringify(state, 2, null)}`), 1000)
+
   return {
     sockets,
     players,

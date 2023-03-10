@@ -10,7 +10,10 @@ const connectPromise  = new Promise((resolve, reject) => {
   })
   socket.on(constants.MSG_TYPES.GAME_UPDATE, (value) => {
     processGameUpdate(value)
-
+  })
+  socket.on(constants.MSG_TYPES.GAME_OVER, (value) => {
+    console.log('you lose')
+    processGameOver(value)
   })
   socket.on('disconnect', () => {
     console.log('disconnected from server')
@@ -20,6 +23,9 @@ const connectPromise  = new Promise((resolve, reject) => {
 
 export const connect = () => connectPromise
 
+const processGameOver = () => {
+  processGameUpdate({})
+}
 
 export const updateDirection = (direction) => {
   socket.emit(constants.MSG_TYPES.INPUT, {type: 'direction', value: direction})

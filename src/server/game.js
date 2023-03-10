@@ -1,9 +1,10 @@
 const Player = require('./player')
 const constants = require('../shared/constants')
-const Game = require('./game copy')
+const Bullet = require('./bullet')
 const { stringify } = require('flatted')
 const uuid = require('uuid')
-const { update } = require('lodash')
+
+const _ = require('lodash')
 
 const state = {
   me: {
@@ -46,60 +47,20 @@ const createPlayer = (username) => {
   const player = createObject()
   player.username = username
   player.canShoot = true
-  setInterval(() => console.log('player shoots'), 1000)
   return player
 }
 
-const createBullet = () => {
-  return {
-    x: 0, 
-    y: 0, 
-    direction: 0
-  }
-}
+
 
 
 const createGame = () => {
   let sockets = {}
-  let bullets = [
-    {
-      x: -100,
-      y: 200,
-      direction: 180
-    },
-    
-    {
-      x: 250,
-      y: 350,
-      direction: 90
-    }
-  ]
-  let players = {
-    
-    'dummy1': {
-      id: '001',
-      username: 'player 2',
-      x: -100,
-      y: 200,
-      direction: 180
-    },
-    'dummy2':
-    {
-      id: '002',
-      username: 'player 3',
-      x: 250,
-      y: 350,
-      direction: 90
-    }
-    
+  let bullets = []
+  let players = {}
 
-  }
+  let state = {}
 
-  const dt = .01
-
-  let toSendUpdate = false
-  let lastUpdateTime = new Date()
-
+  let lastUpdate = new Date()
 
   const addSocket = (socket) => {
     console.log(`socket ${socket} added`)
@@ -113,74 +74,86 @@ const createGame = () => {
     }
   }
 
-  const setPlayerDirection = (socketId, direction) => {
-    console.log(`direction ${direction}`)
-    players[socketId].direction = direction
-    console.log(JSON.stringify(players[socketId]))
-  }
-
-  const createBullet = (p) => {
-    const bullet = createBullet()
-    bullet.direction = p.direction
-    bullet.x = p.x + dt * constants.BULLET_SPEED * Math.sin(p.direction * Math.PI / 180)
-    bullet.y = p.y - dt * constants.BULLET_SPEED * Math.cos(p.direction * Math.PI / 180)
-  }
-
-  const updatePlayerPosition = (p) =>  {
-    //console.log(`dt: ${dt}`)
-    p.x += dt * constants.PLAYER_SPEED * Math.sin(p.direction * Math.PI / 180)
-    p.y -= dt * constants.PLAYER_SPEED * Math.cos(p.direction * Math.PI / 180)
-    //console.log(`player updated to ${JSON.stringify(p)}`)
-  }
-
-
-
-
   const addPlayer = (socket, username) => {
     toSendUpdate = true
-    players[socket.id] = createPlayer(username)
+    players[socket.id] = new Player(username)
   }
 
-  const makeUpdate = (socketId) => {
-    updatePlayerPosition(players[socketId])
-    
-    let playersToSend = []
-    let me = {}
+  const setPlayerDirection = (socketId, direction) => {
+    players[socketId].direction = direction
+  }
+
+
+  const update = () => {
+
+    let now = new Date()
+    dt = (now - lastUpdate) / 10000
+    lastUpdate = now
+
+    const playersUpdated = []
+    const bulletsUpdated = []
+
+    //update player positions
     for (const id in players){
-      if (id === socketId){
-        me = players[id]
-      }else{
-        playersToSend.push(players[id])
+      players[id].updatePosition(dt)
+      playersUpdated.push(players[id].serialize())
+    }
+
+    //create bullets
+    for (const id in players){
+      console.log(now - players[id].lastFired)
+      if((now - players[id].lastFired) / 1000 > constants.PLAYER_FIRE_COOLDOWN){
+        let bullet = new Bullet(players[id])
+        bullets.push(bullet)
+        players[id].lastFired = now
       }
     }
-    return {
-      me, players: playersToSend
+
+    //update bullet positions
+    bullets.forEach(bullet => {
+      bullet.updatePosition(dt)
+      bulletsUpdated.push(bullet.serialize())
+    })
+
+    state = {
+      players: playersUpdated,
+      bullets: bulletsUpdated
     }
   }
+
+
+
 
   const sendUpdates = () => {
-    //console.log('sending update')
-    lastUpdateTime = Date.now()
-    if (toSendUpdate){
-      for (const id in sockets){
-        if(id in players){
-          sockets[id].emit(constants.MSG_TYPES.GAME_UPDATE, makeUpdate(id))
-        }
+    for (const id in sockets){
+      if(id in players){
+        let others = state.players.filter(player => player.username !== players[id].username)
+
+        sockets[id].emit(constants.MSG_TYPES.GAME_UPDATE, {
+          me: players[id],
+          players: others,
+          bullets: state.bullets
+        })
       }
     }
+    
   }
 
 
   const printGameState = () => {
-    console.log(`players: ${JSON.stringify(players)}`)
+    
     console.log(`sockets:`)
     for (const socket in sockets) {
       console.log(`${stringify(socket)}`)
     }
   }
 
+  setInterval(update, 1000/60)
   setInterval(sendUpdates, 1000/30)
 
+
+  setInterval(() => console.log(`state: ${JSON.stringify(state, 2, null)}`), 1000)
+0
   return {
     sockets,
     players,

@@ -1,9 +1,9 @@
+
 class Object {
-  constructor(id, x, y, v , direction) {
-    this.id = id
+  constructor(x = 0, y = 0, speed = 0, direction = 0) {
     this.x = x
     this.y = y
-    this.v = v
+    this.speed = speed
     this.direction = direction
   }
 
@@ -14,27 +14,12 @@ class Object {
 
   setDirection(direction) {
     this.direction = direction
-    console.log('direction set')
   }
 
-  setVelocity(velocity) {
-    this.velocity = velocity
+  updatePosition(dt) {
+    this.x += dt * this.speed * Math.sin(this.direction * Math.PI / 180)
+    this.y -= dt * this.speed * Math.cos(this.direction * Math.PI / 180)
   }
-
-  updatePlayerPo(p) {
-    p.x += dt * constants.PLAYER_SPEED * Math.sin(p.direction)
-    p.y -= dt * constants.PLAYER_SPEED * Math.cos(p.direction)
-    console.log(p)
-  }
-
-  serializeObject() {
-    return {
-      x: this.x,
-      y: this.y,
-      direction: this.direction
-    }
-  }
-
 }
 
 module.exports = Object

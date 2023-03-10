@@ -9,7 +9,6 @@ const connectPromise  = new Promise((resolve, reject) => {
     console.log(`connected to server`)
   })
   socket.on(constants.MSG_TYPES.GAME_UPDATE, (value) => {
-    console.log(`game update received ${JSON.stringify(value, null, 2)}`)
     processGameUpdate(value)
 
   })

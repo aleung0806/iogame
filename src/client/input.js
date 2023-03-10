@@ -2,7 +2,6 @@ import { updateDirection } from "./networking"
 const Constants = require('../shared/constants')
 
 const onMouseMove = (e) => {
-  console.log('mouse moved...')
   const x = e.clientX 
   const y = e.clientY
 

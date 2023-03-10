@@ -1,26 +1,24 @@
 const Object = require('./object')
+const constants = require('../shared/constants')
 
 class Player extends Object{
-  constructor(username, socketId, x, y, windowX, windowY) {
+  constructor(username = '') {
     super()
-    this.username = username,
-    this.socketId = socketId,
-    this.windowX = windowX
-    this.windowY = windowY
+    this.username = username
+    this.health = 0
+    this.speed = constants.PLAYER_SPEED
+    this.x = Math.random() * constants.MAP_SIZE - (constants.MAP_SIZE / 2)
+    this.y = Math.random() * constants.MAP_SIZE - (constants.MAP_SIZE / 2)
+    this.lastFired = 0
   }
 
-  setWindowSize(x, y){
-    this.windowX = x
-    this.windowY = y
-  }
-  
-  serializedPlayer(){
+  serialize() {
     return {
       username: this.username,
-      socketId: this.socketId,
       x: this.x,
       y: this.y,
-      direction: this.direction
+      direction: this.direction,
+      health: this.health
     }
   }
 }

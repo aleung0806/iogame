@@ -1,5 +1,7 @@
 import { getAsset } from './assets'
 
+import _ from 'lodash'
+
 const canvas = document.getElementById('game-canvas')
 const context = canvas.getContext('2d')
 canvas.width = window.innerWidth
@@ -15,20 +17,28 @@ let animationFrameRequestId;
 
 
 const render = () => {
-  console.log(`rendering...`)
   const state = getCurrentState()
   const { me, players, bullets } = state
-  renderBackground(me)
-  renderPlayer(me, me)
-  players.forEach(player => {
-    return renderPlayer(me, player)
-  })
+  console.log(`state ${JSON.stringify(state)}`)
+  if (!_.isEmpty(state)){
+    console.log(`rendering... ${JSON.stringify(state, 2, null)}`)
+
+    renderBackground(me)
+    renderPlayer(me, me)
+    players.forEach(player => {
+      return renderPlayer(me, player)
+    })
+    bullets.forEach(bullet => {
+      return renderBullet(me, bullet)
+    })
+  }
 
   animationFrameRequestId = requestAnimationFrame(render)
 }
 
 const renderBackground = (me) => {
   const {x, y} = me
+  console.log(`${x}, ${y}`)
   const backgroundX = MAP_SIZE / 2 - x + canvas.width / 2;
   const backgroundY = MAP_SIZE / 2 - y + canvas.height / 2;
   const backgroundGradient = context.createRadialGradient(
@@ -43,12 +53,9 @@ const renderBackground = (me) => {
   backgroundGradient.addColorStop(1, 'gray')
   context.fillStyle = backgroundGradient
   context.fillRect(0, 0, canvas.width, canvas.height)
-  
 }
 
 const renderPlayer = (me, player) => {
-  //console.log(`rendering ${JSON.stringify(player)}`)
-
   const { x, y, direction } = player
   const canvasX = canvas.width / 2 + x - me.x
   const canvasY = canvas.height / 2 + y - me.y
@@ -66,6 +73,26 @@ const renderPlayer = (me, player) => {
   )
   context.restore()
 }
+
+const renderBullet = (me, bullet) => {
+  const { x, y, direction } = bullet
+  const canvasX = canvas.width / 2 + x - me.x
+  const canvasY = canvas.height / 2 + y - me.y
+
+
+  context.save()
+  context.translate(canvasX, canvasY)
+  context.drawImage(
+    getAsset('bullet.svg'),
+    -BULLET_RADIUS, 
+    -BULLET_RADIUS, 
+    BULLET_RADIUS * 2,
+    BULLET_RADIUS * 2,
+  )
+  context.restore()
+}
+
+
 export const startRender = () => {
   console.log(`starting render`)
   animationFrameRequestId = window.requestAnimationFrame(render)

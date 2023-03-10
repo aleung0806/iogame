@@ -116,7 +116,6 @@ const createGame = () => {
 
       //check for bullets hitting border
       if (Math.abs(bullet.x) > constants.MAP_SIZE / 2 || Math.abs(bullet.y) > constants.MAP_SIZE / 2){
-        console.log('BORDER')
         
         return true
       }

@@ -18,35 +18,39 @@ let animationFrameRequestId;
 
 
 const renderBackground = (me) => {
-  const {x, y} = me
-  //console.log(`${x}, ${y}`)
-  const backgroundX = MAP_SIZE / 2 - x + canvas.width / 2;
-  const backgroundY = MAP_SIZE / 2 - y + canvas.height / 2;
-  const backgroundGradient = context.createRadialGradient(
-    backgroundX,
-    backgroundY,
-    MAP_SIZE / 10,
-    backgroundX,
-    backgroundY,
-    MAP_SIZE / 2,
-  );
-  backgroundGradient.addColorStop(0, 'black')
-  backgroundGradient.addColorStop(1, 'gray')
-  context.fillStyle = backgroundGradient
+  console.log('render: background')
+  const canvasX = canvas.width / 2
+  const canvasY = canvas.height / 2
+
+  context.fillStyle = 'white'
   context.fillRect(0, 0, canvas.width, canvas.height)
+
+
 }
 
-const renderPlayer = (me, player) => {
+const renderPlatform = (me) => {
+  context.save()
+  context.translate(canvasX, canvasY)
+  context.fillStyle = 'black'
+  context.fillRect(.250, 0, 500, 5)
+  context.restore()
+}
+
+
+const renderMe = (me) => {
   const { x, y, direction } = player
-  const canvasX = canvas.width / 2 + x - me.x
-  const canvasY = canvas.height / 2 + y - me.y
+
+  console.log('render: player')
+
+  const canvasX = canvas.width / 2
+  const canvasY = canvas.height / 2
 
 
   context.save()
   context.translate(canvasX, canvasY)
   context.rotate(direction * Math.PI / 180)
   context.drawImage(
-    getAsset('ship.svg'),
+    getAsset('sphere.svg'),
     -PLAYER_RADIUS, 
     -PLAYER_RADIUS, 
     PLAYER_RADIUS * 2,
@@ -64,7 +68,7 @@ const renderBullet = (me, bullet) => {
   context.save()
   context.translate(canvasX, canvasY)
   context.drawImage(
-    getAsset('bullet.svg'),
+    getAsset('sphere.svg'),
     -BULLET_RADIUS, 
     -BULLET_RADIUS, 
     BULLET_RADIUS * 2,
@@ -75,7 +79,7 @@ const renderBullet = (me, bullet) => {
 
 
 export const startRender = () => {
-  console.log(`starting render`)
+  console.log(`render: start`)
   animationFrameRequestId = window.requestAnimationFrame(render)
 }
 
@@ -86,19 +90,24 @@ export const stopRender = () => {
 
 const render = () => {
   const state = getCurrentState()
-  console.log('state', state)
+  console.log('render')
+
   const { me, players, bullets } = state
-  //console.log(`state ${JSON.stringify(state)}`)
   if (!_.isEmpty(state)){
-    //console.log(`rendering... ${JSON.stringify(state, 2, null)}`)
-    console.log(`bullets ${bullets.length}`)
     renderBackground(me)
-    renderPlayer(me, me)
-    players.forEach(player => {
-      return renderPlayer(me, player)
-    })
-    bullets.forEach(bullet => {
-      return renderBullet(me, bullet)
-    })
+    renderMe(me)
+    renderPlatform(me)
+    // players.forEach(player => {
+    //   return renderPlayer(me, player)
+    // })
+    // bullets.forEach(bullet => {
+    //   return renderBullet(me, bullet)
+    // })
+    
   }
+  // setInterval(() => {
+  //   animationFrameRequestId = window.requestAnimationFrame(render)
+  // }, 1000)
+  animationFrameRequestId = window.requestAnimationFrame(render)
+  
 }

@@ -10,7 +10,8 @@ const onMouseMove = (e) => {
 }
 
 
-export const startCapturingInput = () => {
-  console.log('adding mousemove listener')
+export const startCapturingInput = () => new Promise((resolve, reject) => {
+  console.log('adding event listeners')
   window.addEventListener("mousemove", onMouseMove)
-}
+  resolve()
+})

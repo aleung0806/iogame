@@ -9,7 +9,7 @@ const joinGamePromise = new Promise((resolve, reject) => {
   form.addEventListener('submit', (e) => {
     e.preventDefault()
     if (input.value) {
-      console.log(`player ${input.value} joined`)
+      console.log(`menu: player ${input.value} joined the game`)
 
       sendJoinGame(input.value, window.innerWidth, window.innerHeight)
       input.value = ''

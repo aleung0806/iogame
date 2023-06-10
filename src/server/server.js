@@ -28,7 +28,7 @@ io.on('connection', (socket) => {
   })
 
   socket.on(constants.MSG_TYPES.INPUT, (input) => {
-    //console.log(`input ${JSON.stringify(input, 2, null)} received`)
+    console.log(`input ${JSON.stringify(input, null, 2)} received`)
     handleInput(socket.id, input)
   })
 

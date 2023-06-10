@@ -9,9 +9,9 @@ body {
   align-items: center;
 }
 
-#game-canvas {
+/* #game-canvas {
   display: none;
-}
+} */
 
 #start-menu {
   display: flex;

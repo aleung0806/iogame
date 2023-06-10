@@ -54,6 +54,7 @@ const createGame = () => {
   }
 
   const addPlayer = (socket, username) => {
+    console.log('player joined')
     toSendUpdate = true
     players[socket.id] = new Player(username)
   }
@@ -76,52 +77,51 @@ const createGame = () => {
       players[id].updatePosition(dt)
     }
 
-    //create bullets
-    for (const id in players){
-      if((now - players[id].lastFired) / 1000 > constants.PLAYER_FIRE_COOLDOWN){
-        let bullet = new Bullet(players[id])
-        bullets.push(bullet)
-        players[id].lastFired = now
-      }
-    }
+    // //create bullets
+    // for (const id in players){
+    //   if((now - players[id].lastFired) / 1000 > constants.PLAYER_FIRE_COOLDOWN){
+    //     let bullet = new Bullet(players[id])
+    //     bullets.push(bullet)
+    //     players[id].lastFired = now
+    //   }
+    // }
 
-    //update bullet positions
-    bullets.forEach(bullet => {
-      bullet.updatePosition(dt)
-    })
+    // //update bullet positions
+    // bullets.forEach(bullet => {
+    //   bullet.updatePosition(dt)
+    // })
 
-    //check for bullets hitting border
-    const filteredBullets = bullets.filter(bullet => {
+    // //check for bullets hitting border
+    // const filteredBullets = bullets.filter(bullet => {
 
-      //check for bullets hitting border
-      if (Math.abs(bullet.x) > constants.MAP_SIZE / 2 || Math.abs(bullet.y) > constants.MAP_SIZE / 2){
+    //   //check for bullets hitting border
+    //   if (Math.abs(bullet.x) > constants.MAP_SIZE / 2 || Math.abs(bullet.y) > constants.MAP_SIZE / 2){
         
-        return true
-      }
+    //     return true
+    //   }
 
-      //check for bullets hitting players
-      for (const id in players){
-        if(players[id].username !== bullet.firer &&  checkCollision(bullet, players[id])){
-          sockets[id].emit(constants.MSG_TYPES.GAME_OVER)
-          return false
-        }
-      }
-      return true
-    })
+    //   //check for bullets hitting players
+    //   for (const id in players){
+    //     if(players[id].username !== bullet.firer &&  checkCollision(bullet, players[id])){
+    //       sockets[id].emit(constants.MSG_TYPES.GAME_OVER)
+    //       return false
+    //     }
+    //   }
+    //   return true
+    // })
 
-    bullets = filteredBullets
+    // bullets = filteredBullets
 
 
-    bullets.forEach(bullet => {
-      bulletsUpdated.push(bullet.serialize())
-    })
+    // bullets.forEach(bullet => {
+    //   bulletsUpdated.push(bullet.serialize())
+    // })
 
+    //update players
     for (const id in players){
       players[id].updatePosition(dt)
       playersUpdated.push(players[id].serialize())
     }
-
-
 
     state = {
       players: playersUpdated,
@@ -156,10 +156,13 @@ const createGame = () => {
   }
 
   const printState = () => {
+
+    // extract socket ids to print
     const socketIds = []
     for (const socketId in sockets){
       socketIds.push(socketId)
     }
+
     console.log(`
       ------------
       sockets: ${JSON.stringify(socketIds, null, 2)}
@@ -169,7 +172,7 @@ const createGame = () => {
   }
 
   setInterval(updateState, 1000/60)
-  setInterval(sendUpdates, 1000/30)
+  setInterval(sendUpdates, 1000)
   setInterval(printState, 5000)
 
   return {

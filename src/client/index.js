@@ -1,5 +1,5 @@
 import './css/main.css'
-import { connect, onDisconnect, onGameUpdate, startReceivingUpdates } from './networking'
+import { connectToServer } from './networking'
 import { loadAssets } from './assets'
 import { startRender } from './render'
 import { startCapturingInput } from './input'
@@ -8,13 +8,14 @@ import { joinGame } from './menu'
 
 const loadGame = () => {
   return Promise.all([
-    connect(),
+    connectToServer(),
     loadAssets(),
     joinGame()
   ])
 }
 
 loadGame().then(() => {
+  console.log('loaded')
   startRender()
   startCapturingInput()
 })

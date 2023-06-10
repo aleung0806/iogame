@@ -1,18 +1,16 @@
-const ASSET_NAMES = ['ship.svg', 'bullet.svg']
+const ASSET_NAMES = ['sphere.svg', 'bullet.svg']
 
 const assets = {}
 
-const loadAsset = (assetName) => {
-  return new Promise((resolve, reject) => {
-    const asset = new Image()
-    asset.onload = () => {
-      console.log(`${assetName} loaded`)
-      assets[assetName] = asset
-      resolve()
-    }
-    asset.src = `/assets/${assetName}`
-  })
-}
+const loadAsset = (assetName) => new Promise((resolve, reject) => {
+  const asset = new Image()
+  asset.onload = () => {
+    console.log(`${assetName} loaded`)
+    assets[assetName] = asset
+    resolve()
+  }
+  asset.src = `/assets/${assetName}`
+})
 
 
 export const loadAssets = () => {

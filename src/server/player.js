@@ -6,7 +6,7 @@ class Player extends Object{
     super()
     this.username = username
     this.health = 0
-    this.speed = constants.PLAYER_SPEED
+    this.speed = 0
     // this.x = Math.random() * constants.MAP_SIZE - (constants.MAP_SIZE / 2)
     // this.y = Math.random() * constants.MAP_SIZE - (constants.MAP_SIZE / 2)
     this.x = 0

@@ -59,8 +59,14 @@ const createGame = () => {
     players[socket.id] = new Player(username)
   }
 
+  //directions meaning facing vs velocity
   const setPlayerDirection = (socketId, direction) => {
-    players[socketId].direction = direction
+    // players[socketId].direction = direction
+  }
+
+  const setPlayerJump = (socketId) => {
+    players[socketId].direction = 0
+    players[socketId].acceleration = 5
   }
 
 

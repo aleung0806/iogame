@@ -26,6 +26,10 @@ export const updateDirection = (direction) => {
   socket.emit(constants.MSG_TYPES.INPUT, {type: 'direction', value: direction})
 }
 
+export const jump = () => {
+  socket.emit(constants.MSG_TYPES.INPUT, {type: 'jump'})
+}
+
 export const sendJoinGame = (username, windowX, windowY) => {
   console.log('sending JoinGame')
   socket.emit(constants.MSG_TYPES.JOIN_GAME, 

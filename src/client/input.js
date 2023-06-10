@@ -1,4 +1,4 @@
-import { updateDirection } from "./networking"
+import { updateDirection, jump } from "./networking"
 const Constants = require('../shared/constants')
 
 const onMouseMove = (e) => {
@@ -9,9 +9,19 @@ const onMouseMove = (e) => {
   updateDirection(direction)
 }
 
+const onKeyDown = (e) => {
+
+  //space
+  if(e.keyCode === 32){
+    jump()
+  }
+}
+
 
 export const startCapturingInput = () => new Promise((resolve, reject) => {
   console.log('adding event listeners')
   window.addEventListener("mousemove", onMouseMove)
+  window.addEventListener("keydown", onKeyDown)
+
   resolve()
 })

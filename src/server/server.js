@@ -44,6 +44,8 @@ const handleInput = (socketId, input) => {
   if (input.type === 'direction'){
     //console.log(`new direction is ${input.value}`)
     game.setPlayerDirection(socketId, input.value)
+  }else if (input.type === 'jump'){
+    game.playerJump(socketId)
   }
 }
 

@@ -6,6 +6,8 @@ const canvas = document.getElementById('game-canvas')
 const context = canvas.getContext('2d')
 canvas.width = window.innerWidth
 canvas.height = window.innerHeight
+const canvasX = canvas.width / 2
+const canvasY = canvas.height / 2
 
 const Constants = require('../shared/constants')
 
@@ -19,32 +21,25 @@ let animationFrameRequestId;
 
 const renderBackground = (me) => {
   console.log('render: background')
-  const canvasX = canvas.width / 2
-  const canvasY = canvas.height / 2
+
 
   context.fillStyle = 'white'
   context.fillRect(0, 0, canvas.width, canvas.height)
-
-
 }
 
 const renderPlatform = (me) => {
   context.save()
   context.translate(canvasX, canvasY)
   context.fillStyle = 'black'
-  context.fillRect(.250, 0, 500, 5)
+  context.fillRect(-250, 0, 500, 5)
   context.restore()
 }
 
 
 const renderMe = (me) => {
-  const { x, y, direction } = player
+  const { x, y, direction } = me
 
-  console.log('render: player')
-
-  const canvasX = canvas.width / 2
-  const canvasY = canvas.height / 2
-
+  console.log('render: me')
 
   context.save()
   context.translate(canvasX, canvasY)
@@ -95,8 +90,8 @@ const render = () => {
   const { me, players, bullets } = state
   if (!_.isEmpty(state)){
     renderBackground(me)
-    renderMe(me)
     renderPlatform(me)
+    renderMe(me)
     // players.forEach(player => {
     //   return renderPlayer(me, player)
     // })

@@ -20,6 +20,10 @@ class Object {
     this.x += dt * this.speed * Math.sin(this.direction * Math.PI / 180)
     this.y -= dt * this.speed * Math.cos(this.direction * Math.PI / 180)
   }
+
+  updateVelocity(dt) {
+    this.speed += dt * this.acceleration
+  }
 }
 
 module.exports = Object

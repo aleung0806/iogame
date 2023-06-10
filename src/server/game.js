@@ -6,32 +6,6 @@ const uuid = require('uuid')
 
 const _ = require('lodash')
 
-const state = {
-  me: {
-    id: '000',
-    username: 'player 1',
-    x: 0,
-    y: 0,
-    direction: 0
-  },
-  players: [
-    {
-      id: '001',
-      username: 'player 2',
-      x: -100,
-      y: 200,
-      direction: 180
-    },
-    {
-      id: '002',
-      username: 'player 3',
-      x: 250,
-      y: 350,
-      direction: 90
-    },
-  ],
-  bullets: []
-}
 
 const createObject = () => {
   let x = 0
@@ -54,16 +28,21 @@ const createPlayer = (username) => {
 
 
 const createGame = () => {
+
+  //socketId: socket
   let sockets = {}
+
   let bullets = []
+
+  //playerId: player
   let players = {}
 
+  //contains serialized state. used for print and sending
   let state = {}
 
   let lastUpdate = new Date()
 
   const addSocket = (socket) => {
-    console.log(`socket ${socket} added`)
     sockets[socket.id] = socket
   }
 
@@ -84,7 +63,7 @@ const createGame = () => {
   }
 
 
-  const update = () => {
+  const updateState = () => {
     let now = new Date()
     dt = (now - lastUpdate) / 10000
     lastUpdate = now
@@ -176,20 +155,22 @@ const createGame = () => {
     
   }
 
-
-  const printGameState = () => {
-    
-    console.log(`sockets:`)
-    for (const socket in sockets) {
-      console.log(`${stringify(socket)}`)
+  const printState = () => {
+    const socketIds = []
+    for (const socketId in sockets){
+      socketIds.push(socketId)
     }
+    console.log(`
+      ------------
+      sockets: ${JSON.stringify(socketIds, null, 2)}
+      players: ${JSON.stringify(state.players, null, 2)}
+      bullets: ${state.bullets.length}
+    `)
   }
 
-  setInterval(update, 1000/60)
+  setInterval(updateState, 1000/60)
   setInterval(sendUpdates, 1000/30)
-
-
-  //setInterval(() => console.log(`state: ${JSON.stringify(state, 2, null)}`), 1000)
+  setInterval(printState, 5000)
 
   return {
     sockets,
@@ -198,7 +179,7 @@ const createGame = () => {
     removeSocket,
     addPlayer,
     setPlayerDirection,
-    printGameState
+    printState
   }
 }
 

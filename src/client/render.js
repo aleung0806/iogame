@@ -16,25 +16,6 @@ const { PLAYER_RADIUS, PLAYER_MAX_HP, BULLET_RADIUS, MAP_SIZE } = Constants
 let animationFrameRequestId;
 
 
-const render = () => {
-  const state = getCurrentState()
-  const { me, players, bullets } = state
-  //console.log(`state ${JSON.stringify(state)}`)
-  if (!_.isEmpty(state)){
-    //console.log(`rendering... ${JSON.stringify(state, 2, null)}`)
-    console.log(`bullets ${bullets.length}`)
-    renderBackground(me)
-    renderPlayer(me, me)
-    players.forEach(player => {
-      return renderPlayer(me, player)
-    })
-    bullets.forEach(bullet => {
-      return renderBullet(me, bullet)
-    })
-  }
-
-  animationFrameRequestId = requestAnimationFrame(render)
-}
 
 const renderBackground = (me) => {
   const {x, y} = me
@@ -96,4 +77,28 @@ const renderBullet = (me, bullet) => {
 export const startRender = () => {
   console.log(`starting render`)
   animationFrameRequestId = window.requestAnimationFrame(render)
+}
+
+export const stopRender = () => {
+  cancelAnimationFrame(animationFrameRequestId)
+}
+
+
+const render = () => {
+  const state = getCurrentState()
+  console.log('state', state)
+  const { me, players, bullets } = state
+  //console.log(`state ${JSON.stringify(state)}`)
+  if (!_.isEmpty(state)){
+    //console.log(`rendering... ${JSON.stringify(state, 2, null)}`)
+    console.log(`bullets ${bullets.length}`)
+    renderBackground(me)
+    renderPlayer(me, me)
+    players.forEach(player => {
+      return renderPlayer(me, player)
+    })
+    bullets.forEach(bullet => {
+      return renderBullet(me, bullet)
+    })
+  }
 }

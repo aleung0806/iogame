@@ -9,6 +9,7 @@ const connectPromise  = new Promise((resolve, reject) => {
     console.log(`connected to server`)
   })
   socket.on(constants.MSG_TYPES.GAME_UPDATE, (value) => {
+    console.log('processing')
     processGameUpdate(value)
   })
   socket.on(constants.MSG_TYPES.GAME_OVER, (value) => {

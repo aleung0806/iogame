@@ -8,8 +8,6 @@ const { createGame } = require('./game')
 app.use(express.static('public'))
 app.use(express.static('dist'))
 
-
-
 const port = process.env.PORT || 3000
 const server = app.listen(port, () => {
   console.log('listening on 3000')
@@ -23,7 +21,6 @@ const game = createGame()
 
 
 io.on('connection', (socket) => {
-  console.log(`${socket.id} connected`)
   handleConnect(socket)
 
   socket.on(constants.MSG_TYPES.JOIN_GAME, ({username, windowX, windowY}) => {
@@ -44,7 +41,6 @@ io.on('connection', (socket) => {
 
 
 const handleInput = (socketId, input) => {
-  
   if (input.type === 'direction'){
     //console.log(`new direction is ${input.value}`)
     game.setPlayerDirection(socketId, input.value)
@@ -52,18 +48,19 @@ const handleInput = (socketId, input) => {
 }
 
 const handleConnect = (socket) => {
+  console.log(`socket ${socket.id} connected`)
   game.addSocket(socket)
-  game.printGameState()
+  game.printState()
 }
 
 const handleDisconnect = (socket) => {
   game.removeSocket(socket)
-  game.printGameState()
+  game.printState()
 }
 
 const handleJoinGame = (socket, username, windowX, windowY) => {
   game.addPlayer(socket, username)
-  game.printGameState()
+  game.printState()
 
 }
 

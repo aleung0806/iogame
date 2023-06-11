@@ -32,7 +32,10 @@ const createGame = () => {
   let sockets = {} //socketId: socket
   let bullets = []
   let players = {} //socketId: player
-  let platforms = [ new Platform(0, 0, 1000) ]
+  //let platforms = [ new Platform(0, -300, 1000), new Platform(200, 0, 300), new Platform(-400, 300, 300) ] 
+  let platforms = [ new Platform(0, -300, 1000) ] 
+
+  // let walls = [ new Platform(0, -300, 1000) ] 
 
   
 
@@ -71,14 +74,7 @@ const createGame = () => {
 
       //check for collision with platforms
       for (const platform of platforms){
-        if(collidesWithPlatform(players[id], platform)){
-          players[id].gravity = constants.GRAVITY_V
-          players[id].onGround = true
-          players[id].vy = 0
-          players[id].y = platform.y + players[id].radius
-        }else{
-          players[id].onGround = false
-        }
+        platformCollisions(players[id], platform)
       }
     }
 
@@ -125,8 +121,8 @@ const createGame = () => {
 
   //two objects
   const collides = (o1, o2) => {
-    const dx = o2.x - o1.x
-    const dy = o2.y - o1.y
+    const dx = Math.abs(o2.x - o1.x)
+    const dy = Math.abs(o2.y - o1.y)
     const distance = Math.sqrt( dx * dx + dy * dy)
     if (distance <= o1.radius + o2.radius){
       return true
@@ -134,13 +130,19 @@ const createGame = () => {
     return false
   }
 
-  const collidesWithPlatform = (object, platform) => {
-    if (object.x - platform.x <= platform.length / 2){
-      if (object.y - platform.y <= object.radius){
-        return true
+  const platformCollisions = (object, platform) => {
+    // if within platform length
+    if (Math.abs(object.x - platform.x) <= platform.length / 2){
+      if ((object.y - object.radius < platform.y) && (object.vy < 0) && (object.y + object.radius > platform.y)){  //and will land on the platform coming from above
+        object.gravity = constants.GRAVITY_V
+        object.onGround = true
+        object.vy = 0
+        object.y = platform.y
+        console.log('collision', players)
       }
+    }else{
+      object.onGround = false
     }
-    return false
   }
 
   const sendUpdates = () => {
@@ -181,7 +183,7 @@ const createGame = () => {
 
   setInterval(updateState, 1000/60)
   setInterval(sendUpdates, 1000/30)
-  setInterval(printState, 1000/2)
+  setInterval(printState, 1000)
 
   return {
     sockets,

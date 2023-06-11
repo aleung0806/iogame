@@ -34,7 +34,7 @@ const renderPlatform = (platform) => {
   context.save()
   context.translate(canvasX, canvasY)
   context.fillStyle = 'black'
-  context.fillRect(- x - length / 2, y, length, 5)   //x, y, width, height
+  context.fillRect(x - length / 2, -y, length, 5)   //x, y, width, height
   context.restore()
 }
 

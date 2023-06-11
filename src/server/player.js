@@ -52,6 +52,12 @@ class Player extends Object{
       this.vx -= constants.FRICTION_V
     }
 
+    //respawn after falling
+    if(this.y < -10000){
+      this.vy = 0
+      this.y = 300
+    }
+
   }
 
   serialize() {

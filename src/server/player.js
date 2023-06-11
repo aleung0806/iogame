@@ -61,6 +61,47 @@ class Player extends Object{
 
   }
 
+  checkPlatformCollisions(platforms) {
+    for(const platform of platforms){
+      // if (Math.abs(this.x - platform.x) <= platform.length / 2){
+      //   if ((this.y < platform.y) && (this.vy < 0) && (this.previousY > platform.y)){  //and will land on the platform falling from above
+
+      const y =
+
+      const platformMinX = platform.x - (platform.length / 2)
+      const platformMaxX = platform.x + (platform.length / 2)
+
+
+      if( pathMinY <= platform.y 
+        && pathMaxY >= platform.y 
+        && this.x <= platformMaxX 
+        && this.prevX >= platformMinX
+      ){
+
+      }else{
+      }
+
+    }
+  }
+
+
+  checkPlatformCollisions(platforms) {
+    for(const platform of platforms){
+      // if (Math.abs(this.x - platform.x) <= platform.length / 2){
+      //   if ((this.y < platform.y) && (this.vy < 0) && (this.previousY > platform.y)){  //and will land on the platform falling from above
+      if(Math.max(this.y, this.prevY) < platform.y || Math.min(this.y, this.prevY) > platform.y){ //path is entirely above or below platform
+        this.onGround = false
+
+      }else { //TODO
+        this.gravity = constants.GRAVITY_V
+        this.onGround = true
+        this.vy = 0
+        this.y = platform.y
+      }
+
+    }
+  }
+
   serialize() {
     return {
       username: this.username,

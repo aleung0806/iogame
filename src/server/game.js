@@ -71,11 +71,9 @@ const createGame = () => {
       //update position
       players[id].updatePosition(dt)
       players[id].update()
-
+      players[id].checkPlatformCollisions(platforms)
       //check for collision with platforms
-      for (const platform of platforms){
-        platformCollisions(players[id], platform)
-      }
+
     }
 
     // //create bullets
@@ -119,31 +117,6 @@ const createGame = () => {
     // })
   }
 
-  //two objects
-  const collides = (o1, o2) => {
-    const dx = Math.abs(o2.x - o1.x)
-    const dy = Math.abs(o2.y - o1.y)
-    const distance = Math.sqrt( dx * dx + dy * dy)
-    if (distance <= o1.radius + o2.radius){
-      return true
-    }
-    return false
-  }
-
-  const platformCollisions = (object, platform) => {
-    // if within platform length
-    if (Math.abs(object.x - platform.x) <= platform.length / 2){
-      if ((object.y < platform.y) && (object.vy < 0)){  //and will land on the platform coming from above
-        object.gravity = constants.GRAVITY_V
-        object.onGround = true
-        object.vy = 0
-        object.y = platform.y
-        console.log('collision', players)
-      }
-    }else{
-      object.onGround = false
-    }
-  }
 
   const sendUpdates = () => {
     const serializedPlayers = []

@@ -27,14 +27,14 @@ const createPlayer = (username) => {
 
 
 
-
 const createGame = () => {
 
   let sockets = {} //socketId: socket
   let bullets = []
   let players = {} //socketId: player
-
   let platforms = [ new Platform(0, 0, 500) ]
+
+  
 
   let state = {}
 
@@ -57,25 +57,28 @@ const createGame = () => {
     players[socket.id] = new Player(username)
   }
 
-
+ 
   const updateState = () => {
     let now = new Date()
-    dt = (now - lastUpdate) / 10000
+    dt = (now - lastUpdate) / 1000
     lastUpdate = now
 
     //update player positions
     for (const id in players){
+      //update position
       players[id].updatePosition(dt)
-    }
+      players[id].update()
 
-    //check each player collision with platforms
-    for (const id in players){
+      //check for collision with platforms
       for (const platform of platforms){
         if(collidesWithPlatform(players[id], platform)){
+          players[id].gravity = constants.GRAVITY_V
           players[id].onGround = true
           players[id].vy = 0
           players[id].y = platform.y + players[id].radius
-        }
+        }// }else{
+        //   players[id].onGround = false
+        // }
       }
     }
 
@@ -118,8 +121,6 @@ const createGame = () => {
     // bullets.forEach(bullet => {
     //   bulletsUpdated.push(bullet.serialize())
     // })
-
-
   }
 
   //two objects
@@ -178,9 +179,9 @@ const createGame = () => {
     console.log(`players: ${JSON.stringify(players, null, 2)}`)
   }
 
-  setInterval(updateState, 1000/2)
-  setInterval(sendUpdates, 1000)
-  setInterval(printState, 1000)
+  setInterval(updateState, 1000/60)
+  setInterval(sendUpdates, 1000/30)
+  setInterval(printState, 1000/2)
 
   return {
     sockets,

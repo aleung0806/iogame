@@ -16,7 +16,7 @@ class Object {
 
   updatePosition(dt) {
     if(!this.onGround){
-      this.vy = this.vy - this.gravity
+      this.vy = this.vy - (dt * this.gravity) 
     }
     this.x += dt * this.vx
     this.y += dt * this.vy

@@ -14,18 +14,24 @@ const onMouseMove = (e) => {
 
 const onKeyDown = async (e) => {
   //space
-  if(e.keyCode === 32){
+  if(e.code === 'space'){
     socket.emit(constants.MSG_TYPES.INPUT, {type: 'spaceDown'})
+  }else if(e.code === 'keyA'){
+    socket.emit(constants.MSG_TYPES.INPUT, {type: 'keyA'})                       
+  }else if(e.code === 'keyS'){
+    socket.emit(constants.MSG_TYPES.INPUT, {type: 'keyS'})                       
+  }else if(e.code === 'keyD'){
+    socket.emit(constants.MSG_TYPES.INPUT, {type: 'keyD'})                       
   }
 }
 
 const onKeyUp = (e) => {
   //space
-  if(e.keyCode === 32){
-    socket.emit(constants.MSG_TYPES.INPUT, {type: 'spaceUp'})
-                            
+  if(e.code === 'space'){
+    socket.emit(constants.MSG_TYPES.INPUT, {type: 'spaceUp'})                       
   }
 }
+
 
 
 export const startCapturingInput = () => new Promise((resolve, reject) => {

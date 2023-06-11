@@ -8,25 +8,49 @@ class Player extends Object{
     this.username = username
     this.health = 0
     this.lastFired = 0
-
     // this.x = Math.random() * constants.MAP_SIZE - (constants.MAP_SIZE / 2)
     // this.y = Math.random() * constants.MAP_SIZE - (constants.MAP_SIZE / 2)
     this.x = 0
     this.y = 300
 
     this.spaceKey = false
-
   }
 
-  jump() {
-    this.vy += 2000
+  startJump() {
+    this.onGround = false
+    this.vy += 1000 
   }
 
-  updateRules() {
+  moveLeft() {
+    this.vx += 100
+    if (this.vx < 500){
+      this.vx = 500
+    }
+  }
+
+  moveRight() {
+    this.vx += 100
+    if (this.vx < 500){
+      this.vx = 500
+    }
+  }
+
+  update() {
     if (this.vy < 0){
-      this.gravity = gravity * 2
-    }else if( this.vy > 0 && this.spaceKey){
-      this.gravity = gravity * 1.5
+      this.gravity = constants.GRAVITY_V * 3
+    }else if( this.vy > 0 && !this.spaceKey){
+      console.log('short jump')
+      this.gravity = constants.GRAVITY_V * 5 
+    }
+    
+    if (this.vx < 0){
+      this.vx += 100
+    }else if (this.vx > 0){
+      this.vx -= 100
+    }
+
+    if (Math.abs(this.vx) < 100){
+      this.vx = 0
     }
   }
 

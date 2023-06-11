@@ -42,11 +42,19 @@ io.on('connection', (socket) => {
 const handleInput = (socketId, input) => {
   if (input.type === 'direction'){
     //console.log(`new direction is ${input.value}`)
-  }else if (input.type === 'spaceUp'){
-    game.players[socketId].spaceKey = true
-    game.players[socketId].jump()
   }else if (input.type === 'spaceDown'){
+    if (!game.players[socketId].spaceKey && game.players[socketId].onGround){
+      game.players[socketId].startJump()
+    }
+    game.players[socketId].spaceKey = true
+
+  }else if (input.type === 'spaceUp'){
     game.players[socketId].spaceKey = false
+
+  }else if (input.type === 'keyA'){
+    game.players[socketId].moveLeft()
+  }else if (input.type === 'keyD'){
+    game.players[socketId].moveRight()
   }
 }
 

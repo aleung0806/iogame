@@ -17,65 +17,42 @@ const { PLAYER_RADIUS, PLAYER_MAX_HP, BULLET_RADIUS, MAP_SIZE } = Constants
 
 let animationFrameRequestId;
 
+const renderObject = (image, x, y, radius) => {
+  context.save()
+  context.translate(canvasX, canvasY)
+  context.drawImage(image, x - radius, - y - radius, radius * 2, radius * 2 )  //img, x, y, width, height
+  context.restore()
+}
 
-
-const renderBackground = (me) => {
-  console.log('render: background')
-
-
+const renderBackground = () => {
   context.fillStyle = 'white'
   context.fillRect(0, 0, canvas.width, canvas.height)
 }
 
-const renderPlatform = (me) => {
+const renderPlatform = (platform) => {
+  const {x, y, length } = platform
   context.save()
   context.translate(canvasX, canvasY)
   context.fillStyle = 'black'
-  context.fillRect(-250, 0, 500, 5)
+  context.fillRect(- x - length / 2, y, length, 5)   //x, y, width, height
   context.restore()
 }
 
 
 const renderMe = (me) => {
   const { x, y, direction } = me
-
-  console.log('render: me')
-
-  context.save()
-  context.translate(canvasX, canvasY)
-  context.rotate(direction * Math.PI / 180)
-  context.drawImage(
-    getAsset('sphere.svg'),
-    -PLAYER_RADIUS, 
-    -PLAYER_RADIUS, 
-    PLAYER_RADIUS * 2,
-    PLAYER_RADIUS * 2,
-  )
-  context.restore()
+  renderObject(getAsset('sphere.svg'), x, y, PLAYER_RADIUS * 2)
 }
 
-const renderBullet = (me, bullet) => {
-  const { x, y, direction } = bullet
-  const canvasX = canvas.width / 2 + x - me.x
-  const canvasY = canvas.height / 2 + y - me.y
-
-
-  context.save()
-  context.translate(canvasX, canvasY)
-  context.drawImage(
-    getAsset('sphere.svg'),
-    -BULLET_RADIUS, 
-    -BULLET_RADIUS, 
-    BULLET_RADIUS * 2,
-    BULLET_RADIUS * 2,
-  )
-  context.restore()
+const renderBullet = (bullet) => {
+  const { x, y } = bullet
+  renderObject(getAsset('sphere.svg'), x, y, BULLET_RADIUS )
 }
-
 
 export const startRender = () => {
   console.log(`render: start`)
-  animationFrameRequestId = window.requestAnimationFrame(render)
+
+  animationFrameRequestId = window.requestAnimationFrame(renderGame)
 }
 
 export const stopRender = () => {
@@ -83,15 +60,39 @@ export const stopRender = () => {
 }
 
 
-const render = () => {
+const renderMap = () => {
   const state = getCurrentState()
-  console.log('render')
-
-  const { me, players, bullets } = state
+  const { me, players, bullets, platforms } = state
   if (!_.isEmpty(state)){
-    renderBackground(me)
-    renderPlatform(me)
+    animationFrameRequestId = window.requestAnimationFrame(renderGame)
+
+    // players.forEach(player => {
+    //   return renderPlayer(me, player)
+    // })
+    // bullets.forEach(bullet => {
+    //   return renderBullet(me, bullet)
+    // })
+    
+  }else{
+    animationFrameRequestId = window.requestAnimationFrame(renderMap)
+  }
+
+  // setInterval(() => {
+  //   animationFrameRequestId = window.requestAnimationFrame(render)
+  // }, 1000)
+  
+}
+
+const renderGame = () => {
+  const state = getCurrentState()
+  const { me, players, bullets, platforms } = state
+  if (!_.isEmpty(state)){
+    renderBackground(me)    
+    platforms.forEach(platform => {
+      return renderPlatform(platform)
+    })
     renderMe(me)
+
     // players.forEach(player => {
     //   return renderPlayer(me, player)
     // })
@@ -103,6 +104,6 @@ const render = () => {
   // setInterval(() => {
   //   animationFrameRequestId = window.requestAnimationFrame(render)
   // }, 1000)
-  animationFrameRequestId = window.requestAnimationFrame(render)
+  animationFrameRequestId = window.requestAnimationFrame(renderGame)
   
 }

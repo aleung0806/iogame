@@ -27,6 +27,7 @@ export const updateDirection = (direction) => {
 }
 
 export const jump = () => {
+  console.log('sending jump')
   socket.emit(constants.MSG_TYPES.INPUT, {type: 'jump'})
 }
 

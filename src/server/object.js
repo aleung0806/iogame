@@ -1,10 +1,12 @@
 
 class Object {
-  constructor(x = 0, y = 0, speed = 0, direction = 0) {
+  constructor(x = 0, y = 0, direction = 0, radius = 10) {
     this.x = x
     this.y = y
-    this.speed = speed
+    this.vx = 0
+    this.vy = 0
     this.direction = direction
+    this.radius = radius
   }
 
   setPosition(x, y) {
@@ -17,13 +19,10 @@ class Object {
   }
 
   updatePosition(dt) {
-    this.x += dt * this.speed * Math.sin(this.direction * Math.PI / 180)
-    this.y -= dt * this.speed * Math.cos(this.direction * Math.PI / 180)
+    this.x += dt * this.vx
+    this.y -= dt * this.vy
   }
 
-  updateVelocity(dt) {
-    this.speed += dt * this.acceleration
-  }
 }
 
 module.exports = Object

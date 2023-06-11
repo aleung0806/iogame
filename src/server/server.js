@@ -28,7 +28,6 @@ io.on('connection', (socket) => {
   })
 
   socket.on(constants.MSG_TYPES.INPUT, (input) => {
-    console.log(`input ${JSON.stringify(input, null, 2)} received`)
     handleInput(socket.id, input)
   })
 
@@ -43,9 +42,9 @@ io.on('connection', (socket) => {
 const handleInput = (socketId, input) => {
   if (input.type === 'direction'){
     //console.log(`new direction is ${input.value}`)
-    game.setPlayerDirection(socketId, input.value)
+    
   }else if (input.type === 'jump'){
-    game.playerJump(socketId)
+    game.players[socketId].vy += constants.JUMP_V
   }
 }
 

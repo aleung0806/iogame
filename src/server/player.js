@@ -10,7 +10,7 @@ class Player extends Object{
     // this.x = Math.random() * constants.MAP_SIZE - (constants.MAP_SIZE / 2)
     // this.y = Math.random() * constants.MAP_SIZE - (constants.MAP_SIZE / 2)
     this.x = 0
-    this.y = 0
+    this.y = 300
     this.lastFired = 0
   }
 

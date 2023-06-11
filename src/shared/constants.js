@@ -20,5 +20,9 @@ module.exports = Object.freeze({
   },
 
   GRAVITY_V: 1000,
-  JUMP_V: 5000
+  JUMP_V: 5000,
+
+  MOVEMENT_V: 1000,
+  MOVEMENT_MAX_V: 1500,
+  FRICTION_V: 5
 });

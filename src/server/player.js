@@ -22,36 +22,36 @@ class Player extends Object{
   }
 
   moveLeft() {
-    this.vx += 100
-    if (this.vx < 500){
-      this.vx = 500
+    this.vx -= constants.MOVEMENT_V
+    if (this.vx < -constants.MOVEMENT_MAX_V){
+      this.vx = -constants.MOVEMENT_MAX_V
     }
   }
 
   moveRight() {
-    this.vx += 100
-    if (this.vx < 500){
-      this.vx = 500
+    this.vx += constants.MOVEMENT_V
+    if (this.vx > constants.MOVEMENT_V){
+      this.vx = constants.MOVEMENT_V
     }
   }
 
   update() {
-    if (this.vy < 0){
+
+    
+    if (this.vy < 0){//make falling faster
       this.gravity = constants.GRAVITY_V * 3
-    }else if( this.vy > 0 && !this.spaceKey){
+    }else if( this.vy > 0 && !this.spaceKey){//make short jumps shorter
       console.log('short jump')
       this.gravity = constants.GRAVITY_V * 5 
     }
     
-    if (this.vx < 0){
-      this.vx += 100
-    }else if (this.vx > 0){
-      this.vx -= 100
+    //friction for going right or left on platform
+    if (this.vx < 0 && this.onGround){
+      this.vx += constants.FRICTION_V
+    }else if (this.vx > 0 && this.onGround){
+      this.vx -= constants.FRICTION_V
     }
 
-    if (Math.abs(this.vx) < 100){
-      this.vx = 0
-    }
   }
 
   serialize() {

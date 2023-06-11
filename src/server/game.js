@@ -32,7 +32,7 @@ const createGame = () => {
   let sockets = {} //socketId: socket
   let bullets = []
   let players = {} //socketId: player
-  let platforms = [ new Platform(0, 0, 500) ]
+  let platforms = [ new Platform(0, 0, 1000) ]
 
   
 
@@ -76,9 +76,9 @@ const createGame = () => {
           players[id].onGround = true
           players[id].vy = 0
           players[id].y = platform.y + players[id].radius
-        }// }else{
-        //   players[id].onGround = false
-        // }
+        }else{
+          players[id].onGround = false
+        }
       }
     }
 

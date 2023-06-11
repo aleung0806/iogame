@@ -14,20 +14,21 @@ const onMouseMove = (e) => {
 
 const onKeyDown = async (e) => {
   //space
-  if(e.code === 'space'){
+  if(e.code === 'Space' || e.code === 'KeyW'){
     socket.emit(constants.MSG_TYPES.INPUT, {type: 'spaceDown'})
-  }else if(e.code === 'keyA'){
+    console.log('Space')
+  }else if(e.code === 'KeyA'){
     socket.emit(constants.MSG_TYPES.INPUT, {type: 'keyA'})                       
-  }else if(e.code === 'keyS'){
+  }else if(e.code === 'KeyS'){
     socket.emit(constants.MSG_TYPES.INPUT, {type: 'keyS'})                       
-  }else if(e.code === 'keyD'){
+  }else if(e.code === 'KeyD'){
     socket.emit(constants.MSG_TYPES.INPUT, {type: 'keyD'})                       
   }
 }
 
 const onKeyUp = (e) => {
   //space
-  if(e.code === 'space'){
+  if(e.code === 'Space' || e.code === 'KeyW'){
     socket.emit(constants.MSG_TYPES.INPUT, {type: 'spaceUp'})                       
   }
 }

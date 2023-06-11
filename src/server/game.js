@@ -72,10 +72,9 @@ const createGame = () => {
     for (const id in players){
       for (const platform of platforms){
         if(collidesWithPlatform(players[id], platform)){
+          players[id].onGround = true
           players[id].vy = 0
-          players[id].y = players[id].radius
-        }else{
-          players[id].vy += constants.GRAVITY_V
+          players[id].y = platform.y + players[id].radius
         }
       }
     }
@@ -150,7 +149,6 @@ const createGame = () => {
     }
     const serializedBullets = bullets.map(bullet => bullet.serialize())
     const serializedPlatforms = platforms.map(platform => platform.serialize())
-
     for (const id in sockets){
       if(id in players){ //if the socket has a player associated with it
         let me;
@@ -170,7 +168,6 @@ const createGame = () => {
           bullets: serializedBullets,
           platforms: serializedPlatforms
         }
-        console.log(`sending update: ${JSON.stringify(toSend, null, 2)}`)
         sockets[id].emit(constants.MSG_TYPES.GAME_UPDATE, toSend)
       }
     }
@@ -178,23 +175,12 @@ const createGame = () => {
   }
 
   const printState = () => {
-    // extract socket ids to print
-    // const socketIds = []
-    // for (const socketId in sockets){
-    //   socketIds.push(socketId)
-    // }
-
-    // console.log(`
-    //   ------------
-    //   sockets: ${JSON.stringify(socketIds, null, 2)}
-    //   players: ${JSON.stringify(state.players, null, 2)}
-    //   bullets: ${state.bullets.length}
-    // `)
+    console.log(`players: ${JSON.stringify(players, null, 2)}`)
   }
 
-  setInterval(updateState, 1000/60)
-  setInterval(sendUpdates, 1000/30)
-  // setInterval(printState, 5000)
+  setInterval(updateState, 1000/2)
+  setInterval(sendUpdates, 1000)
+  setInterval(printState, 1000)
 
   return {
     sockets,
@@ -202,7 +188,6 @@ const createGame = () => {
     addSocket,
     removeSocket,
     addPlayer,
-    setPlayerDirection,
     printState
   }
 }

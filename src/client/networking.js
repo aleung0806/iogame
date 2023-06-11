@@ -1,5 +1,5 @@
 import io from 'socket.io-client'
-let socket = io()
+export const socket = io()
 const constants = require('../shared/constants')
 const { processGameUpdate, processGameOver } = require('./state')
 
@@ -22,14 +22,6 @@ export const connectToServer = () => new Promise((resolve, reject) => {
   resolve()
 })
 
-export const updateDirection = (direction) => {
-  socket.emit(constants.MSG_TYPES.INPUT, {type: 'direction', value: direction})
-}
-
-export const jump = () => {
-  console.log('sending jump')
-  socket.emit(constants.MSG_TYPES.INPUT, {type: 'jump'})
-}
 
 export const sendJoinGame = (username, windowX, windowY) => {
   console.log('sending JoinGame')
@@ -41,5 +33,7 @@ export const sendJoinGame = (username, windowX, windowY) => {
     })
   //startReceivingUpdates()
 }
+
+
 
 

@@ -1,6 +1,6 @@
 import { updateDirection, jump } from "./networking"
-const Constants = require('../shared/constants')
-
+const constants = require('../shared/constants')
+const { socket } = require('./networking')
 
 
 const onMouseMove = (e) => {
@@ -8,19 +8,22 @@ const onMouseMove = (e) => {
   const y = e.clientY
 
   const direction = Math.atan2(window.innerHeight/2 - y, window.innerWidth/2 - x) * 180 / Math.PI - 90
-  //updateDirection(direction)
+  //socket.emit(constants.MSG_TYPES.INPUT, {type: 'direction', value: direction})
+
 }
 
 const onKeyDown = async (e) => {
   //space
   if(e.keyCode === 32){
-    jump()
+    socket.emit(constants.MSG_TYPES.INPUT, {type: 'spaceDown'})
   }
 }
 
 const onKeyUp = (e) => {
+  //space
   if(e.keyCode === 32){
-                                       
+    socket.emit(constants.MSG_TYPES.INPUT, {type: 'spaceUp'})
+                            
   }
 }
 

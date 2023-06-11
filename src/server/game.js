@@ -133,7 +133,7 @@ const createGame = () => {
   const platformCollisions = (object, platform) => {
     // if within platform length
     if (Math.abs(object.x - platform.x) <= platform.length / 2){
-      if ((object.y - object.radius < platform.y) && (object.vy < 0) && (object.y + object.radius > platform.y)){  //and will land on the platform coming from above
+      if ((object.y < platform.y) && (object.vy < 0)){  //and will land on the platform coming from above
         object.gravity = constants.GRAVITY_V
         object.onGround = true
         object.vy = 0

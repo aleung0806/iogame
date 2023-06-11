@@ -37,7 +37,6 @@ class Player extends Object{
 
   update() {
 
-    
     if (this.vy < 0){//make falling faster
       this.gravity = constants.GRAVITY_V * 3
     }else if( this.vy > 0 && !this.spaceKey){//make short jumps shorter
@@ -53,9 +52,11 @@ class Player extends Object{
     }
 
     //respawn after falling
-    if(this.y < -10000){
+    if(this.y < -2000){
       this.vy = 0
+      this.vx = 0
       this.y = 300
+      this.x = 0
     }
 
   }

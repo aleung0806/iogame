@@ -25,6 +25,7 @@ const renderObject = (image, x, y, radius) => {
 }
 
 const renderPlayer = (player) => {
+  console.log('rendering', JSON.stringify(player, null, 2))
   const {x, y, radius, color } = player
   const image = getAsset('bolita_clear.png')
   context.save()
@@ -88,6 +89,8 @@ const renderGame = () => {
     players.forEach(player => {
       return renderPlayer(player)
     })
+
+    
     // bullets.forEach(bullet => {
     //   return renderBullet(me, bullet)
     // })

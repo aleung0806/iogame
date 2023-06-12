@@ -40,7 +40,6 @@ io.on('connection', (socket) => {
 
 
 const handleInput = (socketId, input) => {
-  console.log(`input: ${JSON.stringify(input)}`)
   if (input.type === 'down'){
     game.players[socketId].input[input.key] = true
   }else if (input.type === 'up'){

@@ -87,7 +87,10 @@ class Player extends Object{
       x: this.x,
       y: this.y,
       direction: this.direction,
-      health: this.health
+      health: this.health,
+
+      color: this.color,
+      radius: this.radius
     }
   }
 }

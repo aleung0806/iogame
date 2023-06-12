@@ -13,12 +13,18 @@ class Player extends Object{
     this.x = 0
     this.y = 300
 
-    this.spaceKey = false
+    this.inJump = false
   }
 
-  startJump() {
-    this.onGround = false
-    this.vy += 1000 
+  jump() {
+    if (!this.inJump && this.onGround){
+      this.vy += 1000
+      this.inJump = true
+    }
+  }
+
+  endJump() {
+    this.inJump = false
   }
 
   moveLeft() {
@@ -35,72 +41,22 @@ class Player extends Object{
     }
   }
 
-  update() {
-
+  tweakJumpGravity() {
     if (this.vy < 0){//make falling faster
       this.gravity = constants.GRAVITY_V * 3
-    }else if( this.vy > 0 && !this.spaceKey){//make short jumps shorter
-      console.log('short jump')
+    }else if( this.vy > 0 && !this.inJump){//make short jumps shorter
       this.gravity = constants.GRAVITY_V * 5 
     }
-    
-    //friction for going right or left on platform
-    if (this.vx < 0 && this.onGround){
-      this.vx += constants.FRICTION_V
-    }else if (this.vx > 0 && this.onGround){
-      this.vx -= constants.FRICTION_V
-    }
-
-    //respawn after falling
-    if(this.y < -2000){
-      this.vy = 0
-      this.vx = 0
-      this.y = 300
-      this.x = 0
-    }
-
-  }
-
-  checkPlatformCollisions(platforms) {
-    for(const platform of platforms){
-      // if (Math.abs(this.x - platform.x) <= platform.length / 2){
-      //   if ((this.y < platform.y) && (this.vy < 0) && (this.previousY > platform.y)){  //and will land on the platform falling from above
-
-      const y =
-
-      const platformMinX = platform.x - (platform.length / 2)
-      const platformMaxX = platform.x + (platform.length / 2)
-
-
-      if( pathMinY <= platform.y 
-        && pathMaxY >= platform.y 
-        && this.x <= platformMaxX 
-        && this.prevX >= platformMinX
-      ){
-
-      }else{
-      }
-
+    if (this.onPlatform){
+      this.gravity = constatns.GRAVITY_V
     }
   }
 
 
-  checkPlatformCollisions(platforms) {
-    for(const platform of platforms){
-      // if (Math.abs(this.x - platform.x) <= platform.length / 2){
-      //   if ((this.y < platform.y) && (this.vy < 0) && (this.previousY > platform.y)){  //and will land on the platform falling from above
-      if(Math.max(this.y, this.prevY) < platform.y || Math.min(this.y, this.prevY) > platform.y){ //path is entirely above or below platform
-        this.onGround = false
 
-      }else { //TODO
-        this.gravity = constants.GRAVITY_V
-        this.onGround = true
-        this.vy = 0
-        this.y = platform.y
-      }
 
-    }
-  }
+
+ 
 
   serialize() {
     return {

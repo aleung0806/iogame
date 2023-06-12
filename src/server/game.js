@@ -33,16 +33,12 @@ const createGame = () => {
   let bullets = []
   let players = {} //socketId: player
   //let platforms = [ new Platform(0, -300, 1000), new Platform(200, 0, 300), new Platform(-400, 300, 300) ] 
-  let platforms = [ new Platform(0, -300, 1000) ] 
-
+  let platforms = [ new Platform(0, -300, 1000)]
   // let walls = [ new Platform(0, -300, 1000) ] 
 
-  
-
-  let state = {}
-
+  let updateCounter = 0  
   let lastUpdate = new Date()
-
+ 
   const addSocket = (socket) => {
     sockets[socket.id] = socket
   }
@@ -55,7 +51,6 @@ const createGame = () => {
   }
 
   const addPlayer = (socket, username) => {
-    console.log('player joined')
     toSendUpdate = true
     players[socket.id] = new Player(username)
   }
@@ -68,11 +63,7 @@ const createGame = () => {
 
     //update player positions
     for (const id in players){
-      //update position
-      players[id].updatePosition(dt)
-      players[id].update()
-      players[id].checkPlatformCollisions(platforms)
-      //check for collision with platforms
+      players[id].update(dt, platforms)
 
     }
 
@@ -115,7 +106,10 @@ const createGame = () => {
     // bullets.forEach(bullet => {
     //   bulletsUpdated.push(bullet.serialize())
     // })
+    updateCounter += 1
   }
+
+
 
 
   const sendUpdates = () => {
@@ -154,9 +148,15 @@ const createGame = () => {
     console.log(`players: ${JSON.stringify(players, null, 2)}`)
   }
 
+  const trackFPS = () => {
+    console.log(`FPS: ${updateCounter}`)
+    updateCounter = 0
+  }
+
   setInterval(updateState, 1000/60)
   setInterval(sendUpdates, 1000/30)
-  setInterval(printState, 1000)
+  // setInterval(printState, 1000)
+  setInterval(trackFPS, 1000)
 
   return {
     sockets,

@@ -10,11 +10,12 @@ class Object {
     this.direction = direction
     this.radius = radius
 
-    this.previousX = x
-    this.previousY = y
+    //projected position. is calculated each frame then collisions, out of bounds, etc are checked against it
+    this.x = 0
+    this.y = 0
 
     this.gravity = gravity
-    this.onGround= false
+    this.onPlatform= false
   }
 
   collides(object) {
@@ -28,14 +29,48 @@ class Object {
   }
 
   updatePosition(dt) {
-    this.previousX = this.x
-    this.previousY = this.y
-
-    if(!this.onGround){
+    if (!this.onPlatform){
       this.vy = this.vy - (dt * this.gravity) 
     }
     this.x += dt * this.vx
     this.y += dt * this.vy
+  }
+  
+
+
+  applyPlatformCollisions(platforms) {
+    for(const platform of platforms){
+      if(this.y - platform.y < this.radius //object has clipped through the platform surface
+        && this.x <  platform.x + platform.length / 2  //object is within the platform length
+        && this.x >  platform.x - platform.length / 2
+        && this.vy < 0  //object is falling
+      ){
+        this.y = platform.y + this.radius //set object on platform
+        this.vy = 0  // apply upward force provided by platform
+        if (Math.abs(this.vy) < 1 ){ // get rid of bounce
+          this.onPlatform = true
+          this.vy = 0
+        }
+      }
+    }
+  }
+
+  applyPlatformFriction() {
+    //friction for going right or left on platform
+    if (this.vx < 0 && this.onPlatform){ //going left on platform
+      this.vx += constants.FRICTION_V
+    }else if (this.vx > 0 && this.onPlatform){ //going right on platform
+      this.vx -= constants.FRICTION_V
+    }
+    if (Math.abs(this.vx) < 1){ //let object come to a stop
+      this.vx = 0
+    }
+ }
+
+  update(dt, platforms){
+    this.updatePosition(dt)
+    this.applyPlatformCollisions(platforms)
+    this.applyPlatformFriction()
   }
 }
 

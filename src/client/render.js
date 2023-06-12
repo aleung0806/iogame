@@ -24,6 +24,41 @@ const renderObject = (image, x, y, radius) => {
   context.restore()
 }
 
+
+const renderPC = (player) => {
+  const image = getAsset('bolita_attackChargeRight.png')
+  const {x, y, radius, color } = player
+  context.save()
+  context.translate(canvasX, canvasY)
+  context.fillStyle = color;
+  context.beginPath();
+  context.arc(x, - y, radius, 0, 2 * Math.PI);
+  context.fill();
+  context.restore()
+
+  context.save()
+  context.translate(canvasX, canvasY)
+  context.drawImage(image, x - radius - 25, - y - radius - 5, radius * 2 * 1.3, radius * 2)  //img, x, y, width, height
+  context.restore()
+}
+
+const renderPR = (player) => {
+  const image = getAsset('bolita_attackReleaseRight.png')
+  const {x, y, radius, color } = player
+
+  context.save()
+  context.translate(canvasX, canvasY)
+  context.fillStyle = color;
+  context.beginPath();
+  context.arc(x, - y, radius, 0, 2 * Math.PI);
+  context.fill();
+  context.restore()
+
+  context.save()
+  context.translate(canvasX, canvasY)
+  context.drawImage(image, x - radius, - y - radius, radius * 2 * 1.5, radius * 2 )  //img, x, y, width, height
+  context.restore()
+}
 const renderPlayer = (player) => {
   console.log('rendering', JSON.stringify(player, null, 2))
   const {x, y, radius, color } = player
@@ -35,9 +70,9 @@ const renderPlayer = (player) => {
   }else if(player.animationState === 'right'){
     image = getAsset('bolita_right.png')
   }else if(player.animationState === 'punchCharge'){
-    image = getAsset('bolita_attackChargeRight.png')
+    return renderPC(player)
   }else if(player.animationState === 'punchRelease'){
-    image = getAsset('bolita_attackReleaseRight.png')
+    return renderPR(player)
   }else{
     image = getAsset('bolita_normal.png')
 

@@ -18,9 +18,9 @@ class Hitbox extends Object {
 
   applyPlayerCollisions(players){
     for (const id in players){
-      console.log('checking')
+      //console.log('checking')
       if (this.owner !== players[id] && this.collidesWith(players[id])){
-        console.log("hit player")
+        //console.log("hit player")
 
         players[id].isHit = true
         players[id].hitCooldown = this.hitCooldown
@@ -35,12 +35,12 @@ class Hitbox extends Object {
 
 class Punch extends Hitbox {
   constructor(owner, charge){
-    console.log('punch generated')
+    //console.log('punch generated')
     super()
     this.x = owner.x
     this.y = owner.y
     this.owner = owner
-    this.radius = owner.radius
+    this.radius = 500
     this.duration = 5
     this.knockback = 1000 * charge / 30
   }

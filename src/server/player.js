@@ -5,10 +5,10 @@ const {Hitbox, Punch} = require("./hitbox")
 const { v4: uuidv4 } = require('uuid');
 
 class Player extends Object{
-  constructor(username = '') {
+  constructor(x, y, username = '', color) {
     super()
     this.id = uuidv4()
-    this.color = '#D9C4EC'
+    this.color = color
     this.username = username
     this.health = 0
     this.lastFired = 0
@@ -19,6 +19,7 @@ class Player extends Object{
     this.radius = PLAYER_RADIUS
 
 
+    this.doubleJumped = false
     this.inJump = false
     this.isHit = false
 
@@ -72,17 +73,18 @@ class Player extends Object{
   punch(hitboxes){
     if (this.punchCooldown === 0){
       this.punchCooldown = 10
-      this.punchReleaseAnimationCooldown = 10
+      this.punchReleaseAnimationCooldown = 5
       hitboxes.push(new Punch(this, this.punchCharge))
     }
-    this.punchChage = 0
+    this.punchCharge = 0
   }
 
   chargePunch(hitboxes){
+    console.log('charging')
     this.punchCharge += 1
-    if (this.punchCharge > 90){
-      this.punch(hitboxes)
-    }
+    // if (this.punchCharge > 90){
+    //   this.punch(hitboxes)
+    // }
   }
 
 
@@ -119,22 +121,23 @@ class Player extends Object{
 
   updateAnimationState() {
 
+    if(this.input.Space){
+      return this.animationState = 'punchCharge'
+    }
+    if(this.punchReleaseAnimationCooldown > 0){
+      return this.animationState = 'punchRelease'
+    }
+
     if(this.input.lastPressed === 'KeyA'){
       this.animationState = 'left'
     } else if(this.input.lastPressed === 'KeyD'){
       this.animationState = 'right'
     }
 
-    if(this.input.Space){
-      this.animationState = 'punchCharge'
-    }
 
-    if(this.punchReleaseAnimationCooldown > 0){
-      this.animationState = 'punchRelease'
-    }
 
     if(this.input.lastPressedElapsed > 60){
-      this.animationState = 'normal'
+      return this.animationState = 'normal'
     }
     
   }

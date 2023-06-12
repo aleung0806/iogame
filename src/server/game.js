@@ -12,7 +12,7 @@ const createGame = () => {
 
   let sockets = {} //socketId: socket
   let bullets = []
-  let players = {} //socketId: player
+  let players = {test: new Player(0, -300, 'testplayer','#FECDD7')} //socketId: player
   let hitboxes = []
   //let platforms = [ new Platform(0, -300, 1000), new Platform(200, 0, 300), new Platform(-400, 300, 300) ] 
   let platforms = [ new Platform(0, -300, 1000)]
@@ -34,7 +34,7 @@ const createGame = () => {
 
   const addPlayer = (socket, username) => {
     toSendUpdate = true
-    players[socket.id] = new Player(username)
+    players[socket.id] = new Player(0, 300, username, '#D9C4EC')
   }
 
  

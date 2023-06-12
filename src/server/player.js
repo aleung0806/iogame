@@ -1,10 +1,13 @@
 const Object = require('./object')
 const constants = require('../shared/constants')
 const { JUMP_V, PLAYER_RADIUS } = require('../shared/constants')
+const {Hitbox, Punch} = require("./hitbox")
+const { v4: uuidv4 } = require('uuid');
 
 class Player extends Object{
   constructor(username = '') {
     super()
+    this.id = uuidv4()
     this.color = '#D9C4EC'
     this.username = username
     this.health = 0
@@ -15,13 +18,30 @@ class Player extends Object{
     this.y = 300
     this.radius = PLAYER_RADIUS
 
+
     this.inJump = false
+    this.isHit = false
+
+
+    //regular, jump, left, right, punchChargeLeft, punchReleaseRight
+    this.animationState = 'regular'
+
+    this.punchCharge = 0
+
+    //in frames
+    this.hitCooldown = 0
+    this.punchCooldown = 0
+    this.punchReleaseAnimationCooldown = 0
 
     this.input = {
+      lastPressed: '',
+      lastPressedElapsed: 0, //in frames
+
       KeyW: false,
       KeyA: false,
       KeyS: false,
       KeyD: false,
+      Space: false,
     }
 
   }
@@ -49,6 +69,22 @@ class Player extends Object{
     }
   }
 
+  punch(hitboxes){
+    if (this.punchCooldown === 0){
+      this.punchCooldown = 10
+      this.punchReleaseAnimationCooldown = 10
+      hitboxes.push(new Punch(this, this.punchCharge))
+    }
+    this.punchChage = 0
+  }
+
+  chargePunch(hitboxes){
+    this.punchCharge += 1
+    if (this.punchCharge > 90){
+      this.punch(hitboxes)
+    }
+  }
+
 
   tweakJumpGravity() {
     if (this.vy < 0){//make falling faster
@@ -61,8 +97,66 @@ class Player extends Object{
     }
   }
 
+  updateHitCooldown() {
+    if(this.isHit){
+      this.hitCooldown -= 1
+    }
+    if(this.hitCooldown < 0){
+      this.isHit = false
+    }
+  }
+
+  updatePunchCooldown() {
+    this.punchCooldown -= 1
+    if(this.punchCooldown < 0){
+      this.punchCooldown = 0
+    }
+  }
+
+  updateLastPressedElapsed() {
+    this.input.lastPressedElapsed += 1
+  }
+
+  updateAnimationState() {
+
+    if(this.input.lastPressed === 'KeyA'){
+      this.animationState = 'left'
+    } else if(this.input.lastPressed === 'KeyD'){
+      this.animationState = 'right'
+    }
+
+    if(this.input.Space){
+      this.animationState = 'punchCharge'
+    }
+
+    if(this.punchReleaseAnimationCooldown > 0){
+      this.animationState = 'punchRelease'
+    }
+
+    if(this.input.lastPressedElapsed > 60){
+      this.animationState = 'normal'
+    }
+    
+  }
+
+  releaseChargedPunch(hitboxes) {
+    if(this.punchCharge > 0 && !this.input.Space){
+      console.log('release punch')
+
+      this.punch(hitboxes)
+    }
+  }
+
+  updatePunchReleaseAnimationCooldown(){
+    
+    this.punchReleaseAnimationCooldown -= 1
+    if (this.punchReleaseAnimationCooldown < 0){
+      this.punchReleaseAnimationCooldown = 0
+    }
+  }
+
   //runs every frame
-  applyUpdateRules() {
+  applyUpdateRules(hitboxes) {
     if (this.input.KeyW){
       this.jump()
     }
@@ -72,14 +166,22 @@ class Player extends Object{
     if (this.input.KeyD){
       this.moveRight()
     }
+    if (this.input.Space){
+      this.chargePunch(hitboxes)
+    }
 
     this.tweakJumpGravity()
+    this.updateHitCooldown()
+    this.updatePunchCooldown()
 
+    this.updateLastPressedElapsed()
+    this.updateAnimationState()
+
+    this.releaseChargedPunch(hitboxes)
+    this.updatePunchReleaseAnimationCooldown()
+    console.log(this.punchCharge)
   }
 
-
-
- 
 
   serialize() {
     return {
@@ -88,9 +190,10 @@ class Player extends Object{
       y: this.y,
       direction: this.direction,
       health: this.health,
-
+      isHit: this.isHit,
       color: this.color,
-      radius: this.radius
+      radius: this.radius,
+      animationState: this.animationState
     }
   }
 }

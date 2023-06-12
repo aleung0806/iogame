@@ -8,30 +8,12 @@ const uuid = require('uuid')
 const _ = require('lodash')
 
 
-const createObject = () => {
-  let x = 0
-  let y = 0
-  let direction = 0
-
-  return {
-      x, y, direction,
-  }
-}
-
-const createPlayer = (username) => {
-  const player = createObject()
-  player.username = username
-  player.canShoot = true
-  return player
-}
-
-
-
 const createGame = () => {
 
   let sockets = {} //socketId: socket
   let bullets = []
   let players = {} //socketId: player
+  let hitboxes = []
   //let platforms = [ new Platform(0, -300, 1000), new Platform(200, 0, 300), new Platform(-400, 300, 300) ] 
   let platforms = [ new Platform(0, -300, 1000)]
   // let walls = [ new Platform(0, -300, 1000) ] 
@@ -63,10 +45,16 @@ const createGame = () => {
 
     //update player positions
     for (const id in players){
-      players[id].applyUpdateRules()
+      players[id].applyUpdateRules(hitboxes, players)
       players[id].update(dt, platforms)
-
     }
+
+    for (const hitbox of hitboxes){
+      hitbox.applyPlayerCollisions(players)
+    }
+    hitboxes = hitboxes.filter(hitbox => hitbox.duration < 0)
+
+
 
     updateCounter += 1
   }

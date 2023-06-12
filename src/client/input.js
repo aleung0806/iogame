@@ -16,7 +16,8 @@ const keys = [
   'KeyW',
   'KeyA',
   'KeyS',
-  'KeyD'
+  'KeyD',
+  'Space'
 ]
 
 const onKeyDown = async (e) => {
@@ -27,6 +28,7 @@ const onKeyDown = async (e) => {
 
 const onKeyUp = (e) => {
   if(keys.includes(e.code)){
+    
     socket.emit(constants.MSG_TYPES.INPUT, {type: `up`, key: `${e.code}`})                       
   }
 }

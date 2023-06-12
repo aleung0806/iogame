@@ -42,6 +42,8 @@ io.on('connection', (socket) => {
 const handleInput = (socketId, input) => {
   if (input.type === 'down'){
     game.players[socketId].input[input.key] = true
+    game.players[socketId].input.lastPressed = input.key
+    game.players[socketId].input.lastPressedElapsed = 0
   }else if (input.type === 'up'){
     game.players[socketId].input[input.key] = false
   }

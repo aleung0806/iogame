@@ -27,7 +27,21 @@ const renderObject = (image, x, y, radius) => {
 const renderPlayer = (player) => {
   console.log('rendering', JSON.stringify(player, null, 2))
   const {x, y, radius, color } = player
-  const image = getAsset('bolita_clear.png')
+  let image;
+  if (player.animationState === 'normal'){
+    image = getAsset('bolita_normal.png')
+  } else if(player.animationState === 'left'){
+    image = getAsset('bolita_left.png')
+  }else if(player.animationState === 'right'){
+    image = getAsset('bolita_right.png')
+  }else if(player.animationState === 'punchCharge'){
+    image = getAsset('bolita_attackChargeRight.png')
+  }else if(player.animationState === 'punchRelease'){
+    image = getAsset('bolita_attackReleaseRight.png')
+  }else{
+    image = getAsset('bolita_normal.png')
+
+  }
   context.save()
   context.translate(canvasX, canvasY)
   context.fillStyle = color;
@@ -90,7 +104,7 @@ const renderGame = () => {
       return renderPlayer(player)
     })
 
-    
+
     // bullets.forEach(bullet => {
     //   return renderBullet(me, bullet)
     // })

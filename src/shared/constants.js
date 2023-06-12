@@ -16,13 +16,15 @@ module.exports = Object.freeze({
     JOIN_GAME: 'join_game',
     GAME_UPDATE: 'update',
     INPUT: 'input',
+
     GAME_OVER: 'dead',
   },
 
-  GRAVITY_V: 1000,
-  JUMP_V: 5000,
+  GRAVITY_V: 2000,
+  JUMP_V: 1000,
+  JUMP_MAX_V: 10000,
 
-  MOVEMENT_V: 500,
-  MOVEMENT_MAX_V: 1500,
-  FRICTION_V: 5
+  MOVE_V: 300,
+  MOVE_MAX_V:750,
+  FRICTION_V: 50
 });

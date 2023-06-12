@@ -63,49 +63,11 @@ const createGame = () => {
 
     //update player positions
     for (const id in players){
+      players[id].applyUpdateRules()
       players[id].update(dt, platforms)
 
     }
 
-    // //create bullets
-    // for (const id in players){
-    //   if((now - players[id].lastFired) / 1000 > constants.PLAYER_FIRE_COOLDOWN){
-    //     let bullet = new Bullet(players[id])
-    //     bullets.push(bullet)
-    //     players[id].lastFired = now
-    //   }
-    // }
-
-    // //update bullet positions
-    // bullets.forEach(bullet => {
-    //   bullet.updatePosition(dt)
-    // })
-
-    // //check for bullets hitting border
-    // const filteredBullets = bullets.filter(bullet => {
-
-    //   //check for bullets hitting border
-    //   if (Math.abs(bullet.x) > constants.MAP_SIZE / 2 || Math.abs(bullet.y) > constants.MAP_SIZE / 2){
-        
-    //     return true
-    //   }
-
-    //   //check for bullets hitting players
-    //   for (const id in players){
-    //     if(players[id].username !== bullet.firer &&  checkCollision(bullet, players[id])){
-    //       sockets[id].emit(constants.MSG_TYPES.GAME_OVER)
-    //       return false
-    //     }
-    //   }
-    //   return true
-    // })
-
-    // bullets = filteredBullets
-
-
-    // bullets.forEach(bullet => {
-    //   bulletsUpdated.push(bullet.serialize())
-    // })
     updateCounter += 1
   }
 
@@ -156,7 +118,7 @@ const createGame = () => {
   setInterval(updateState, 1000/60)
   setInterval(sendUpdates, 1000/30)
   // setInterval(printState, 1000)
-  setInterval(trackFPS, 1000)
+  //setInterval(trackFPS, 1000)
 
   return {
     sockets,
@@ -174,3 +136,43 @@ const createGame = () => {
 module.exports = {
   createGame
 }
+
+    // //create bullets
+    // for (const id in players){
+    //   if((now - players[id].lastFired) / 1000 > constants.PLAYER_FIRE_COOLDOWN){
+    //     let bullet = new Bullet(players[id])
+    //     bullets.push(bullet)
+    //     players[id].lastFired = now
+    //   }
+    // }
+
+    // //update bullet positions
+    // bullets.forEach(bullet => {
+    //   bullet.updatePosition(dt)
+    // })
+
+    // //check for bullets hitting border
+    // const filteredBullets = bullets.filter(bullet => {
+
+    //   //check for bullets hitting border
+    //   if (Math.abs(bullet.x) > constants.MAP_SIZE / 2 || Math.abs(bullet.y) > constants.MAP_SIZE / 2){
+        
+    //     return true
+    //   }
+
+    //   //check for bullets hitting players
+    //   for (const id in players){
+    //     if(players[id].username !== bullet.firer &&  checkCollision(bullet, players[id])){
+    //       sockets[id].emit(constants.MSG_TYPES.GAME_OVER)
+    //       return false
+    //     }
+    //   }
+    //   return true
+    // })
+
+    // bullets = filteredBullets
+
+
+    // bullets.forEach(bullet => {
+    //   bulletsUpdated.push(bullet.serialize())
+    // })

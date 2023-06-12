@@ -40,17 +40,13 @@ io.on('connection', (socket) => {
 
 
 const handleInput = (socketId, input) => {
-  if (input.type === 'direction'){
-    //console.log(`new direction is ${input.value}`)
-  }else if (input.type === 'spaceDown'){
-    game.players[socketId].jump()
-  }else if (input.type === 'spaceUp'){
-    game.players[socketId].endJump()
-  }else if (input.type === 'keyA'){
-    game.players[socketId].moveLeft()
-  }else if (input.type === 'keyD'){
-    game.players[socketId].moveRight()
+  console.log(`input: ${JSON.stringify(input)}`)
+  if (input.type === 'down'){
+    game.players[socketId].input[input.key] = true
+  }else if (input.type === 'up'){
+    game.players[socketId].input[input.key] = false
   }
+
 }
 
 const handleConnect = (socket) => {

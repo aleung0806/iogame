@@ -51,6 +51,8 @@ class Object {
           this.onPlatform = true
           this.vy = 0
         }
+      }else{
+        this.onPlatform = false
       }
     }
   }

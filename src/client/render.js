@@ -24,6 +24,23 @@ const renderObject = (image, x, y, radius) => {
   context.restore()
 }
 
+const renderPlayer = (player) => {
+  const {x, y, radius, color } = player
+  const image = getAsset('bolita_clear.png')
+  context.save()
+  context.translate(canvasX, canvasY)
+  context.fillStyle = color;
+  context.beginPath();
+  context.arc(x, - y, radius, 0, 2 * Math.PI);
+  context.fill();
+  context.restore()
+
+  context.save()
+  context.translate(canvasX, canvasY)
+  context.drawImage(image, x - radius, - y - radius, radius * 2, radius * 2 )  //img, x, y, width, height
+  context.restore()
+}
+
 const renderBackground = () => {
   context.fillStyle = 'white'
   context.fillRect(0, 0, canvas.width, canvas.height)
@@ -38,11 +55,6 @@ const renderPlatform = (platform) => {
   context.restore()
 }
 
-
-const renderMe = (me) => {
-  const { x, y, direction } = me
-  renderObject(getAsset('sphere.svg'), x, y, PLAYER_RADIUS * 2)
-}
 
 const renderBullet = (bullet) => {
   const { x, y } = bullet
@@ -60,42 +72,22 @@ export const stopRender = () => {
 }
 
 
-const renderMap = () => {
-  const state = getCurrentState()
-  const { me, players, bullets, platforms } = state
-  if (!_.isEmpty(state)){
-    animationFrameRequestId = window.requestAnimationFrame(renderGame)
-
-    // players.forEach(player => {
-    //   return renderPlayer(me, player)
-    // })
-    // bullets.forEach(bullet => {
-    //   return renderBullet(me, bullet)
-    // })
-    
-  }else{
-    animationFrameRequestId = window.requestAnimationFrame(renderMap)
-  }
-
-  // setInterval(() => {
-  //   animationFrameRequestId = window.requestAnimationFrame(render)
-  // }, 1000)
-  
-}
-
 const renderGame = () => {
   const state = getCurrentState()
   const { me, players, bullets, platforms } = state
   if (!_.isEmpty(state)){
-    renderBackground(me)    
+
+    renderBackground()
     platforms.forEach(platform => {
       return renderPlatform(platform)
     })
-    renderMe(me)
+    
+    renderPlayer(me)
 
-    // players.forEach(player => {
-    //   return renderPlayer(me, player)
-    // })
+
+    players.forEach(player => {
+      return renderPlayer(player)
+    })
     // bullets.forEach(bullet => {
     //   return renderBullet(me, bullet)
     // })

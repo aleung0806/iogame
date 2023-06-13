@@ -11,9 +11,6 @@ class Object {
     this.direction = direction
     this.radius = radius
 
-    //projected position. is calculated each frame then collisions, out of bounds, etc are checked against it
-    this.x = 0
-    this.y = 0
 
     this.gravity = gravity
     this.onPlatform= false
@@ -38,7 +35,6 @@ class Object {
     this.x += dt * this.vx
     this.y += dt * this.vy
   }
-  
 
 
   applyPlatformCollisions() {
@@ -72,7 +68,7 @@ class Object {
     }
  }
 
-  updateObject(dt){
+  updateObjectState(dt){
     this.applyPlatformFriction()
     this.updatePosition(dt)
     this.applyPlatformCollisions()

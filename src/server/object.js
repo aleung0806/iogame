@@ -1,5 +1,6 @@
 
 const constants = require('../shared/constants')
+const { players, platforms, updateInfo } = require('./state')
 
 class Object {
   constructor(x = 0, y = 0, direction = 0, radius = 10, gravity = constants.GRAVITY_V) {
@@ -29,7 +30,8 @@ class Object {
     return false
   }
 
-  updatePosition(dt) {
+  updatePosition() {
+    const dt = updateInfo.dt 
     if (!this.onPlatform){
       this.vy = this.vy - (dt * this.gravity) 
     }
@@ -39,7 +41,7 @@ class Object {
   
 
 
-  applyPlatformCollisions(platforms) {
+  applyPlatformCollisions() {
     for(const platform of platforms){
       if(this.y - platform.y < this.radius //object has clipped through the platform surface
         && this.x <  platform.x + platform.length / 2  //object is within the platform length
@@ -70,7 +72,7 @@ class Object {
     }
  }
 
-  update(dt, platforms){
+  updateObject(dt){
     this.updatePosition(dt)
     this.applyPlatformCollisions(platforms)
     this.applyPlatformFriction()

@@ -1,9 +1,8 @@
 const express = require('express')
 const constants = require('../shared/constants')
-
-const app = express()
-
+const { players, sockets } = require('./state')
 const { createGame } = require('./game')
+const app = express()
 
 app.use(express.static('public'))
 app.use(express.static('dist'))
@@ -18,7 +17,7 @@ const io = new Server(server)
 
 
 const game = createGame()
-
+game.initState()
 
 io.on('connection', (socket) => {
   handleConnect(socket)
@@ -41,11 +40,11 @@ io.on('connection', (socket) => {
 
 const handleInput = (socketId, input) => {
   if (input.type === 'down'){
-    game.players[socketId].input[input.key] = true
-    game.players[socketId].input.lastPressed = input.key
-    game.players[socketId].input.lastPressedElapsed = 0
+    players[socketId].input[input.key] = true
+    players[socketId].input.lastPressed = input.key
+    players[socketId].input.lastPressedElapsed = 0
   }else if (input.type === 'up'){
-    game.players[socketId].input[input.key] = false
+    players[socketId].input[input.key] = false
   }
 
 }

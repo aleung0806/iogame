@@ -2,24 +2,28 @@ const Player = require('./player')
 const constants = require('../shared/constants')
 const Bullet = require('./bullet')
 const Platform = require('./platform')
-const { stringify } = require('flatted')
 const uuid = require('uuid')
 
-const _ = require('lodash')
+const {  
+  sockets, 
+  bullets, 
+  players,
+  hitboxes,
+  platforms,
+  updateInfo
+} = require('./state')
+
 
 
 const createGame = () => {
 
-  let sockets = {} //socketId: socket
-  let bullets = []
-  let players = {test: new Player(0, -300, 'testplayer','#FECDD7')} //socketId: player
-  let hitboxes = []
-  //let platforms = [ new Platform(0, -300, 1000), new Platform(200, 0, 300), new Platform(-400, 300, 300) ] 
-  let platforms = [ new Platform(0, -300, 1000)]
-  // let walls = [ new Platform(0, -300, 1000) ] 
-
   let updateCounter = 0  
   let lastUpdate = new Date()
+
+  const initState = () => {
+    players['test'] = new Player(0, -300, 'testplayer','#FECDD7')
+    platforms.push(new Platform(0, -300, 1000))
+  }
  
   const addSocket = (socket) => {
     sockets[socket.id] = socket
@@ -40,22 +44,23 @@ const createGame = () => {
  
   const updateState = () => {
     let now = new Date()
-    dt = (now - lastUpdate) / 1000
+    updateInfo.dt = (now - lastUpdate) / 1000
     lastUpdate = now
 
     //update player positions
     for (const id in players){
-      players[id].applyUpdateRules(hitboxes, players)
-      players[id].update(dt, platforms)
+      
+      players[id].update()
     }
 
     for (const hitbox of hitboxes){
       hitbox.applyPlayerCollisions(players)
     }
-    hitboxes = hitboxes.filter(hitbox => hitbox.duration < 0)
-
-
-
+    const expiredHitboxes = hitboxes.filter(hitbox => hitbox.duration < 0)
+    for(const h of expiredHitboxes){
+      const i = hitboxes.indexOf(h)
+      hitboxes.splice(i, 1)
+    }
     updateCounter += 1
   }
 
@@ -109,8 +114,7 @@ const createGame = () => {
   //setInterval(trackFPS, 1000)
 
   return {
-    sockets,
-    players,
+    initState,
     addSocket,
     removeSocket,
     addPlayer,
@@ -122,7 +126,12 @@ const createGame = () => {
 
 
 module.exports = {
-  createGame
+  createGame,
+
+  sockets,
+  players,
+  hitboxes,
+  platforms
 }
 
     // //create bullets

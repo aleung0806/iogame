@@ -1,4 +1,5 @@
 const Object = require('./object')
+const { players } = require('./state')
 
 class Hitbox extends Object {
   constructor(x, y, radius, owner){
@@ -16,7 +17,7 @@ class Hitbox extends Object {
 
   }
 
-  applyPlayerCollisions(players){
+  applyPlayerCollisions(){
     for (const id in players){
       //console.log('checking')
       if (this.owner !== players[id] && this.collidesWith(players[id])){

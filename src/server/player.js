@@ -3,6 +3,7 @@ const constants = require('../shared/constants')
 const { JUMP_V, PLAYER_RADIUS } = require('../shared/constants')
 const {Hitbox, Punch} = require("./hitbox")
 const { v4: uuidv4 } = require('uuid');
+const { hitboxes } = require('./state')
 
 class Player extends Object{
   constructor(x, y, username = '', color) {
@@ -38,11 +39,26 @@ class Player extends Object{
       lastPressed: '',
       lastPressedElapsed: 0, //in frames
 
-      KeyW: false,
-      KeyA: false,
-      KeyS: false,
-      KeyD: false,
-      Space: false,
+      KeyW: {
+        pressed: false,
+        duration: 0
+      },
+      KeyW: {
+        pressed: false,
+        duration: 0
+      },
+      KeyW: {
+        pressed: false,
+        duration: 0
+      },
+      KeyW: {
+        pressed: false,
+        duration: 0
+      },
+      KeyW: {
+        pressed: false,
+        duration: 0
+      },
     }
 
   }
@@ -70,7 +86,7 @@ class Player extends Object{
     }
   }
 
-  punch(hitboxes){
+  punch(){
     if (this.punchCooldown === 0){
       this.punchCooldown = 10
       this.punchReleaseAnimationCooldown = 5
@@ -79,7 +95,7 @@ class Player extends Object{
     this.punchCharge = 0
   }
 
-  chargePunch(hitboxes){
+  chargePunch(){
     console.log('charging')
     this.punchCharge += 1
     // if (this.punchCharge > 90){
@@ -142,11 +158,11 @@ class Player extends Object{
     
   }
 
-  releaseChargedPunch(hitboxes) {
+  releaseChargedPunch() {
     if(this.punchCharge > 0 && !this.input.Space){
       console.log('release punch')
 
-      this.punch(hitboxes)
+      this.punch()
     }
   }
 
@@ -159,7 +175,7 @@ class Player extends Object{
   }
 
   //runs every frame
-  applyUpdateRules(hitboxes) {
+  applyUpdateRules() {
     if (this.input.KeyW){
       this.jump()
     }
@@ -170,7 +186,7 @@ class Player extends Object{
       this.moveRight()
     }
     if (this.input.Space){
-      this.chargePunch(hitboxes)
+      this.chargePunch()
     }
 
     this.tweakJumpGravity()
@@ -180,9 +196,13 @@ class Player extends Object{
     this.updateLastPressedElapsed()
     this.updateAnimationState()
 
-    this.releaseChargedPunch(hitboxes)
+    this.releaseChargedPunch()
     this.updatePunchReleaseAnimationCooldown()
-    console.log(this.punchCharge)
+  }
+
+  update() {
+    this.applyUpdateRules()
+    this.updateObject()
   }
 
 

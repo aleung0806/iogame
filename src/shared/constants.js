@@ -20,7 +20,7 @@ module.exports = Object.freeze({
     GAME_OVER: 'dead',
   },
 
-  GRAVITY_V: 2000,
+  GRAVITY_V: 3000,
   JUMP_V: 1500,
   JUMP_MAX_V: 10000,
 

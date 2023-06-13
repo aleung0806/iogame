@@ -40,9 +40,6 @@ io.on('connection', (socket) => {
 
 const handleInput = (socketId, input) => {
   const player = players[socketId]
-  console.log('player', JSON.stringify(player, null, 2))
-  console.log('input', JSON.stringify(input, null, 2))
-
   if (input.type === 'down'){
     player.input.keys[input.key].pressed = true
 

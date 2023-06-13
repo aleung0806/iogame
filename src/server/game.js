@@ -1,6 +1,5 @@
 const Player = require('./player')
 const constants = require('../shared/constants')
-const Bullet = require('./bullet')
 const Platform = require('./platform')
 const uuid = require('uuid')
 
@@ -95,11 +94,10 @@ const createGame = () => {
         sockets[id].emit(constants.MSG_TYPES.GAME_UPDATE, toSend)
       }
     }
-    
   }
 
   const printState = () => {
-    //console.log(`players: ${JSON.stringify(players, null, 2)}`)
+    console.log(`players: ${JSON.stringify(players, null, 2)}`)
   }
 
   const trackFPS = () => {
@@ -109,7 +107,7 @@ const createGame = () => {
 
   setInterval(updateState, 1000/60)
   setInterval(sendUpdates, 1000/30)
-  // setInterval(printState, 1000)
+  setInterval(printState, 1000)
   //setInterval(trackFPS, 1000)
 
   return {

@@ -49,8 +49,8 @@ class Object {
         && this.vy < 0  //object is falling
       ){
         this.y = platform.y + this.radius //set object on platform
-        this.vy = 0  // apply upward force provided by platform
-        if (Math.abs(this.vy) < 1 ){ // get rid of bounce
+        this.vy = -this.vy * (1/6)
+        if (Math.abs(this.vy) < 100 ){ // get rid of bounce
           this.onPlatform = true
           this.vy = 0
         }
@@ -73,9 +73,9 @@ class Object {
  }
 
   updateObject(dt){
-    this.updatePosition(dt)
-    this.applyPlatformCollisions(platforms)
     this.applyPlatformFriction()
+    this.updatePosition(dt)
+    this.applyPlatformCollisions()
   }
 }
 

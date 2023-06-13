@@ -34,7 +34,7 @@ class Hitbox extends Object {
   }
 }
 
-class Punch extends Hitbox {
+class PunchBox extends Hitbox {
   constructor(owner, charge){
     //console.log('punch generated')
     super()
@@ -49,5 +49,5 @@ class Punch extends Hitbox {
 
 module.exports = {
   Hitbox, 
-  Punch
+  PunchBox
 }

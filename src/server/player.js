@@ -1,9 +1,10 @@
 const Object = require('./object')
 const constants = require('../shared/constants')
 const { JUMP_V, PLAYER_RADIUS } = require('../shared/constants')
-const {Hitbox, Punch} = require("./hitbox")
 const { v4: uuidv4 } = require('uuid');
 const { hitboxes } = require('./state')
+
+const { Punch } = require('./actions')
 
 class Player extends Object{
   constructor(x, y, username = '', color) {
@@ -19,16 +20,17 @@ class Player extends Object{
     this.y = 300
     this.radius = PLAYER_RADIUS
 
-
     this.doubleJumped = false
     this.inJump = false
     this.isHit = false
 
-
     //regular, jump, left, right, punchChargeLeft, punchReleaseRight
     this.animationState = 'regular'
 
-    this.punchCharge = 0
+    this.actions = {
+      punch: Punch(this),
+      
+    }
 
     this.cooldowns = {
       hit: 0,
@@ -92,17 +94,9 @@ class Player extends Object{
   }
 
 
-  chargePunch(){
-    this.punchCharge += 1
-  }
 
-  releasePunch() {
-    if (this.cooldowns.punch === 0){
-      this.cooldowns.punch = 10
-      this.cooldowns.punchReleaseAnimation = 5
-      hitboxes.push(new Punch(this, this.punchCharge))
-    }
-  }
+
+
 
 
   tweakJumpGravity() {
@@ -150,8 +144,9 @@ class Player extends Object{
         this.input.keys[keyCode].duration += 1
       }
       if (this.input.keys[keyCode].duration > 0 && !this.input.keys[keyCode].pressed){ //if stopped being pressed
-        this.input.keys[keyCode].duration = 0 
+        this.input.keys[keyCode].duration = 0
       }
+
       //update lastPressed
       if (this.input.keys[keyCode].pressed){
         this.input.lastPressed = keyCode
@@ -174,10 +169,11 @@ class Player extends Object{
       this.moveRight()
     }
     if (this.input.keys.Space.pressed === true){
-      this.chargePunch()
+      this.actions.punch.charge()
     }
     if (this.input.keys.Space.pressed === false && this.input.keys.Space.duration > 0){
-      this.releasePunch()
+      this.actions.punch.release()
+
     }
   }
 

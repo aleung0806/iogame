@@ -17,7 +17,7 @@ const {
 
 const createGame = () => {
 
-  let updateCounter = 0  
+  let updateCounter = 0
   let lastUpdate = new Date()
 
   const initState = () => {
@@ -49,7 +49,6 @@ const createGame = () => {
 
     //update player positions
     for (const id in players){
-      
       players[id].update()
     }
 
@@ -100,7 +99,7 @@ const createGame = () => {
   }
 
   const printState = () => {
-    console.log(`players: ${JSON.stringify(players, null, 2)}`)
+    //console.log(`players: ${JSON.stringify(players, null, 2)}`)
   }
 
   const trackFPS = () => {

@@ -20,7 +20,7 @@ class Object {
   }
 
   collidesWith(object) {
-    console.log(`${JSON.stringify(object, null, 2)} vs ${JSON.stringify(this, null, 2)}  `)
+    //console.log(`${JSON.stringify(object, null, 2)} vs ${JSON.stringify(this, null, 2)}  `)
     const dx = Math.abs(object.x - this.x)
     const dy = Math.abs(object.y - this.y)
     const distance = Math.sqrt( dx * dx + dy * dy)

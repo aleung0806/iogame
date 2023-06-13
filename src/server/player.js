@@ -30,39 +30,44 @@ class Player extends Object{
 
     this.punchCharge = 0
 
-    //in frames
-    this.hitCooldown = 0
-    this.punchCooldown = 0
-    this.punchReleaseAnimationCooldown = 0
+    this.cooldowns = {
+      hit: 0,
+      punch: 0,
+      punchReleaseAnimation: 0
+    }
 
     this.input = {
       lastPressed: '',
-      lastPressedElapsed: 0, //in frames
+      sincePressedElapsed: 0, //in frames
 
-      KeyW: {
-        pressed: false,
-        duration: 0
-      },
-      KeyW: {
-        pressed: false,
-        duration: 0
-      },
-      KeyW: {
-        pressed: false,
-        duration: 0
-      },
-      KeyW: {
-        pressed: false,
-        duration: 0
-      },
-      KeyW: {
-        pressed: false,
-        duration: 0
-      },
+      //null, down, hold, or up
+      keys: {
+        KeyW: {
+          pressed: false,
+          duration: 0
+        },
+        KeyA: {
+          pressed: false,
+          duration: 0
+        },
+        KeyS: {
+          pressed: false,
+          duration: 0
+        },
+        KeyD: {
+          pressed: false,
+          duration: 0
+        },
+        Space: {
+          pressed: false,
+          duration: 0
+        },
+      }
     }
 
   }
 
+// Actions
   jump() {
     if (this.onPlatform){
       this.vy += constants.JUMP_V
@@ -86,21 +91,17 @@ class Player extends Object{
     }
   }
 
-  punch(){
-    if (this.punchCooldown === 0){
-      this.punchCooldown = 10
-      this.punchReleaseAnimationCooldown = 5
-      hitboxes.push(new Punch(this, this.punchCharge))
-    }
-    this.punchCharge = 0
-  }
 
   chargePunch(){
-    console.log('charging')
     this.punchCharge += 1
-    // if (this.punchCharge > 90){
-    //   this.punch(hitboxes)
-    // }
+  }
+
+  releasePunch() {
+    if (this.cooldowns.punch === 0){
+      this.cooldowns.punch = 10
+      this.cooldowns.punchReleaseAnimation = 5
+      hitboxes.push(new Punch(this, this.punchCharge))
+    }
   }
 
 
@@ -115,32 +116,19 @@ class Player extends Object{
     }
   }
 
-  updateHitCooldown() {
-    if(this.isHit){
-      this.hitCooldown -= 1
+// update helpers
+  updateCooldowns() {
+    for (const id in this.cooldowns){
+      this.cooldowns[id] = Math.max(this.cooldowns[id] - 1, 0)
     }
-    if(this.hitCooldown < 0){
-      this.isHit = false
-    }
-  }
-
-  updatePunchCooldown() {
-    this.punchCooldown -= 1
-    if(this.punchCooldown < 0){
-      this.punchCooldown = 0
-    }
-  }
-
-  updateLastPressedElapsed() {
-    this.input.lastPressedElapsed += 1
   }
 
   updateAnimationState() {
 
-    if(this.input.Space){
+    if(this.input.keys.Space.pressed){
       return this.animationState = 'punchCharge'
     }
-    if(this.punchReleaseAnimationCooldown > 0){
+    if(this.cooldowns.punchReleaseAnimation > 0){
       return this.animationState = 'punchRelease'
     }
 
@@ -149,64 +137,63 @@ class Player extends Object{
     } else if(this.input.lastPressed === 'KeyD'){
       this.animationState = 'right'
     }
-
-
-
-    if(this.input.lastPressedElapsed > 60){
+    if(this.input.sinceLastPressed > 60){
       return this.animationState = 'normal'
     }
     
   }
 
-  releaseChargedPunch() {
-    if(this.punchCharge > 0 && !this.input.Space){
-      console.log('release punch')
+  updateInputState(){
+    for (const keyCode in this.input.keys){
+      //update input duration
+      if(this.input.keys[keyCode].pressed){
+        this.input.keys[keyCode].duration += 1
+      }
+      if (this.input.keys[keyCode].duration > 0 && !this.input.keys[keyCode].pressed){ //if stopped being pressed
+        this.input.keys[keyCode].duration = 0 
+      }
+      //update lastPressed
+      if (this.input.keys[keyCode].pressed){
+        this.input.lastPressed = keyCode
+        this.input.sinceLastPressed = 0
+      }else{
+        this.input.sinceLastPressed += 1
+      }
 
-      this.punch()
     }
   }
 
-  updatePunchReleaseAnimationCooldown(){
-    
-    this.punchReleaseAnimationCooldown -= 1
-    if (this.punchReleaseAnimationCooldown < 0){
-      this.punchReleaseAnimationCooldown = 0
-    }
-  }
-
-  //runs every frame
-  applyUpdateRules() {
-    if (this.input.KeyW){
+  applyInputRules() {
+    if (this.input.keys.KeyW.pressed === true && this.input.keys.KeyW.duration < 1){
       this.jump()
     }
-    if (this.input.KeyA){
+    if (this.input.keys.KeyA.pressed === true){
       this.moveLeft()
     }
-    if (this.input.KeyD){
+    if (this.input.keys.KeyD.pressed === true){
       this.moveRight()
     }
-    if (this.input.Space){
+    if (this.input.keys.Space.pressed === true){
       this.chargePunch()
     }
-
-    this.tweakJumpGravity()
-    this.updateHitCooldown()
-    this.updatePunchCooldown()
-
-    this.updateLastPressedElapsed()
-    this.updateAnimationState()
-
-    this.releaseChargedPunch()
-    this.updatePunchReleaseAnimationCooldown()
+    if (this.input.keys.Space.pressed === false && this.input.keys.Space.duration > 0){
+      this.releasePunch()
+    }
   }
 
   update() {
-    this.applyUpdateRules()
+    this.applyInputRules()
+    this.updateCooldowns()
+    this.updateAnimationState()
+    this.updateInputState()
+
     this.updateObject()
   }
 
-
   serialize() {
+    if (this.cooldowns.hit === 0){
+      this.isHit = true
+    }
     return {
       username: this.username,
       x: this.x,

@@ -9,7 +9,7 @@ app.use(express.static('dist'))
 
 const port = process.env.PORT || 3000
 const server = app.listen(port, () => {
-  console.log('listening on 3000')
+  //console.log('listening on 3000')
 })
 
 const { Server } = require('socket.io')
@@ -39,18 +39,21 @@ io.on('connection', (socket) => {
 
 
 const handleInput = (socketId, input) => {
+  const player = players[socketId]
+  console.log('player', JSON.stringify(player, null, 2))
+  console.log('input', JSON.stringify(input, null, 2))
+
   if (input.type === 'down'){
-    players[socketId].input[input.key] = true
-    players[socketId].input.lastPressed = input.key
-    players[socketId].input.lastPressedElapsed = 0
+    player.input.keys[input.key].pressed = true
+
   }else if (input.type === 'up'){
-    players[socketId].input[input.key] = false
+    player.input.keys[input.key].pressed = false
   }
 
 }
 
 const handleConnect = (socket) => {
-  console.log(`socket ${socket.id} connected`)
+  //console.log(`socket ${socket.id} connected`)
   game.addSocket(socket)
   game.printState()
 }

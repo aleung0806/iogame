@@ -1,47 +1,103 @@
 //regular, jump, left, right, punchChargeLeft, punchReleaseRight
-const images = [
-  'regular',
-  'jump',
-  'left',
-  'right',
-  'punchCharge',
-  'punchRelease',
-]
+
+
+const states = {
+  'normal': {
+    asset: 'normal.png',
+    xOffset: 0,
+    yOffset: 0,
+    xScale: 1,
+    yScale: 1,
+  },
+  'moveLeft': {
+    asset: 'moveL.png',
+    xOffset: 0,
+    yOffset: 0,
+    xScale: 1,
+    yScale: 1,
+  },
+  'moveRight': {
+    asset: 'moveR.png',
+    xOffset: 0,
+    yOffset: 0,
+    xScale: 1,
+    yScale: 1,
+  },
+  'punchChargeLeft': {
+    asset: 'punchCharge.png',
+    xOffset: -25,
+    yOffset: -5,
+    xScale: 1.3,
+    yScale: 1,
+  },
+  'punchChargeRight': {
+    asset: 'punchCharge.png',
+    xOffset: 25,
+    yOffset: 5,
+    xScale: 1.3,
+    yScale: 1,
+  },
+  'punchReleaseRight': {
+    asset: 'punchCharge.png',
+    xOffset: 0,
+    yOffset: 0,
+    xScale: 1.5,
+    yScale: 1,
+  },
+  'punchReleaseLeft': {
+    asset: 'punchCharge.png',
+    xOffset: 0,
+    yOffset: 0,
+    xScale: 1.5,
+    yScale: 1,
+  },
+
+}
 
 const Animate = (player) => {
-  let state = 'normal'
-  let punchReleaseCooldown = 0
+  let id = 'normal'
+  let punchReleaseFrames = 0
 
 
   const punchCharge = () => {
-    state = 'punchCharge'
+    if(player.input.state.keys.lastDirection === 'left'){
+      id = 'punchChargeLeft'
+    }else{
+      id = 'punchChargeRight'
+    }
   }
 
   const punchRelease = () => {
-    state = 'punchRelease'
-    punchReleaseCooldown = 15
+    if(player.input.state.keys.lastDirection === 'left'){
+      id = 'punchReleaseLeft'
+    }else{
+      id = 'punchReleaseRight'
+    }
+    punchReleaseFrames = 15
   }
 
   const jump = () => {
-    state = 'jump'
+    id = 'jump'
   }
 
   const moveLeft = () => {
-    state = 'left'
+    id = 'moveLeft'
   }
 
   const moveRight = () => {
-    state = 'Right'
+    id = 'moveRight'
   }
 
   const update = () => {
-    punchReleaseCooldown = Math.max(0, punchReleaseCooldown - 1)
+    punchReleaseCooldown = Math.max(0, punchReleaseFrames - 1)
 
     if (punchReleaseCooldown === 0){
-      state = 'normal'
+      id = 'normal'
     }
+  }
 
-    
+  const state = () => {
+    return states[id]
   }
 
   return {
@@ -56,4 +112,4 @@ const Animate = (player) => {
   }
 
 }
-modules.export = Animate
+module.exports = Animate

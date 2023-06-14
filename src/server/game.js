@@ -97,7 +97,7 @@ const createGame = () => {
   }
 
   const printState = () => {
-    console.log(`players: ${JSON.stringify(players, null, 2)}`)
+    // console.log(`players: ${JSON.stringify(players, null, 2)}`)
   }
 
   const trackFPS = () => {
@@ -107,7 +107,7 @@ const createGame = () => {
 
   setInterval(updateState, 1000/60)
   setInterval(sendUpdates, 1000/30)
-  setInterval(printState, 1000)
+  //setInterval(printState, 1000)
   //setInterval(trackFPS, 1000)
 
   return {

@@ -3,123 +3,79 @@ const { hitboxes } = require('./state')
 const constants = require('../shared/constants')
 const Animate = require('./animate')
 
-
-const Punch = (player) => {
+const Actions = (player) => {
 
   let animate = Animate(player)
-  let punchCharge = 0
-  let cooldown = 0
 
-  const charge = () => {
-    if (cooldown === 0){
-      punchCharge += 1
+  let punchPower = 0
+  let punchCooldown = 0
+  let jumps = 0
+
+  const punchCharge = () => {
+    if (punchCooldown === 0){
+      punchPower += 1
       animate.punchCharge()
     }
   }
 
-  const release = () => {
-    
-    hitboxes.push(new PunchBox(player, punchCharge))
-    cooldown = 10
-    punchCharge = 0
+  const punchRelease = () => {
+    hitboxes.push(new PunchBox(player, punchPower))
+    punchCooldown = 10
+    punchPower = 0
     animate.punchRelease()
   }
 
-  const update = () => {
-    cooldown = Math.max(0, cooldown - 1)
-    animate.update()
-  }
-
-  return {
-    charge, 
-    release,
-    update
-  }
-}
-
-const DoubleJump = (player) => {
-
-  let jumps = 0
-
-  const go = () => {
+  const jump = () => {
     if (player.onPlatform){
       player.vy = player.vy + constants.JUMP_V
       jumps = 1
-      animate.jump.jump()
+      animate.jump()
 
     }
     if (jumps < 2){
       player.vy = player.vy + constants.JUMP_V
       jumps = 1
-      animate.jump.jump()
+      animate.jump()
     }
   }
 
-  const update = (player) => {
+  const moveLeft = () => {
+    player.vx = Math.max(-constants.MOVE_MAX_V, player.vx - constants.MOVE_V)
+    animate.moveLeft()
+  }
+
+  const moveRight = () => {
+
+    player.vx = Math.min(constants.MOVE_MAX_V, player.vx + constants.MOVE_V)
+    animate.moveRight()
+
+  }
+
+  const update = () => {
+
+    //update punch cooldown
+    punchCooldown = Math.max(0, punchCooldown - 1)
+
+    //reset jump number if landed after jumping
     if (jumps > 0 && player.onPlatform){
       jumps = 0
     }
+
+    //update animation state
     animate.update()
-
-    // if (player.vy < 0){//make falling faster
-    //   player.gravity = constants.GRAVITY_V * 1
-    // }else if( player.vy > 0 && !player.input.KeyW){//make short jumps shorter
-    //   player.gravity = constants.GRAVITY_V * 2
-    // }
-    // if (player.onPlatform){
-    //   player.gravity = constants.GRAVITY_V
-    // }
-    
   }
 
-  return {
-    go,
-    update
+
+
+ return {
+    update,
+    jump,
+    punchRelease,
+    punchCharge,
+    moveLeft,
+    moveRight
   }
+
 }
 
-const moveLeft = (player) => {
-  const go = () => {
-    this.vx -= constants.MOVE_V
-    if (this.vx < -constants.MOVE_MAX_V){
-      this.vx = -constants.MOVE_MAX_V
-    }
-    player.vx = Math.max(-constants.MOVE_MAX_V, this.vx - constants.MOVE_V)
-  }
-  
-  const update = () => {
-
-  }
-
-  return {
-    go,
-    update
-  }
-}
-
-const moveRight = (player) => {
-  const go = () => {
-    this.vx += constants.MOVE_V
-    if (this.vx > constants.MOVE_MAX_V){
-      this.vx = constants.MOVE_MAX_V
-    }
-    player.vx = Math.min(constants.MOVE_MAX_V, this.vx + constants.MOVE_V)
-  }
-
-  const update = () => {
-    
-  }
-
-  return {
-    go,
-    update
-  }
-}
-
-
-module.exports = {
-  Punch,
-  DoubleJump,
-  MoveLeft,
-  MoveRight
-}
+module.exports = Actions

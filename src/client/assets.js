@@ -1,9 +1,13 @@
-const ASSET_NAMES = ['sphere.svg', 'bullet.svg', 'bolita.png', 'bolita_normal.png', 'bolita_right.png', 'bolita_left.png',
-'bolita_attackChargeLeft.png',
-'bolita_attackChargeRight.png',
-'bolita_attackReleaseRight.png',
-'bolita_attackReleaseLeft.png',
+const ASSET_NAMES = [
+  //'sphere.svg', 
+  'normal.png', 
+  'moveL.png', 
+  'punchChargeL.png',
+  'punchReleaseL.png',
 
+  'moveR.png', 
+  'punchChargeR.png',
+  'punchReleaseR.png',
 ]
 
 const assets = {}
@@ -15,7 +19,7 @@ const loadAsset = (assetName) => new Promise((resolve, reject) => {
     assets[assetName] = asset
     resolve()
   }
-  asset.src = `/assets/${assetName}`
+  asset.src = `/assets/bolita/${assetName}`
 })
 
 

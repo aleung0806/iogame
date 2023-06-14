@@ -20,12 +20,7 @@ On startup, the client
 
 
 
-Object
-  Player
-  Hitbox
-    Bullet
-    Punch
-    
+
 
 
 

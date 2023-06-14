@@ -1,7 +1,10 @@
-const Input = () => {
+const Input = (player) => {
+
   let state = {
-    lastPressed: '',
-    sincePressedElapsed: 0, //in frames
+    lastKey: '',
+    sinceLastKey: 0, //in frames
+
+    lastDirection: 'right',
 
     keys: {
       KeyW: {
@@ -28,26 +31,24 @@ const Input = () => {
   }
 
   const callActions = () => {
-    if (state.keys.KeyW.pressed === true && state.keys.KeyW.duration < 1){
-      player.actions.doubleJump.jump()
+    if (state.keys.KeyW.pressed === true && state.keys.KeyW.duration === 1){
+      player.actions.jump()
     }
     if (state.keys.KeyA.pressed === true){
-      player.moveLeft()
+      player.actions.moveLeft()
     }
     if (state.keys.KeyD.pressed === true){
-      player.moveRight()
+      player.actions.moveRight()
     }
     if (state.keys.Space.pressed === true){
-      player.actions.punch.charge()
+      player.actions.punchCharge()
     }
     if (state.keys.Space.pressed === false && state.keys.Space.duration > 0){
-      player.actions.punch.release()
+      player.actions.punchRelease()
     }
   }
 
   const update = () => {
-    callActions()
-
     for (const keyCode in state.keys){
       //update input duration
       if(state.keys[keyCode].pressed){
@@ -57,23 +58,30 @@ const Input = () => {
         state.keys[keyCode].duration = 0
       }
 
-      //update lastPressed
+      //update lastKey
       if (state.keys[keyCode].pressed){
-        state.lastPressed = keyCode
-        state.sinceLastPressed = 0
+        state.lastKey = keyCode
+        state.sinceLastKey = 0
       }else{
-        state.sinceLastPressed += 1
+        state.sinceLastKey += 1
+      }
+
+      //update lastDirection
+      if (keyCode === 'A' && state.keys[keyCode].pressed && state.keys[keyCode].duration === 1){
+        state.lastDirection = 'left'
+      }
+      if (keyCode === 'D' && state.keys[keyCode].pressed && state.keys[keyCode].duration === 1){
+        state.lastDirection = 'right'
       }
 
     }
-
+    callActions()
   }
 
   return {
-    update, state
+    update, 
+    state
   }
 }
 
-module.exports = {
-  Input
-}
+module.exports = Input

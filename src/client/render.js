@@ -24,59 +24,13 @@ const renderObject = (image, x, y, radius) => {
   context.restore()
 }
 
-
-const renderPC = (player) => {
-  const image = getAsset('bolita_attackChargeRight.png')
-  const {x, y, radius, color } = player
-  context.save()
-  context.translate(canvasX, canvasY)
-  context.fillStyle = color;
-  context.beginPath();
-  context.arc(x, - y, radius, 0, 2 * Math.PI);
-  context.fill();
-  context.restore()
-
-  context.save()
-  context.translate(canvasX, canvasY)
-  context.drawImage(image, x - radius - 25, - y - radius - 5, radius * 2 * 1.3, radius * 2)  //img, x, y, width, height
-  context.restore()
-}
-
-const renderPR = (player) => {
-  const image = getAsset('bolita_attackReleaseRight.png')
-  const {x, y, radius, color } = player
-
-  context.save()
-  context.translate(canvasX, canvasY)
-  context.fillStyle = color;
-  context.beginPath();
-  context.arc(x, - y, radius, 0, 2 * Math.PI);
-  context.fill();
-  context.restore()
-
-  context.save()
-  context.translate(canvasX, canvasY)
-  context.drawImage(image, x - radius, - y - radius, radius * 2 * 1.5, radius * 2 )  //img, x, y, width, height
-  context.restore()
-}
 const renderPlayer = (player) => {
   console.log('rendering', JSON.stringify(player, null, 2))
-  const {x, y, radius, color } = player
-  let image;
-  if (player.animationState === 'normal'){
-    image = getAsset('bolita_normal.png')
-  } else if(player.animationState === 'left'){
-    image = getAsset('bolita_left.png')
-  }else if(player.animationState === 'right'){
-    image = getAsset('bolita_right.png')
-  }else if(player.animationState === 'punchCharge'){
-    return renderPC(player)
-  }else if(player.animationState === 'punchRelease'){
-    return renderPR(player)
-  }else{
-    image = getAsset('bolita_normal.png')
+  const {x, y, radius, color, animate } = player
 
-  }
+  const image = getAsset(animate.asset)
+
+  //render color
   context.save()
   context.translate(canvasX, canvasY)
   context.fillStyle = color;
@@ -85,9 +39,16 @@ const renderPlayer = (player) => {
   context.fill();
   context.restore()
 
+  //render png
   context.save()
   context.translate(canvasX, canvasY)
-  context.drawImage(image, x - radius, - y - radius, radius * 2, radius * 2 )  //img, x, y, width, height
+  context.drawImage( //img, x, y, width, height
+    image, 
+    x - radius + animate.xOffset,
+    - y - radius  + animate.xOffset,
+    radius * 2 * animate.xScale,
+    radius * 2 * animate.yScale)
+
   context.restore()
 }
 

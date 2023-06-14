@@ -66,11 +66,12 @@ class Object {
     if (Math.abs(this.vx) < 1){ //let object come to a stop
       this.vx = 0
     }
- }
+  }
 
   updateObjectState(dt){
     this.applyPlatformFriction()
     this.updatePosition(dt)
+
     this.applyPlatformCollisions()
   }
 }

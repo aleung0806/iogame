@@ -5,7 +5,7 @@ const { v4: uuidv4 } = require('uuid');
 const { hitboxes } = require('./state')
 const Input = require('./input')
 const Animate = require('./animate')
-const { Punch, DoubleJump, MoveRight, MoveLeft } = require('./actions')
+const Actions = require('./actions')
 
 class Player extends Object{
   constructor(x, y, username = '', color) {
@@ -18,26 +18,16 @@ class Player extends Object{
     this.y = y
     this.radius = PLAYER_RADIUS
 
-    this.actions = {
-      punch: Punch(this),
-      doubleJump: DoubleJump(this),
-      moveRight: MoveRight(this),
-      moveLeft: MoveLeft(this),
-    }
-
     this.input = Input(this)
-    this.animation = Animate(this)
+    this.actions = Actions(this)
+    this.animate = Animate(this)
 
   }
 
   update() {
-    this.animation.update()
-
-    for (const id in this.actions){
-      this.actions[id].update()
-    }
     this.input.update()
-
+    this.actions.update()
+    this.animate.update()
     this.updateObjectState()
   }
 
@@ -47,12 +37,12 @@ class Player extends Object{
       username: this.username,
       x: this.x,
       y: this.y,
+      radius: this.radius,
       direction: this.direction,
       health: this.health,
       color: this.color,
-      radius: this.radius,
-
-      animationState: this.animate.state
+      
+      animate: this.animate.state
     }
   }
 }

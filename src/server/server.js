@@ -52,17 +52,14 @@ const handleInput = (socketId, input) => {
 const handleConnect = (socket) => {
   //console.log(`socket ${socket.id} connected`)
   game.addSocket(socket)
-  game.printState()
 }
 
 const handleDisconnect = (socket) => {
   game.removeSocket(socket)
-  game.printState()
 }
 
 const handleJoinGame = (socket, username, windowX, windowY) => {
   game.addPlayer(socket, username)
-  game.printState()
 
 }
 

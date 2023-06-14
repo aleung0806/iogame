@@ -5,7 +5,7 @@ const Animate = require('./animate')
 
 const Actions = (player) => {
 
-  let animate = Animate(player)
+  let animate = player.animate
 
   let punchPower = 0
   let punchCooldown = 0

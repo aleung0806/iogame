@@ -10,7 +10,7 @@ const canvasX = canvas.width / 2
 const canvasY = canvas.height / 2
 
 const Constants = require('../shared/constants')
-
+const { animationStates} = require('./animationStates')
 const { getCurrentState } = require('./state')
 
 const { PLAYER_RADIUS, PLAYER_MAX_HP, BULLET_RADIUS, MAP_SIZE } = Constants
@@ -25,11 +25,10 @@ const renderObject = (image, x, y, radius) => {
 }
 
 const renderPlayer = (player) => {
-  console.log('rendering', JSON.stringify(player, null, 2))
-  const {x, y, radius, color, animate } = player
-
+  //console.log('rendering', JSON.stringify(player, null, 2))
+  const {x, y, radius, color, animationId } = player
+  const animate = animationStates[animationId]
   const image = getAsset(animate.asset)
-
   //render color
   context.save()
   context.translate(canvasX, canvasY)

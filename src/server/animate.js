@@ -1,104 +1,55 @@
 //regular, jump, left, right, punchChargeLeft, punchReleaseRight
 
 
-const states = {
-  'normal': {
-    asset: 'normal.png',
-    xOffset: 0,
-    yOffset: 0,
-    xScale: 1,
-    yScale: 1,
-  },
-  'moveLeft': {
-    asset: 'moveL.png',
-    xOffset: 0,
-    yOffset: 0,
-    xScale: 1,
-    yScale: 1,
-  },
-  'moveRight': {
-    asset: 'moveR.png',
-    xOffset: 0,
-    yOffset: 0,
-    xScale: 1,
-    yScale: 1,
-  },
-  'punchChargeLeft': {
-    asset: 'punchCharge.png',
-    xOffset: -25,
-    yOffset: -5,
-    xScale: 1.3,
-    yScale: 1,
-  },
-  'punchChargeRight': {
-    asset: 'punchCharge.png',
-    xOffset: 25,
-    yOffset: 5,
-    xScale: 1.3,
-    yScale: 1,
-  },
-  'punchReleaseRight': {
-    asset: 'punchCharge.png',
-    xOffset: 0,
-    yOffset: 0,
-    xScale: 1.5,
-    yScale: 1,
-  },
-  'punchReleaseLeft': {
-    asset: 'punchCharge.png',
-    xOffset: 0,
-    yOffset: 0,
-    xScale: 1.5,
-    yScale: 1,
-  },
 
-}
 
 const Animate = (player) => {
-  let id = 'normal'
+  console.log('animate called')
+  let state =  {
+    id: 'normal'
+  }
   let punchReleaseFrames = 0
-
 
   const punchCharge = () => {
     if(player.input.state.keys.lastDirection === 'left'){
-      id = 'punchChargeLeft'
+      state.id = 'punchChargeLeft'
     }else{
-      id = 'punchChargeRight'
+      state.id = 'punchChargeRight'
     }
   }
 
   const punchRelease = () => {
     if(player.input.state.keys.lastDirection === 'left'){
-      id = 'punchReleaseLeft'
+      state.id = 'punchReleaseLeft'
     }else{
-      id = 'punchReleaseRight'
+      state.id = 'punchReleaseRight'
     }
     punchReleaseFrames = 15
   }
 
   const jump = () => {
-    id = 'jump'
+    state.id = 'jump'
   }
 
   const moveLeft = () => {
-    id = 'moveLeft'
+    state.id = 'moveLeft'
   }
 
   const moveRight = () => {
-    id = 'moveRight'
+    state.id = 'moveRight'
   }
 
   const update = () => {
-    punchReleaseCooldown = Math.max(0, punchReleaseFrames - 1)
+    punchReleaseFrames = Math.max(0, punchReleaseFrames - 1)
+    // if(player.username === 'p1'){
+    //   console.log(state)
+    // }
 
-    if (punchReleaseCooldown === 0){
-      id = 'normal'
-    }
+    // if (punchReleaseFrames === 0 ){
+    //   state= 'normal'
+    // }
   }
 
-  const state = () => {
-    return states[id]
-  }
 
   return {
     punchCharge,

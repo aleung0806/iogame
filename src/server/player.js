@@ -18,9 +18,9 @@ class Player extends Object{
     this.y = y
     this.radius = PLAYER_RADIUS
 
-    this.input = Input(this)
-    this.actions = Actions(this)
     this.animate = Animate(this)
+    this.actions = Actions(this)
+    this.input = Input(this)
 
   }
 
@@ -32,7 +32,6 @@ class Player extends Object{
   }
 
   serialize() {
-
     return {
       username: this.username,
       x: this.x,
@@ -42,7 +41,7 @@ class Player extends Object{
       health: this.health,
       color: this.color,
       
-      animate: this.animate.state
+      animationId: this.animate.state.id
     }
   }
 }

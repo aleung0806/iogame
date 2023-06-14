@@ -20,7 +20,7 @@ const createGame = () => {
   let lastUpdate = new Date()
 
   const initState = () => {
-    players['test'] = new Player(0, -300, 'testplayer','#FECDD7')
+    //players['test'] = new Player(0, -300, 'testplayer','#FECDD7')
     platforms.push(new Platform(0, -300, 1000))
   }
  
@@ -90,7 +90,7 @@ const createGame = () => {
           platforms: platforms.map(platform => platform.serialize()),
           hitboxes: hitboxes.map(hitbox => hitbox.serialize())
         }
-        console.log('toSend', JSON.stringify(toSend, null, 2))
+        //console.log('toSend', JSON.stringify(toSend, null, 2))
         sockets[id].emit(constants.MSG_TYPES.GAME_UPDATE, toSend)
       }
     }

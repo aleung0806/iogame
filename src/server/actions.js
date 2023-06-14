@@ -32,10 +32,9 @@ const Actions = (player) => {
       jumps = 1
       animate.jump()
 
-    }
-    if (jumps < 2){
+    } else if (jumps === 1){ //doublejump
       player.vy = player.vy + constants.JUMP_V
-      jumps = 1
+      jumps += 1
       animate.jump()
     }
   }
@@ -62,8 +61,6 @@ const Actions = (player) => {
       jumps = 0
     }
 
-    //update animation state
-    animate.update()
   }
 
 

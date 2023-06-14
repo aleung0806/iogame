@@ -1,6 +1,7 @@
 import { getAsset } from './assets'
 
 import _ from 'lodash'
+import { hitboxes } from '../server/state'
 
 const canvas = document.getElementById('game-canvas')
 const context = canvas.getContext('2d')
@@ -21,6 +22,19 @@ const renderObject = (image, x, y, radius) => {
   context.save()
   context.translate(canvasX, canvasY)
   context.drawImage(image, x - radius, - y - radius, radius * 2, radius * 2 )  //img, x, y, width, height
+  context.restore()
+}
+
+const renderHitbox = (hitbox) => {
+  const {x, y, radius } = hitbox
+  console.log('rendering', hitbox)
+  //render color
+  context.save()
+  context.translate(canvasX, canvasY)
+  context.fillStyle = 'gray';
+  context.beginPath();
+  context.arc(x, - y, radius, 0, 2 * Math.PI);
+  context.fill();
   context.restore()
 }
 
@@ -84,12 +98,16 @@ export const stopRender = () => {
 
 const renderGame = () => {
   const state = getCurrentState()
-  const { me, players, bullets, platforms } = state
+  const { me, players, bullets, platforms, hitboxes } = state
   if (!_.isEmpty(state)){
 
     renderBackground()
     platforms.forEach(platform => {
       return renderPlatform(platform)
+    })
+
+    hitboxes.forEach(hitbox => {
+      return renderHitbox(hitbox)
     })
     
     renderPlayer(me)

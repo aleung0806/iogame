@@ -70,8 +70,7 @@ const createGame = () => {
     for (const id in players){
       serializedPlayers.push(players[id].serialize())
     }
-    const serializedBullets = bullets.map(bullet => bullet.serialize())
-    const serializedPlatforms = platforms.map(platform => platform.serialize())
+
     for (const id in sockets){
       if(id in players){ //if the socket has a player associated with it
         let me;
@@ -82,15 +81,16 @@ const createGame = () => {
           }else{
             others.push(sPlayer)
           }
-          
         })
 
         const toSend = {
           me: me,
           players: others,
-          bullets: serializedBullets,
-          platforms: serializedPlatforms
+          bullets: bullets.map(bullet => bullet.serialize()),
+          platforms: platforms.map(platform => platform.serialize()),
+          hitboxes: hitboxes.map(hitbox => hitbox.serialize())
         }
+        console.log('toSend', JSON.stringify(toSend, null, 2))
         sockets[id].emit(constants.MSG_TYPES.GAME_UPDATE, toSend)
       }
     }

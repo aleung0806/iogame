@@ -19,7 +19,8 @@ const Actions = (player) => {
   }
 
   const punchRelease = () => {
-    hitboxes.push(new PunchBox(player, punchPower))
+    const punchDirection = player.input.state.lastDirection
+    hitboxes.push(new PunchBox(player, punchPower, punchDirection))
     punchCooldown = 10
     punchPower = 0
     animate.punchRelease()

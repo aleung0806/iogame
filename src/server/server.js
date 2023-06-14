@@ -41,10 +41,10 @@ io.on('connection', (socket) => {
 const handleInput = (socketId, input) => {
   const player = players[socketId]
   if (input.type === 'down'){
-    player.input.state.keys[input.key].pressed = true
+    player.input.pressKey(input.key)
 
   }else if (input.type === 'up'){
-    player.input.state.keys[input.key].pressed = false
+    player.input.unPressKey(input.key)
   }
 
 }

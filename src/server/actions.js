@@ -9,7 +9,7 @@ const Actions = (player) => {
 
   let punchPower = 0
   let punchCooldown = 0
-  let jumps = 0
+  let jumpChain = 0
 
   const punchCharge = () => {
     if (punchCooldown === 0){
@@ -28,13 +28,12 @@ const Actions = (player) => {
 
   const jump = () => {
     if (player.onPlatform){
-      player.vy = player.vy + constants.JUMP_V
-      jumps = 1
+      player.vy = constants.JUMP_V
+      jumpChain = 1 
       animate.jump()
-
-    } else if (jumps === 1){ //doublejump
-      player.vy = player.vy + constants.JUMP_V
-      jumps += 1
+    } else if (jumpChain === 1){ //doublejump
+      player.vy = constants.JUMP_V
+      jumpChain += 1
       animate.jump()
     }
   }
@@ -57,9 +56,19 @@ const Actions = (player) => {
     punchCooldown = Math.max(0, punchCooldown - 1)
 
     //reset jump number if landed after jumping
-    if (jumps > 0 && player.onPlatform){
-      jumps = 0
+    if (jumpChain > 1 && player.onPlatform){
+      jumpChain = 0
     }
+
+    if(jumpChain > 0 && player.vy < 0){ //'better jump' falling
+      player.gravity = constants.GRAVITY_V * 1.5
+    }
+
+    console.log(player.input.state.keys['KeyA'].pressed)
+    if(jumpChain > 0 && !player.input.state.keys['KeyA'].pressed){ //
+      player.gravity = constants.GRAVITY_V * 1.3
+    }
+
 
   }
 

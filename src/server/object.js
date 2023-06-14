@@ -29,9 +29,12 @@ class Object {
 
   updatePosition() {
     const dt = updateInfo.dt 
-    if (!this.onPlatform){
-      this.vy = this.vy - (dt * this.gravity) 
+
+    this.vy = this.vy - (dt * this.gravity) 
+    if (this.onPlatform && this.vy < 0){
+      this.vy = 0
     }
+  
     this.x += dt * this.vx
     this.y += dt * this.vy
   }

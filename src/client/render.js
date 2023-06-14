@@ -26,8 +26,8 @@ const renderObject = (image, x, y, radius) => {
 
 const renderPlayer = (player) => {
   //console.log('rendering', JSON.stringify(player, null, 2))
-  const {x, y, radius, color, animationId } = player
-  const animate = animationStates[animationId]
+  const {x, y, radius, color, animateId } = player
+  const animate = animationStates[animateId]
   const image = getAsset(animate.asset)
   //render color
   context.save()
@@ -44,7 +44,7 @@ const renderPlayer = (player) => {
   context.drawImage( //img, x, y, width, height
     image, 
     x - radius + animate.xOffset,
-    - y - radius  + animate.xOffset,
+    - y - radius  + animate.yOffset,
     radius * 2 * animate.xScale,
     radius * 2 * animate.yScale)
 

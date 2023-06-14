@@ -49,6 +49,8 @@ const Input = (player) => {
   }
 
   const update = () => {
+    callActions()
+    
     for (const keyCode in state.keys){
       //update input duration
       if(state.keys[keyCode].pressed){
@@ -67,15 +69,15 @@ const Input = (player) => {
       }
 
       //update lastDirection
-      if (keyCode === 'A' && state.keys[keyCode].pressed && state.keys[keyCode].duration === 1){
+      if (keyCode === 'KeyA' && state.keys[keyCode].pressed && state.keys[keyCode].duration === 1){
         state.lastDirection = 'left'
       }
-      if (keyCode === 'D' && state.keys[keyCode].pressed && state.keys[keyCode].duration === 1){
+      if (keyCode === 'KeyD' && state.keys[keyCode].pressed && state.keys[keyCode].duration === 1){
         state.lastDirection = 'right'
       }
 
     }
-    callActions()
+    
   }
 
   return {

@@ -41,7 +41,7 @@ class Player extends Object{
       health: this.health,
       color: this.color,
       
-      animationId: this.animate.state.id
+      animateId: this.animate.state.id
     }
   }
 }

@@ -1,17 +1,15 @@
 //regular, jump, left, right, punchChargeLeft, punchReleaseRight
-
-
+let punchReleaseFrames = 0
 
 
 const Animate = (player) => {
-  console.log('animate called')
   let state =  {
     id: 'normal'
   }
   let punchReleaseFrames = 0
 
   const punchCharge = () => {
-    if(player.input.state.keys.lastDirection === 'left'){
+    if(player.input.state.lastDirection === 'left'){
       state.id = 'punchChargeLeft'
     }else{
       state.id = 'punchChargeRight'
@@ -19,7 +17,7 @@ const Animate = (player) => {
   }
 
   const punchRelease = () => {
-    if(player.input.state.keys.lastDirection === 'left'){
+    if(player.input.state.lastDirection === 'left'){
       state.id = 'punchReleaseLeft'
     }else{
       state.id = 'punchReleaseRight'
@@ -28,7 +26,7 @@ const Animate = (player) => {
   }
 
   const jump = () => {
-    state.id = 'jump'
+    //state.id = 'jump'
   }
 
   const moveLeft = () => {
@@ -64,3 +62,7 @@ const Animate = (player) => {
 
 }
 module.exports = Animate
+
+
+
+

@@ -22,8 +22,8 @@ game.initState()
 io.on('connection', (socket) => {
   handleConnect(socket)
 
-  socket.on(constants.MSG_TYPES.JOIN_GAME, ({username, windowX, windowY}) => {
-    handleJoinGame(socket, username)
+  socket.on(constants.MSG_TYPES.JOIN_GAME, (player) => {
+    handleJoinGame(socket, player)
   })
 
   socket.on(constants.MSG_TYPES.INPUT, (input) => {
@@ -58,8 +58,8 @@ const handleDisconnect = (socket) => {
   game.removeSocket(socket)
 }
 
-const handleJoinGame = (socket, username, windowX, windowY) => {
-  game.addPlayer(socket, username)
+const handleJoinGame = (socket, player) => {
+  game.addPlayer(socket, player)
 
 }
 

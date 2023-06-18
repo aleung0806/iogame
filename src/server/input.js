@@ -32,7 +32,6 @@ const Input = (player) => {
 
   const callActions = () => {
     if (state.keys.KeyW.pressed === true && state.keys.KeyW.duration === 0){
-      console.log('jump')
       player.actions.jump()
     }
     if (state.keys.KeyA.pressed === true){
@@ -76,9 +75,9 @@ const Input = (player) => {
       if (keyCode === 'KeyD' && state.keys[keyCode].pressed && state.keys[keyCode].duration === 1){
         state.lastDirection = 'right'
       }
-
     }
-    
+
+   
   }
 
   const pressKey = (keyCode) => {

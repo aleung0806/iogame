@@ -4,6 +4,8 @@ import _ from 'lodash'
 import { hitboxes } from '../server/state'
 
 const canvas = document.getElementById('game-canvas')
+
+
 const context = canvas.getContext('2d')
 canvas.width = window.innerWidth
 canvas.height = window.innerHeight

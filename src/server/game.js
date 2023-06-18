@@ -35,9 +35,10 @@ const createGame = () => {
     }
   }
 
-  const addPlayer = (socket, username) => {
+  const addPlayer = (socket, player) => {
+    const { username, color } = player
     toSendUpdate = true
-    players[socket.id] = new Player(0, 300, username, '#D9C4EC')
+    players[socket.id] = new Player(0, 300, username, color)
   }
 
  

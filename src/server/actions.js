@@ -56,18 +56,21 @@ const Actions = (player) => {
     punchCooldown = Math.max(0, punchCooldown - 1)
 
     //reset jump number if landed after jumping
-    if (jumpChain > 1 && player.onPlatform){
+    if (jumpChain >= 1 && player.onPlatform && player.vy <= 0){
       jumpChain = 0
     }
-
     if(jumpChain > 0 && player.vy < 0){ //'better jump' falling
-      player.gravity = constants.GRAVITY_V * 1.5
-    }
 
-    console.log(player.input.state.keys['KeyA'].pressed)
-    if(jumpChain > 0 && !player.input.state.keys['KeyA'].pressed){ //
-      player.gravity = constants.GRAVITY_V * 1.3
+      player.gravity = constants.GRAVITY_V * 2
     }
+    //console.log(jumpChain > 0 && !player.input.state.keys['KeyW'].pressed && player.vy > 0)
+    if(jumpChain > 0 && !player.input.state.keys['KeyW'].pressed && player.vy > 0){ //
+      player.gravity = constants.GRAVITY_V * 2
+    }
+    if (jumpChain === 0){
+      player.gravity = constants.GRAVITY_V
+    }
+    console.log('gravity', player.gravity)
 
 
   }

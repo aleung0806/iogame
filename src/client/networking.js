@@ -23,14 +23,8 @@ export const connectToServer = () => new Promise((resolve, reject) => {
 })
 
 
-export const sendJoinGame = (username, windowX, windowY) => {
-  console.log('sending JoinGame')
-  socket.emit(constants.MSG_TYPES.JOIN_GAME, 
-    {
-      username, 
-      windowX: window.innerWidth, 
-      windowY: window.innerHeight
-    })
+export const sendJoinGame = (player) => {
+  socket.emit(constants.MSG_TYPES.JOIN_GAME, player)
   //startReceivingUpdates()
 }
 

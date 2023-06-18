@@ -64,7 +64,6 @@ class PunchBox extends Hitbox {
     this.radius = 30
     this.duration = 30
     this.knockback = 1000 * charge / 30
-    console.log(this)
 
   }
 }

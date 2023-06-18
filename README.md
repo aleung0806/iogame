@@ -18,6 +18,11 @@ On startup, the client
 3. Renders the Ready Menu. 
 
 
+How the backend works:
+
+
+
+
 
 
 

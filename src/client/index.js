@@ -3,19 +3,20 @@ import { connectToServer } from './networking'
 import { loadAssets } from './assets'
 import { startRender } from './render'
 import { startCapturingInput } from './input'
-import { joinGame } from './menu'
+import { joinGame, autoJoinGame } from './menu'
 
 
 const loadGame = () => {
   return Promise.all([
     connectToServer(),
     loadAssets(),
-    joinGame()
+    //joinGame()
+    autoJoinGame()
+
   ])
 }
 
 loadGame().then(() => {
-  console.log('loaded')
   startRender()
   startCapturingInput()
 })

@@ -26,5 +26,5 @@ module.exports = Object.freeze({
 
   MOVE_V: 300,
   MOVE_MAX_V:750,
-  FRICTION_V: 50
+  FRICTION_V: 200
 });

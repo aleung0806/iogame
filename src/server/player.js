@@ -17,18 +17,30 @@ class Player extends Object{
     this.x = x
     this.y = y
     this.radius = PLAYER_RADIUS
+    this.dead = false
 
     this.animate = Animate(this)
     this.actions = Actions(this)
     this.input = Input(this)
+  }
 
+  onDeath() {
+    if(this.y < -1000){
+      this.x = 0
+      this.y = 300
+      this.vx = 0
+      this.vy = 0
+    }
   }
 
   update() {
-    this.input.update()
     this.actions.update()
     this.animate.update()
     this.updateObjectState()
+    this.input.update()
+
+    this.onDeath()
+    
   }
 
   serialize() {

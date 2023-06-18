@@ -44,7 +44,7 @@ const handleInput = (socketId, input) => {
     player.input.pressKey(input.key)
 
   }else if (input.type === 'up'){
-    player.input.unPressKey(input.key)
+    player.input.releaseKey(input.key)
   }
 
 }

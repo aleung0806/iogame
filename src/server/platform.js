@@ -8,6 +8,14 @@ class Platform {
     this.length = length
   }
 
+  applyCollisions(){
+
+  }
+
+  applyFriction(){
+    
+  }
+
   serialize(){
     return {
       x: this.x, 

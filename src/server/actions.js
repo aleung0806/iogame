@@ -11,6 +11,27 @@ const Actions = (player) => {
   let punchCooldown = 0
   let jumpChain = 0
 
+
+  const callActions = () => {
+    let input = player.input
+
+    if (input.state.keys.KeyW.down && input.state.keys.KeyW.duration === 0){
+      jump()
+    }
+    if (input.state.keys.KeyA.down){
+      moveLeft()
+    }
+    if (input.state.keys.KeyD.down){
+      moveRight()
+    }
+    if (input.state.keys.Space.down){
+      punchCharge()
+    }
+    if (!input.state.keys.Space.down && input.state.keys.Space.duration > 0){
+      punchRelease()
+    }
+  }
+
   const punchCharge = () => {
     if (punchCooldown === 0){
       punchPower += 1
@@ -51,7 +72,7 @@ const Actions = (player) => {
   }
 
   const update = () => {
-
+    callActions()
     //update punch cooldown
     punchCooldown = Math.max(0, punchCooldown - 1)
 
@@ -59,18 +80,17 @@ const Actions = (player) => {
     if (jumpChain >= 1 && player.onPlatform && player.vy <= 0){
       jumpChain = 0
     }
-    if(jumpChain > 0 && player.vy < 0){ //'better jump' falling
 
+    //tweaking gravity during jumps
+    if(jumpChain > 0 && player.vy < 0){ //'better jump' falling
       player.gravity = constants.GRAVITY_V * 2
     }
-    //console.log(jumpChain > 0 && !player.input.state.keys['KeyW'].pressed && player.vy > 0)
-    if(jumpChain > 0 && !player.input.state.keys['KeyW'].pressed && player.vy > 0){ //
+    if(jumpChain > 0 && !player.input.state.keys.KeyW.down && player.vy > 0){ //
       player.gravity = constants.GRAVITY_V * 2
     }
     if (jumpChain === 0){
       player.gravity = constants.GRAVITY_V
     }
-    console.log('gravity', player.gravity)
 
 
   }

@@ -41,34 +41,29 @@ class Object {
 
 
   applyPlatformCollisions() {
+    let onPlatform = false
     for(const platform of platforms){
-      if(this.y - platform.y <= this.radius //object is on or has clipped through the platform surface
+      if(this.y - this.radius <= platform.y
+        && this.y >= platform.y //object is on or has clipped through the platform surface
         && this.x <  platform.x + platform.length / 2  //object is within the platform length
         && this.x >  platform.x - platform.length / 2
         && this.vy <= 0  //object is falling or stationary
       ){
         this.vy = 0
         this.y = platform.y + this.radius //set object on platform
-        this.onPlatform = true
-
-        //this.vy = -this.vy * (1/6)
-
-
-        // if (Math.abs(this.vy) < 100 ){ // get rid of bounce
-
-        // }
-      }else{
-        this.onPlatform = false
+        onPlatform = true
       }
     }
+    this.onPlatform = onPlatform
   }
 
   applyPlatformFriction() {
     //friction for going right or left on platform
     if (this.vx < 0 && this.onPlatform){ //going left on platform
-      this.vx += constants.FRICTION_V
+      this.vx = Math.min(0, this.vx + constants.FRICTION_V)
+
     }else if (this.vx > 0 && this.onPlatform){ //going right on platform
-      this.vx -= constants.FRICTION_V
+      this.vx = Math.max(0, this.vx - constants.FRICTION_V)
     }
     if (Math.abs(this.vx) < 1){ //let object come to a stop
       this.vx = 0

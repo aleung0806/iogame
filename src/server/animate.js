@@ -6,6 +6,7 @@ const Animate = (player) => {
   let state =  {
     id: 'normal'
   }
+  
   let punchReleaseFrames = 0
 
   const punchCharge = () => {

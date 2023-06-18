@@ -1,6 +1,6 @@
 
 const constants = require('../shared/constants')
-const { players, platforms, updateInfo } = require('./state')
+const { players, platforms, walls, updateInfo } = require('./state')
 
 class Object {
   constructor(x = 0, y = 0, direction = 0, radius = 10, gravity = constants.GRAVITY_V) {
@@ -34,6 +34,10 @@ class Object {
     if (this.onPlatform && this.vy < 0){
       this.vy = 0
     }
+
+    this.vx = Math.min(this.vx, constants.MAX_PLAYER_SPEED)
+    this.vy = Math.min(this.vy, constants.MAX_PLAYER_SPEED)
+
   
     this.x += dt * this.vx
     this.y += dt * this.vy
@@ -70,11 +74,33 @@ class Object {
     }
   }
 
+  applyWallCollisions() {
+    for(const wall of walls){
+      if(this.y <  wall.y + wall.length / 2  //object is within the platform length
+        && this.y >  wall.y - wall.length / 2
+      ){
+        //coming from the left and collides
+        if(this.vx > 0 && this.x + this.radius > wall.x && this.x < wall.x){
+          this.x = wall.x - this.radius
+          this.vx = -this.vx * 1/2
+
+        }
+        //coming from the right and collides
+        if(this.vx < 0 && this.x - this.radius < wall.x && this.x > wall.x){
+          this.x = wall.x + this.radius //set object by wall
+          this.vx = -this.vx * 1/2
+        }
+      }
+    }
+  }
+
   updateObjectState(dt){
     this.applyPlatformFriction()
     this.updatePosition(dt)
 
+    this.applyWallCollisions()
     this.applyPlatformCollisions()
+
   }
 }
 

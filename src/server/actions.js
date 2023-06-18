@@ -7,7 +7,7 @@ const Actions = (player) => {
 
   let animate = player.animate
 
-  let punchPower = 0
+  let punchPower = 100
   let punchCooldown = 0
   let jumpChain = 0
 
@@ -40,10 +40,17 @@ const Actions = (player) => {
   }
 
   const punchRelease = () => {
-    const punchDirection = player.input.state.lastDirection
+    let punchDirection
+    if (player.input.state.keys.KeyW.pressed){
+      punchCharge = 'up'
+    }else if (player.input.state.keys.KeyS.pressed){
+      punchCharge = 'down'
+    }else {
+      punchDirection = player.input.state.lastDirection
+    }
     hitboxes.push(new PunchBox(player, punchPower, punchDirection))
     punchCooldown = 10
-    punchPower = 0
+    punchPower = 100
     animate.punchRelease()
   }
 

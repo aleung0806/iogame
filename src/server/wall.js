@@ -1,7 +1,7 @@
 const Object = require('./object')
 const constants = require('../shared/constants')
 
-class Platform {
+class Wall {
   constructor(x, y, length){
     this.x = x
     this.y = y
@@ -18,4 +18,4 @@ class Platform {
   }
 }
 
-module.exports = Platform
+module.exports = Wall

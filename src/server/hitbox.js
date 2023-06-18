@@ -9,7 +9,7 @@ class Hitbox extends Object {
     this.y = y
     this.owner = owner
     this.radius = radius
-    this.duration = 30 //frames the hitbox will last
+    this.duration = 3 //frames the hitbox will last
     this.hitCooldown = 60
     this.knockback = 1000
   }
@@ -20,7 +20,7 @@ class Hitbox extends Object {
     const magnitude = Math.sqrt(dx**2 + dy**2)
 
     player.vx = dx/magnitude * this.knockback
-    player.vy = dy/magnitude * this.knockback
+    player.vy = dy/magnitude * this.knockback + 500
 
   }
 
@@ -58,11 +58,10 @@ class PunchBox extends Hitbox {
     }else{
       this.x = owner.x + 60
     }
-    
+    this.x = owner.x
     this.y = owner.y
     this.owner = owner
-    this.radius = 30
-    this.duration = 30
+    this.radius = owner.radius + 10
     this.knockback = 1000 * charge / 30
 
   }

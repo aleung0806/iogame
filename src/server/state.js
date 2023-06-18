@@ -3,6 +3,8 @@ let bullets = []
 let players = {} //socketId: player
 let hitboxes = []
 let platforms = []
+let walls = []
+
 let updateInfo = {
   dt: 0
 }
@@ -17,5 +19,6 @@ module.exports = {
   players,
   hitboxes,
   platforms,
+  walls,
   updateInfo
 }

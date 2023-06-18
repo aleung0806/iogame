@@ -1,6 +1,8 @@
 const Player = require('./player')
 const constants = require('../shared/constants')
 const Platform = require('./platform')
+const Wall = require('./platform')
+
 const uuid = require('uuid')
 
 const {  
@@ -9,6 +11,7 @@ const {
   players,
   hitboxes,
   platforms,
+  walls,
   updateInfo
 } = require('./state')
 
@@ -23,6 +26,8 @@ const createGame = () => {
     players['test'] = new Player(-200, 300, 'testplayer','#6e78ff')
     platforms.push(new Platform(0, -300, 1000))
     platforms.push(new Platform(-200, 0, 300))
+    walls.push(new Wall(500, -150, 300))
+    walls.push(new Wall(-500, -150, 300))
 
   }
  
@@ -57,12 +62,14 @@ const createGame = () => {
     for (const hitbox of hitboxes){
       hitbox.applyPlayerCollisions(players)
     }
+
     const expiredHitboxes = hitboxes.filter(hitbox => hitbox.duration < 0)
     for(const h of expiredHitboxes){
       const i = hitboxes.indexOf(h)
       hitboxes.splice(i, 1)
     }
     updateCounter += 1
+
   }
 
 
@@ -91,6 +98,7 @@ const createGame = () => {
           players: others,
           bullets: bullets.map(bullet => bullet.serialize()),
           platforms: platforms.map(platform => platform.serialize()),
+          walls: walls.map(wall => wall.serialize()),
           hitboxes: hitboxes.map(hitbox => hitbox.serialize())
         }
         //console.log('toSend', JSON.stringify(toSend, null, 2))

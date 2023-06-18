@@ -81,6 +81,16 @@ const renderPlatform = (platform) => {
   context.restore()
 }
 
+const renderWall = (wall) => {
+  console.log('render: wall', wall)
+  const {x, y, length } = wall
+  context.save()
+  context.translate(canvasX, canvasY)
+  context.fillStyle = 'black'
+  context.fillRect(x, -y  - length / 2, 5, length)   //x, y, width, height
+  context.restore()
+}
+
 
 const renderBullet = (bullet) => {
   const { x, y } = bullet
@@ -100,12 +110,15 @@ export const stopRender = () => {
 
 const renderGame = () => {
   const state = getCurrentState()
-  const { me, players, bullets, platforms, hitboxes } = state
+  const { me, players, bullets, platforms, walls, hitboxes } = state
   if (!_.isEmpty(state)){
 
     renderBackground()
     platforms.forEach(platform => {
       return renderPlatform(platform)
+    })
+    walls.forEach(wall => {
+      return renderWall(wall)
     })
 
     hitboxes.forEach(hitbox => {

@@ -13,7 +13,7 @@ const canvasX = canvas.width / 2
 const canvasY = canvas.height / 2
 
 const Constants = require('../shared/constants')
-const { animationStates} = require('./animationStates')
+//const { animationStates} = require('./animationStates')
 const { getCurrentState } = require('./state')
 
 const { PLAYER_RADIUS, PLAYER_MAX_HP, BULLET_RADIUS, MAP_SIZE } = Constants
@@ -42,27 +42,28 @@ const renderHitbox = (hitbox) => {
 
 const renderPlayer = (player) => {
   //console.log('rendering', JSON.stringify(player, null, 2))
-  const {x, y, radius, color, animateId } = player
-  const animate = animationStates[animateId]
+  const {x, y, radius, color, animate} = player
+  //const animate = animationStates[animateId]
   const image = getAsset(animate.asset)
+  console.log('rendering', animate.asset)
   //render color
-  context.save()
-  context.translate(canvasX, canvasY)
-  context.fillStyle = color;
-  context.beginPath();
-  context.arc(x, - y, radius, 0, 2 * Math.PI);
-  context.fill();
-  context.restore()
+  // context.save()
+  // context.translate(canvasX, canvasY)
+  // context.fillStyle = color;
+  // context.beginPath();
+  // context.arc(x, - y, radius, 0, 2 * Math.PI);
+  // context.fill();
+  // context.restore()
 
   //render png
   context.save()
   context.translate(canvasX, canvasY)
   context.drawImage( //img, x, y, width, height
     image, 
-    x - radius + animate.xOffset,
-    - y - radius  + animate.yOffset,
-    radius * 2 * animate.xScale,
-    radius * 2 * animate.yScale)
+    x - radius - 125,
+    - y - radius - 125,
+    radius * 2 *  4.25,
+    radius * 2 * 4.25)
 
   context.restore()
 }

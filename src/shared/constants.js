@@ -16,7 +16,6 @@ module.exports = Object.freeze({
     JOIN_GAME: 'join_game',
     GAME_UPDATE: 'update',
     INPUT: 'input',
-
     GAME_OVER: 'dead',
   },
 
@@ -26,7 +25,7 @@ module.exports = Object.freeze({
 
   MOVE_V: 300,
   MOVE_MAX_V: 750,
-  FRICTION_V: 200,
+  FRICTION_V: 50,
 
   MAX_PLAYER_SPEED: 2000,
 });

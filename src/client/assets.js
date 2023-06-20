@@ -1,15 +1,4 @@
-const ASSET_NAMES = [
-  //'sphere.svg', 
-  'normal.png', 
-  'moveL.png', 
-  'punchChargeL.png',
-  'punchReleaseL.png',
-
-  'moveR.png', 
-  'punchChargeR.png',
-  'punchReleaseR.png',
-]
-
+const assetPaths = require('./assetPaths.json')
 const assets = {}
 
 const loadAsset = (assetName) => new Promise((resolve, reject) => {
@@ -19,12 +8,12 @@ const loadAsset = (assetName) => new Promise((resolve, reject) => {
     assets[assetName] = asset
     resolve()
   }
-  asset.src = `/assets/bolita/${assetName}`
+  asset.src = `/assets/bolita_new/${assetName}`
 })
 
 
 export const loadAssets = () => {
-  return Promise.all(ASSET_NAMES.map(loadAsset))
+  return Promise.all(assetPaths.map(loadAsset))
 }
 
 export const getAsset = assetName => assets[assetName]

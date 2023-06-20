@@ -1,12 +1,11 @@
-//regular, jump, left, right, punchChargeLeft, punchReleaseRight
-let punchReleaseFrames = 0
-
+const assetMap = require('./assetMap.json')
 
 const Animate = (player) => {
   let state =  {
-    id: 'normal'
+    asset: 'look/neutral/10.png'
+
   }
-  
+
   let punchReleaseFrames = 0
 
   const punchCharge = () => {
@@ -29,15 +28,8 @@ const Animate = (player) => {
   const jump = () => {
     //state.id = 'jump'
   }
-
-  const moveLeft = () => {
-    state.id = 'moveLeft'
-  }
-
-  const moveRight = () => {
-    state.id = 'moveRight'
-  }
-
+  
+  let frames = 0
   const update = () => {
     punchReleaseFrames = Math.max(0, punchReleaseFrames - 1)
     // if(player.username === 'p1'){
@@ -47,6 +39,9 @@ const Animate = (player) => {
     // if (punchReleaseFrames === 0 ){
     //   state= 'normal'
     // }
+    //leftFrame += 1
+    state.asset = assetMap.look[player.lookDirection][Math.floor(frames) % 4]
+    frames += 1/8
   }
 
 
@@ -54,8 +49,12 @@ const Animate = (player) => {
     punchCharge,
     punchRelease,
     jump,
-    moveLeft,
-    moveRight,
+
+    // lookUp, 
+    // lookRight,
+    // lookLeft,
+    // lookDown,
+
 
     update,
     state

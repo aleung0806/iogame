@@ -15,19 +15,31 @@ const Actions = (player) => {
   const callActions = () => {
     let input = player.input
 
-    if (input.state.keys.KeyW.down && input.state.keys.KeyW.duration === 0){
+    if (input.state.keys.Space.down && input.state.keys.Space.duration === 0){
       jump()
     }
-    if (input.state.keys.KeyA.down){
+    if (input.state.keys.KeyW.down){
+      lookUp()
+    } else if (input.state.keys.KeyS.down){
+      lookDown()
+    } else if (input.state.keys.KeyA.down){
+      lookLeft()
       moveLeft()
-    }
-    if (input.state.keys.KeyD.down){
+    } else if (input.state.keys.KeyD.down){
+      lookRight()
       moveRight()
+    }else{
+      lookNeutral()
     }
-    if (input.state.keys.Space.down){
-      punchCharge()
-    }
-    if (!input.state.keys.Space.down && input.state.keys.Space.duration > 0){
+    // if (input.state.keys.Space.down){
+    //   punchCharge()
+    // }
+    
+    // if (!input.state.keys.Space.down && input.state.keys.Space.duration > 0){
+    //   punchRelease()
+    // }
+    if (input.state.keys.KeyJ.down && input.state.keys.KeyJ.duration === 0){
+      console.log('quickpunch')
       punchRelease()
     }
   }
@@ -41,18 +53,20 @@ const Actions = (player) => {
 
   const punchRelease = () => {
     let punchDirection
-    if (player.input.state.keys.KeyW.pressed){
-      punchCharge = 'up'
-    }else if (player.input.state.keys.KeyS.pressed){
-      punchCharge = 'down'
+    if (player.input.state.keys.KeyW.down){
+      punchDirection = 'up'
+    }else if (player.input.state.keys.KeyS.down){
+      punchDirection = 'down'
     }else {
       punchDirection = player.input.state.lastDirection
     }
+    console.log(punchDirection, player.input.state)
     hitboxes.push(new PunchBox(player, punchPower, punchDirection))
     punchCooldown = 10
-    punchPower = 100
+    punchPower = 1000
     animate.punchRelease()
   }
+
 
   const jump = () => {
     if (player.onPlatform){
@@ -68,15 +82,37 @@ const Actions = (player) => {
 
   const moveLeft = () => {
     player.vx = Math.max(-constants.MOVE_MAX_V, player.vx - constants.MOVE_V)
-    animate.moveLeft()
   }
 
   const moveRight = () => {
-
     player.vx = Math.min(constants.MOVE_MAX_V, player.vx + constants.MOVE_V)
-    animate.moveRight()
 
   }
+
+  const lookRight = () => {
+    player.lookDirection = 'right'
+
+  }
+
+  const lookLeft = () => {
+    player.lookDirection = 'left'
+
+  }
+
+
+  const lookUp = () => {
+    player.lookDirection = 'up'
+
+  }
+
+  const lookDown = () => {
+    player.lookDirection = 'down'
+  }
+
+  const lookNeutral = () => {
+    player.lookDirection = 'neutral'
+  }
+
 
   const update = () => {
     callActions()

@@ -22,6 +22,7 @@ class Player extends Object{
     this.animate = Animate(this)
     this.actions = Actions(this)
     this.input = Input(this)
+    this.lookDirection = 'neutral'
   }
 
   onDeath() {
@@ -53,7 +54,7 @@ class Player extends Object{
       health: this.health,
       color: this.color,
       
-      animateId: this.animate.state.id
+      animate: this.animate.state
     }
   }
 }

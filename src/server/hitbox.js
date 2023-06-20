@@ -11,16 +11,18 @@ class Hitbox extends Object {
     this.radius = radius
     this.duration = 3 //frames the hitbox will last
     this.hitCooldown = 60
-    this.knockback = 1000
+    this.knockbackx = 0
+    this.knockbacky = 0
+
   }
 
   applyKnockback(player){
     const dx = (player.x - this.x)
     const dy = (player.y - this.y)
     const magnitude = Math.sqrt(dx**2 + dy**2)
-
-    player.vx = dx/magnitude * this.knockback
-    player.vy = dy/magnitude * this.knockback + 500
+    console.log('magnitude', dx/magnitude)
+    player.vx = Math.abs(dx/magnitude) * this.knockbackx
+    player.vy = Math.abs(dy/magnitude) * this.knockbacky
 
   }
 
@@ -51,19 +53,29 @@ class Hitbox extends Object {
 
 class PunchBox extends Hitbox {
   constructor(owner, charge, direction){
-    //console.log('punch generated')
     super()
+    this.direction = direction
+    this.knockback = 5000
     if (direction === 'left'){
-      this.x = owner.x - 60 
-    }else{
-      this.x = owner.x + 60
+      this.knockbackx = -this.knockback
+    }else if (direction === 'right'){
+      this.knockbackx = this.knockback
+
+    }else if (direction === 'up'){
+      this.knockbacky = this.knockback
+
+    }else if (direction === 'down'){
+      this.knockbacky = -this.knockback
     }
+
+
     this.x = owner.x
     this.y = owner.y
     this.owner = owner
-    this.radius = owner.radius + 10
+    this.radius = owner.radius + 30
     this.knockback = 1000 * charge / 30
-
+    this.duration = 1
+    console.log(this)
   }
 }
 

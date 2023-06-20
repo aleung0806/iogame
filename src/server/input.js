@@ -1,5 +1,5 @@
 
-const keyCodes = ['KeyW', 'KeyA', 'KeyS', 'KeyD', 'Space']
+const keyCodes = ['KeyW', 'KeyA', 'KeyS', 'KeyD', 'KeyJ', 'Space']
 
 
 
@@ -10,7 +10,12 @@ const Input = (player) => {
   let state = {
     lastKey: '',
     sinceLastKey: 0, //in frames
+
+    //left or right
     lastDirection: 'right',
+    
+    //up, down, left, or right
+    lookDirection: '',
     keys: {}
 
     //press, down, release, up
@@ -26,6 +31,8 @@ const Input = (player) => {
 
 
 
+
+
   const update = () => {
 
     for (const keyCode in state.keys){
@@ -37,6 +44,10 @@ const Input = (player) => {
       if (keyCode === 'KeyD' && state.keys[keyCode].down && state.keys[keyCode].duration === 0){
         state.lastDirection = 'right'
       }
+
+
+
+      
 
       //update lastKey
       if (state.keys[keyCode].down){
@@ -59,8 +70,6 @@ const Input = (player) => {
   }
 
   const pressKey = (keyCode) => {
-    console.log('press')
-
     state.keys[keyCode].down = true
   }
 

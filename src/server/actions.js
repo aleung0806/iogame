@@ -15,9 +15,8 @@ const Actions = (player) => {
   const callActions = () => {
     let input = player.input
 
-    if (input.state.keys.Space.down && input.state.keys.Space.duration === 0){
-      jump()
-    }
+
+
     if (input.state.keys.KeyW.down){
       lookUp()
     } else if (input.state.keys.KeyS.down){
@@ -28,8 +27,22 @@ const Actions = (player) => {
     } else if (input.state.keys.KeyD.down){
       lookRight()
       moveRight()
-    }else{
-      lookNeutral()
+    }
+
+    if (input.state.keys.Space.down && input.state.keys.Space.duration === 0){
+      jump()
+    }
+
+    if (input.state.keys.KeyJ.down && input.state.keys.KeyJ.duration === 0){
+      attack()
+    }
+
+    if (input.state.keys.KeyK.down && input.state.keys.KeyK.duration === 0){
+      spinAttack()
+    }
+
+    if (input.state.keys.KeyL.down && input.state.keys.KeyL.duration === 0){
+      swingAttack()
     }
     // if (input.state.keys.Space.down){
     //   punchCharge()
@@ -38,10 +51,10 @@ const Actions = (player) => {
     // if (!input.state.keys.Space.down && input.state.keys.Space.duration > 0){
     //   punchRelease()
     // }
-    if (input.state.keys.KeyJ.down && input.state.keys.KeyJ.duration === 0){
-      console.log('quickpunch')
-      punchRelease()
-    }
+    // if (input.state.keys.KeyJ.down && input.state.keys.KeyJ.duration === 0){
+    //   console.log('quickpunch')
+    //   punchRelease()
+    // }
   }
 
   const punchCharge = () => {
@@ -91,28 +104,48 @@ const Actions = (player) => {
 
   const lookRight = () => {
     player.lookDirection = 'right'
+    //animate.look()
 
   }
 
   const lookLeft = () => {
     player.lookDirection = 'left'
+    //animate.look()
+
 
   }
 
 
   const lookUp = () => {
     player.lookDirection = 'up'
+    //animate.look()
+
 
   }
 
   const lookDown = () => {
     player.lookDirection = 'down'
+    //animate.look()
+
   }
 
   const lookNeutral = () => {
     player.lookDirection = 'neutral'
+    animate.look()
+
   }
 
+  const attack = () => {
+    animate.attack()
+  }
+
+  const spinAttack = () => {
+    animate.spinAttack()
+  }
+
+  const swingAttack = () => {
+    animate.swingAttack()
+  }
 
   const update = () => {
     callActions()

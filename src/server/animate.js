@@ -1,55 +1,70 @@
+const { Idle, Attack, SpinAttack, SwingAttack } = require('./animation')
 const assetMap = require('./assetMap.json')
 
 const Animate = (player) => {
   let state =  {
     asset: 'look/neutral/10.png'
-
   }
 
-  let punchReleaseFrames = 0
+  let count = 0
+  let animation = new Idle(player.lookDirection)
 
-  const punchCharge = () => {
-    if(player.input.state.lastDirection === 'left'){
-      state.id = 'punchChargeLeft'
-    }else{
-      state.id = 'punchChargeRight'
+  const attack = () => {
+    console.log('animate: attack')
+    count = 0
+    if (player.lookDirection === 'neutral'){
+      player.lookDirection = 'right'
+    }
+    animation = new Attack(player.lookDirection)
+  }
+
+  const spinAttack = () => {
+    console.log('animate: spinAttack')
+    count = 0
+
+    animation = new SpinAttack()
+  }
+
+  const swingAttack = () => {
+    console.log('animate: swingAttack')
+    count = 0
+
+    animation = new SwingAttack()
+  }
+  const look = () => {
+    if (animation.type !== 'idle' || animation.direction !== player.lookDirection){
+      console.log('animate: look')
+      count = 0
+      animation = new Idle(player.lookDirection)
     }
   }
 
-  const punchRelease = () => {
-    if(player.input.state.lastDirection === 'left'){
-      state.id = 'punchReleaseLeft'
-    }else{
-      state.id = 'punchReleaseRight'
+  const update = () => {
+
+
+    if(Math.floor(count) >= animation.frameMap.length - 1){
+      count = 0
+      animation = new Idle(player.lookDirection)
     }
-    punchReleaseFrames = 15
+    console.log(count)
+    state.asset = animation.frameMap[Math.floor(count)]
+
+    count += 1/8
   }
 
   const jump = () => {
-    //state.id = 'jump'
-  }
-  
-  let frames = 0
-  const update = () => {
-    punchReleaseFrames = Math.max(0, punchReleaseFrames - 1)
-    // if(player.username === 'p1'){
-    //   console.log(state)
-    // }
 
-    // if (punchReleaseFrames === 0 ){
-    //   state= 'normal'
-    // }
-    //leftFrame += 1
-    state.asset = assetMap.look[player.lookDirection][Math.floor(frames) % 4]
-    frames += 1/8
   }
 
 
   return {
-    punchCharge,
-    punchRelease,
+    // punchCharge,
+    // punchRelease,
     jump,
-
+    look,
+    attack,
+    spinAttack,
+    swingAttack,
     // lookUp, 
     // lookRight,
     // lookLeft,

@@ -6,6 +6,7 @@ let platforms = []
 let walls = []
 
 let updateInfo = {
+  animationFrames: 0,
   dt: 0
 }
 

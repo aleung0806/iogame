@@ -12,7 +12,7 @@ const {
   hitboxes,
   platforms,
   walls,
-  updateInfo
+  updateInfo,
 } = require('./state')
 
 
@@ -53,6 +53,8 @@ const createGame = () => {
     let now = new Date()
     updateInfo.dt = (now - lastUpdate) / 1000
     lastUpdate = now
+
+    updateInfo.animationFrames += 1/8 //animation changes frames every 4 frames
 
     //update player positions
     for (const id in players){

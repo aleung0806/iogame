@@ -1,5 +1,5 @@
 
-const keyCodes = ['KeyW', 'KeyA', 'KeyS', 'KeyD', 'KeyJ', 'Space']
+const keyCodes = ['KeyW', 'KeyA', 'KeyS', 'KeyD', 'KeyJ', 'KeyK', 'KeyL', 'Space']
 
 
 

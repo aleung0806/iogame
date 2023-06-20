@@ -18,6 +18,8 @@ const keys = [
   'KeyS',
   'KeyD',
   'KeyJ',
+  'KeyK',
+  'KeyL',
   'Space'
 ]
 

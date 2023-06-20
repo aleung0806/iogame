@@ -18,11 +18,13 @@ class Player extends Object{
     this.y = y
     this.radius = PLAYER_RADIUS
     this.dead = false
+    this.lookDirection = 'neutral'
+    this.action = 'idle'
+
 
     this.animate = Animate(this)
     this.actions = Actions(this)
     this.input = Input(this)
-    this.lookDirection = 'neutral'
   }
 
   onDeath() {

@@ -9,23 +9,11 @@ const Actions = (player) => {
 
   let punchPower = 100
   let punchCooldown = 0
-  let jumpChain = 0
+
 
 
   const callActions = () => {
     let input = player.input
-
-    if (input.state.keys.KeyW.down){
-      player.lookDirection = 'up'
-    } else if (input.state.keys.KeyS.down){
-      player.lookDirection = 'down'
-
-    } else if (input.state.keys.KeyA.down){
-      player.lookDirection = 'left'
-
-    } else if (input.state.keys.KeyD.down){
-      player.lookDirection = 'right'
-    }
 
     if (input.state.keys.KeyA.down){
       moveLeft()
@@ -90,22 +78,19 @@ const Actions = (player) => {
 
 
   const jump = () => {
-    if (player.onPlatform){
-      player.vy = constants.JUMP_V
-      jumpChain = 1 
-      animate.jump()
-    } else if (jumpChain === 1){ //doublejump
-      player.vy = constants.JUMP_V
-      jumpChain += 1
-      animate.jump()
-    }
+
+  }
+
+  const moveLeft = () => {
+    player.vx = Math.max(-constants.MOVE_MAX_V, player.vx - constants.MOVE_V)
+  }
+
+  const moveRight = () => {
+    player.vx = Math.min(constants.MOVE_MAX_V, player.vx + constants.MOVE_V)
+
   }
 
 
-
-  const attack = () => {
-    animate.attack()
-  }
 
   const spinAttack = () => {
     animate.spinAttack()
@@ -120,21 +105,7 @@ const Actions = (player) => {
     //update punch cooldown
     punchCooldown = Math.max(0, punchCooldown - 1)
 
-    //reset jump number if landed after jumping
-    if (jumpChain >= 1 && player.onPlatform && player.vy <= 0){
-      jumpChain = 0
-    }
 
-    //tweaking gravity during jumps
-    if(jumpChain > 0 && player.vy < 0){ //'better jump' falling
-      player.gravity = constants.GRAVITY_V * 2
-    }
-    if(jumpChain > 0 && !player.input.state.keys.KeyW.down && player.vy > 0){ //
-      player.gravity = constants.GRAVITY_V * 2
-    }
-    if (jumpChain === 0){
-      player.gravity = constants.GRAVITY_V
-    }
 
 
   }

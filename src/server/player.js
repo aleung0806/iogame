@@ -3,9 +3,13 @@ const constants = require('../shared/constants')
 const { JUMP_V, PLAYER_RADIUS } = require('../shared/constants')
 const { v4: uuidv4 } = require('uuid');
 const { hitboxes } = require('./state')
-const Input = require('./input')
+const Input = require('./input2')
 const Animate = require('./animate')
 const Actions = require('./actions')
+const Look = require('./look')
+const Movement = require('./movement')
+const Respawn = require('./respawn')
+const Attack = require('./attack')
 
 class Player extends Object{
   constructor(x, y, username = '', color) {
@@ -17,33 +21,34 @@ class Player extends Object{
     this.x = x
     this.y = y
     this.radius = PLAYER_RADIUS
-    this.dead = false
-    this.lookDirection = 'neutral'
+    
     this.action = 'idle'
+    this.animate = 'look/neutral/10.png'
+    this.direction = 'neutral'
 
+    // this.animate = Animate(this)
+    // this.actions = Actions(this)
 
-    this.animate = Animate(this)
-    this.actions = Actions(this)
+    //controls
+    this.movement = Movement(this)
+    this.look = Look(this)
     this.input = Input(this)
+    this.attack = Attack(this)
+    this.respawn = Respawn(this)
   }
 
   onDeath() {
-    if(this.y < -1000){
-      this.x = 0
-      this.y = 300
-      this.vx = 0
-      this.vy = 0
-    }
+
   }
 
   update() {
-    this.actions.update()
-    this.animate.update()
+    // this.actions.update()
+    // this.animate.update()
+    this.look.update()
+    this.movement.update()
     this.updateObjectState()
     this.input.update()
-
-    this.onDeath()
-    
+    this.respawn.update()
   }
 
   serialize() {
@@ -56,7 +61,9 @@ class Player extends Object{
       health: this.health,
       color: this.color,
       
-      animate: this.animate.state
+      animate: {
+        asset: this.animate
+      }
     }
   }
 }

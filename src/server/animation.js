@@ -6,6 +6,7 @@ class Animation {
     this.type
     this.direction
     this.asset
+    this.frameMultiplier = 1
   }
 }
 
@@ -21,9 +22,7 @@ class Idle extends Animation{
       assetMap.look[direction][3],
     ]
   }
-
-
-}    
+}
 
 
 class Attack extends Animation{
@@ -31,7 +30,6 @@ class Attack extends Animation{
     super()
     this.type = 'attack'
     this.direction = direction
-
     this.frameMap = [
       assetMap.attack[direction][0],
       assetMap.attack[direction][1],
@@ -47,7 +45,7 @@ class SpinAttack extends Animation{
     super()
     this.type = 'spinAttack'
     this.direction = direction
-
+    this.frameMultplier = 4
     this.frameMap = [
       assetMap.spin[0],
       assetMap.spin[1],
@@ -70,11 +68,43 @@ class SpinAttack extends Animation{
 }
 
 
+// class SpinAttack extends Animation{
+//   constructor(direction){
+//     super()
+//     this.type = 'spinAttack'
+//     this.direction = direction
+//     this.frameMultplier = 4
+//     this.state = 'charge'
+//     this.frameMap = {
+//       'charge': [
+//         assetMap.spin[0],
+//         assetMap.spin[1],
+//       ],
+//       'release': [
+//         assetMap.spin[2],
+//         assetMap.spin[3],
+//         assetMap.spin[4],
+//         assetMap.spin[5],
+//         assetMap.spin[6],
+//         assetMap.spin[2],
+//         assetMap.spin[3],
+//         assetMap.spin[4],
+//         assetMap.spin[5],
+//         assetMap.spin[6],
+//       ]
+//     }
+//   }
+//   release()
+// }
+
+
+
 class SwingAttack extends Animation{
   constructor(direction){
     super()
-    this.type = 'spinAttack'
+    this.type = 'swingAttack'
     this.direction = direction
+    this.frameMultplier = 8
 
     this.frameMap = [
       assetMap.slam[0],
@@ -82,7 +112,7 @@ class SwingAttack extends Animation{
       assetMap.slam[1],
       assetMap.slam[1],
       assetMap.slam[1],
-      assetMap.slam[3],
+      //assetMap.slam[3],
       assetMap.slam[4],
       assetMap.slam[5],
       assetMap.slam[7],

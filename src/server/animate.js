@@ -41,15 +41,14 @@ const Animate = (player) => {
 
   const update = () => {
 
-
     if(Math.floor(count) >= animation.frameMap.length - 1){
       count = 0
       animation = new Idle(player.lookDirection)
     }
-    console.log(count)
-    state.asset = animation.frameMap[Math.floor(count)]
+    //console.log(count)
+    state.asset = animation.frameMap[Math.floor(count)] 
 
-    count += 1/8
+    count += 1/8 * animation.frameMultiplier
   }
 
   const jump = () => {

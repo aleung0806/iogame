@@ -8,7 +8,8 @@ const binds = {
   moveRight: 'KeyD',
   jump: 'Space',
 
-  attack1: 'KeyJ'
+  attack1: 'KeyJ',
+  attack2: 'KeyK'
 }
 
 module.exports = binds

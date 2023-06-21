@@ -97,15 +97,19 @@
     "slam/53.png",
     "slam/54.png"
   ],
-  "spin": [
-    "spin/35.png",
-    "spin/36.png",
-    "spin/38.png",
-    "spin/40.png",
-    "spin/41.png",
-    "spin/44.png",
-    "spin/45.png"
-  ],
+  "spin": {
+    "charge": [
+      "spin/charge/35.png",
+      "spin/charge/36.png"
+    ],
+    "release": [
+      "spin/release/38.png",
+      "spin/release/40.png",
+      "spin/release/41.png",
+      "spin/release/44.png",
+      "spin/release/45.png"
+    ]
+  },
   "effects": [
     "effects/39.png",
     "effects/42.png",

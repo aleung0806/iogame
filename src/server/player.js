@@ -10,6 +10,7 @@ const Look = require('./look')
 const Movement = require('./movement')
 const Respawn = require('./respawn')
 const Attack = require('./attack')
+const SpinAttack = require('./spinAttack')
 
 class Player extends Object{
   constructor(x, y, username = '', color) {
@@ -35,6 +36,7 @@ class Player extends Object{
     this.input = Input(this)
     this.attack = Attack(this)
     this.respawn = Respawn(this)
+    this.spinAttack = SpinAttack(this)
   }
 
   onDeath() {
@@ -47,6 +49,8 @@ class Player extends Object{
     this.look.update()
     this.movement.update()
     this.attack.update()
+    this.spinAttack.update()
+
     this.updateObjectState()
     this.input.update()
     this.respawn.update()

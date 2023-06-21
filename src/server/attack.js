@@ -1,5 +1,7 @@
 const binds = require('./keybinds')
 const assetMap = require('./assetMap.json')
+const { hitboxes } = require('./state')
+const { PunchBox } = require('./hitbox')
 const animationMap = assetMap.attack
 
 const Attack = (player) => {
@@ -9,19 +11,6 @@ const Attack = (player) => {
   let frame = 0
   let state = 'inactive'
   let direction = 'right'
-
-
-  const frameMap = [
-    animationMap[direction][0],
-    animationMap[direction][1]
-  ]
-
-  const actionMap = [
-    () => {},
-    () => {
-      console.log('attacking')
-    }
-  ]
 
   const receiveInputs = () => {
     const keys = player.input.state.keys
@@ -50,11 +39,16 @@ const Attack = (player) => {
     
     if (player.action === 'attack') {
       player.animate = animationMap[direction][Math.floor(frame)]
-      actionMap[Math.floor(frame)]
+      if (frame === 1){
+        hitboxes.push(new PunchBox(
+          player,
+          1000,
+          direction
+        ))
+      }
       frame += 1 * animationSpeed 
     }
 
-    
   }
 
   return {

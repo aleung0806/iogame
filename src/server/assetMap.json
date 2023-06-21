@@ -100,7 +100,9 @@
   "spin": {
     "charge": [
       "spin/charge/35.png",
-      "spin/charge/36.png"
+      "spin/charge/36.png",
+      "spin/charge/charge.png"
+
     ],
     "release": [
       "spin/release/38.png",

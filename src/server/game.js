@@ -101,7 +101,7 @@ const createGame = () => {
           bullets: bullets.map(bullet => bullet.serialize()),
           platforms: platforms.map(platform => platform.serialize()),
           walls: walls.map(wall => wall.serialize()),
-          hitboxes: hitboxes.map(hitbox => hitbox.serialize())
+          hitboxes: []
         }
         //console.log('toSend', JSON.stringify(toSend, null, 2))
         sockets[id].emit(constants.MSG_TYPES.GAME_UPDATE, toSend)

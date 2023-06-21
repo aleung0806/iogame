@@ -52,6 +52,7 @@ class Player extends Object{
     this.spinAttack.update()
 
     this.updateObjectState()
+    
     this.input.update()
     this.respawn.update()
   }

@@ -9,7 +9,7 @@ class Hitbox extends Object {
     this.y = y
     this.owner = owner
     this.radius = radius
-    this.duration = 3 //frames the hitbox will last
+    this.duration = 1
     this.hitCooldown = 60
     this.knockbackx = 0
     this.knockbacky = 0
@@ -28,7 +28,7 @@ class Hitbox extends Object {
 
   applyPlayerCollisions(){
     for (const id in players){
-      //console.log('checking')
+      console.log('checking')
       if (this.owner !== players[id] && this.collidesWith(players[id])){
         //console.log("hit player")
 
@@ -55,7 +55,7 @@ class PunchBox extends Hitbox {
   constructor(owner, charge, direction){
     super()
     this.direction = direction
-    this.knockback = 5000
+    this.knockback = 3000 + charge
     if (direction === 'left'){
       this.knockbackx = -this.knockback
     }else if (direction === 'right'){
@@ -72,11 +72,11 @@ class PunchBox extends Hitbox {
     this.x = owner.x
     this.y = owner.y
     this.owner = owner
-    this.radius = owner.radius + 30
-    this.knockback = 1000 * charge / 30
-    this.duration = 1
+    this.radius = owner.radius + 60
+
   }
 }
+
 
 class SpinBox extends Hitbox {
   constructor(owner, charge, direction){
@@ -103,6 +103,7 @@ class SpinBox extends Hitbox {
 
   }
 }
+
 
 module.exports = {
   Hitbox, 

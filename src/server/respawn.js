@@ -2,7 +2,7 @@ const Respawn = (player) => {
 
   const update = () => {
     if(player.y < -1000){
-      player.x = 0
+      player.x = -200
       player.y = 300
       player.vx = 0
       player.vy = 0

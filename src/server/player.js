@@ -46,6 +46,7 @@ class Player extends Object{
     // this.animate.update()
     this.look.update()
     this.movement.update()
+    this.attack.update()
     this.updateObjectState()
     this.input.update()
     this.respawn.update()

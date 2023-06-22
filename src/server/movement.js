@@ -32,13 +32,12 @@ const Movement = (player) => {
 
     //reset jump number if landed after jumping
     if (jumpChain >= 1 && player.onPlatform && player.vy <= 0){
-      //player.action = 'idle'
       jumpChain = 0
     }
 
-
-    if(jumpChain > 0 && player.input.state.keys.Space.down && player.vy > 0){ //
-      player.vy += 10
+    //make long and short jump
+    if(jumpChain > 0 && !player.input.state.keys.Space.down && player.vy > 0){ //
+      player.vy -= 10
     }
     //tweaking gravity during jumps
     // if(jumpChain > 0 && player.vy < 0){ //'better jump' falling

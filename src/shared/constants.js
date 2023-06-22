@@ -20,7 +20,7 @@ module.exports = Object.freeze({
   },
 
   GRAVITY_V: 2000,
-  JUMP_V: 800,
+  JUMP_V: 1000,
   JUMP_MAX_V: 10000,
 
   MOVE_V: 300,
@@ -28,4 +28,5 @@ module.exports = Object.freeze({
   FRICTION_V: 50,
 
   MAX_PLAYER_SPEED: 2000,
+
 });

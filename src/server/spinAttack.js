@@ -12,36 +12,19 @@ const SpinAttack = (player) => {
   let chargeDelay = 0
 
   let power = 1
+  let direction = 'right'
 
 
 
-  const chargeAnimationMap = [
-    animationMap['charge'][0],
-    animationMap['charge'][1],
-    animationMap['charge'][2],
-    animationMap['charge'][1],
-    animationMap['charge'][2],
-    animationMap['charge'][1],
-    animationMap['charge'][2],
-    animationMap['charge'][1],
-    animationMap['charge'][2],
-    animationMap['charge'][1],
-    animationMap['charge'][2],
-    animationMap['charge'][1],
-    animationMap['charge'][2],
-
+  const chargeAnimationFrames = [
+    0, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2
   ]
 
-  const releaseAnimationMap = [
-    animationMap['release'][0],
-    animationMap['release'][1],
-    animationMap['release'][2],
-    animationMap['release'][3],
-    animationMap['release'][4],
+  const releaseAnimationFrames = [
+    0, 1, 2, 3, 4
   ]
 
   let frame = 0
-  let direction = 'right'
 
   const receiveInputs = () => {
     const keys = player.input.state.keys
@@ -54,13 +37,13 @@ const SpinAttack = (player) => {
 
   const init = () => {
     player.action = 'spinAttackCharge'
-    direction = 'right'
+    direction = player.lastDirection
     chargeAnimationSpeed = 1/16
   }
 
   const release = () => {
     player.action = 'spinAttackRelease'
-    direction = 'right'
+    direction = player.lastDirection
     frame = 0
 
   }
@@ -76,8 +59,7 @@ const SpinAttack = (player) => {
     }
     
     if (player.action === 'spinAttackCharge') {
-      player.animate = chargeAnimationMap[Math.min(Math.floor(frame), 12)]
-      console.log('frame', frame)
+      player.animate = animationMap[player.lastDirection]['charge'][chargeAnimationFrames[Math.min(Math.floor(frame), 12)]]
       power = Math.min(power + 1, 300)
       frame += 1 * chargeAnimationSpeed
       
@@ -100,7 +82,7 @@ const SpinAttack = (player) => {
           direction
         ))
       }
-      player.animate = releaseAnimationMap[Math.floor(frame)]
+      player.animate = animationMap[direction]['release'][releaseAnimationFrames[Math.floor(frame)]]
       frame += 1 * releaseAnimationSpeed * 2
     }
   }

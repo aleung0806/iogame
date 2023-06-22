@@ -1,4 +1,4 @@
-const assetPaths = require('./assetPaths.json')
+const assetPaths = require('./assetList.json')
 const assets = {}
 
 const loadAsset = (assetName) => new Promise((resolve, reject) => {

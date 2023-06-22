@@ -38,7 +38,10 @@ class Object {
     this.vx = Math.min(this.vx, constants.MAX_PLAYER_SPEED)
     this.vy = Math.min(this.vy, constants.MAX_PLAYER_SPEED)
 
-  
+    this.vx = Math.max(this.vx, - constants.MAX_PLAYER_SPEED)
+    this.vy = Math.max(this.vy, - constants.MAX_PLAYER_SPEED)
+
+
     this.x += dt * this.vx
     this.y += dt * this.vy
   }

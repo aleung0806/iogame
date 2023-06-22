@@ -4,13 +4,15 @@ const { hitboxes } = require('./state')
 const { PunchBox } = require('./hitbox')
 const animationMap = assetMap.attack
 
+
 const Attack = (player) => {
 
-  const animationSpeed = 1/16
+  const animationSpeed = 1/8
 
   let frame = 0
   let state = 'inactive'
   let direction = 'right'
+
 
   const receiveInputs = () => {
     const keys = player.input.state.keys
@@ -33,13 +35,19 @@ const Attack = (player) => {
   const update = () => {
     receiveInputs()
 
-    if(frame >= 2){
+    if(frame >= 3){
       frame = 0
       player.action = 'idle'
     }
     
     if (player.action === 'attack') {
-      player.animate = animationMap[direction][Math.floor(frame)]
+      if (frame < 1){
+        player.animate = animationMap[direction][0]
+      }else{
+        player.animate = animationMap[direction][1]
+
+      }
+      
       if (frame === 1){
         hitboxes.push(new PunchBox(
           player,

@@ -25,7 +25,7 @@ const createGame = () => {
   const initState = () => {
     players['test'] = new Player(-200, 300, 'testplayer','#6e78ff')
     platforms.push(new Platform(0, -300, 1000))
-    platforms.push(new Platform(-200, 0, 300))
+    //platforms.push(new Platform(-200, 0, 300))
     // walls.push(new Wall(500, -150, 300))
     // walls.push(new Wall(-500, -150, 300))
 
@@ -101,7 +101,7 @@ const createGame = () => {
           bullets: bullets.map(bullet => bullet.serialize()),
           platforms: platforms.map(platform => platform.serialize()),
           walls: walls.map(wall => wall.serialize()),
-          hitboxes: []
+          hitboxes: hitboxes.map(hitbox => hitbox.serialize()),
         }
         //console.log('toSend', JSON.stringify(toSend, null, 2))
         sockets[id].emit(constants.MSG_TYPES.GAME_UPDATE, toSend)

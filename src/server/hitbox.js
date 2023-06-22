@@ -1,4 +1,5 @@
 const e = require('express')
+const { times } = require('lodash')
 const Object = require('./object')
 const { players } = require('./state')
 
@@ -9,21 +10,27 @@ class Hitbox extends Object {
     this.y = y
     this.owner = owner
     this.radius = radius
-    this.duration = 3 //frames the hitbox will last
-    this.hitCooldown = 60
+    this.duration = 1 //frames the hitbox will last
+
     this.knockbackx = 0
     this.knockbacky = 0
 
   }
 
   applyKnockback(player){
-    const dx = (player.x - this.x)
-    const dy = (player.y - this.y)
-    const magnitude = Math.sqrt(dx**2 + dy**2)
-    console.log('magnitude', dx/magnitude)
-    player.vx = Math.abs(dx/magnitude) * this.knockbackx
-    player.vy = Math.abs(dy/magnitude) * this.knockbacky
+    if (this.direction === 'left'){
+      player.vx = -this.knockback
+      player.vy += 250
+    }else if (this.direction === 'right'){
+      player.vx = this.knockback
+      player.vy += 250
 
+    }else if (this.direction === 'up'){
+      player.vy = this.knockback + 200
+
+    }else if (this.direction === 'down'){
+      player.vy = -this.knockback + 200
+    }
   }
 
   applyPlayerCollisions(){
@@ -54,27 +61,44 @@ class Hitbox extends Object {
 class PunchBox extends Hitbox {
   constructor(owner, charge, direction){
     super()
+    this.owner = owner
     this.direction = direction
-    this.knockback = 5000
+    this.knockback = 1000
+    this.radius = 40
+    this.duration = 1
+
     if (direction === 'left'){
-      this.knockbackx = -this.knockback
+      this.x = owner.x - 100
+      this.y = owner.y
     }else if (direction === 'right'){
-      this.knockbackx = this.knockback
+      this.x = owner.x + 100
+      this.y = owner.y
 
     }else if (direction === 'up'){
-      this.knockbacky = this.knockback
+      this.x = owner.x
+      this.y = owner.y + 75
 
     }else if (direction === 'down'){
-      this.knockbacky = -this.knockback
+      this.x = owner.x
+      this.y = owner.y - 75
     }
 
+  }
 
-    this.x = owner.x
-    this.y = owner.y
-    this.owner = owner
-    this.radius = owner.radius + 30
-    this.knockback = 1000 * charge / 30
-    this.duration = 1
+  applyKnockback(player){
+    if (this.direction === 'left'){
+      player.vx = -this.knockback
+      player.vy = 500
+    }else if (this.direction === 'right'){
+      player.vx = this.knockback
+      player.vy = 500
+
+    }else if (this.direction === 'up'){
+      player.vy = this.knockback
+
+    }else if (this.direction === 'down'){
+      player.vy = -this.knockback
+    }
   }
 }
 

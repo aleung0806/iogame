@@ -86,7 +86,14 @@ const SpinAttack = (player) => {
       // if (frame < 1){
       //   player.vx += 150 + ( 150 * power / 300)
       // }
-      if (frame > 2.5 && frame < 3.5) {
+      if (frame === 1){
+        player.vy = 600
+      }
+      if (frame === 2){
+        player.vy = 800
+      }
+      if (frame === 3) {
+        player.vy = 1000
         hitboxes.push(new SpinBox(
           player,
           1000 + (2000 * power / 300),
@@ -94,7 +101,7 @@ const SpinAttack = (player) => {
         ))
       }
       player.animate = releaseAnimationMap[Math.floor(frame)]
-      frame += 1 * releaseAnimationSpeed * (1 + 3 * (power / 300))
+      frame += 1 * releaseAnimationSpeed * 2
     }
   }
 

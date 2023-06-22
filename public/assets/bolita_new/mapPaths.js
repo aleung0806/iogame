@@ -56,7 +56,6 @@ function flattenFiles(obj) {
   }
 }
 flattenFiles(map);
-
 fs.writeFileSync('assetList.json', JSON.stringify(pngs, null, 2));
 fs.writeFileSync('assetMap.json', JSON.stringify(map, null, 2));
 

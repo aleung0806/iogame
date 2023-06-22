@@ -10,6 +10,9 @@ const Movement = require('./movement')
 const Respawn = require('./respawn')
 const Attack = require('./attack')
 const SpinAttack = require('./spinAttack')
+const SwingAttack = require('./swingAttack')
+
+const Roll = require('./roll')
 
 class Player extends Object{
   constructor(x, y, username = '', color) {
@@ -37,6 +40,9 @@ class Player extends Object{
     this.attack = Attack(this)
     this.respawn = Respawn(this)
     this.spinAttack = SpinAttack(this)
+    this.swingAttack = SwingAttack(this)
+    this.roll = Roll(this)
+
   }
 
   onDeath() {
@@ -46,15 +52,22 @@ class Player extends Object{
   update() {
     // this.actions.update()
     // this.animate.update()
+    this.roll.update()
+
     this.look.update()
+
     this.movement.update()
     this.attack.update()
     this.spinAttack.update()
+    this.swingAttack.update()
 
     this.updateObjectState()
 
     this.input.update()
     this.respawn.update()
+    if (this.username === 'test'){
+      console.log(this.animate)
+    }
   }
 
   serialize() {

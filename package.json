@@ -11,7 +11,8 @@
     "build:prod": "webpack --mode=production --node-env=production",
     "watch": "webpack --watch",
     "serve": "webpack serve",
-    "go": "webpack --mode=development && cross-env NODE_ENV=development nodemon src/server/server.js"
+    "go": "webpack --mode=development && cross-env NODE_ENV=development nodemon src/server/server.js",
+    "assets": "cd public/assets/bolita_new && node mapPaths.js && cd .. && cd .. && cd .."
   },
   "dependencies": {
     "express": "^4.18.2",

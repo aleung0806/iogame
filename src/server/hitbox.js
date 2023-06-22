@@ -12,25 +12,24 @@ class Hitbox extends Object {
     this.radius = radius
     this.duration = 1 //frames the hitbox will last
 
-    this.knockbackx = 0
-    this.knockbacky = 0
+    this.knockback = 0
 
   }
 
   applyKnockback(player){
-    if (this.direction === 'left'){
-      player.vx = -this.knockback
-      player.vy += 250
-    }else if (this.direction === 'right'){
-      player.vx = this.knockback
-      player.vy += 250
+    // if (this.direction === 'left'){
+    //   player.vx = -this.knockback
+    //   player.vy += 250
+    // }else if (this.direction === 'right'){
+    //   player.vx = this.knockback
+    //   player.vy += 250
 
-    }else if (this.direction === 'up'){
-      player.vy = this.knockback + 200
+    // }else if (this.direction === 'up'){
+    //   player.vy = this.knockback + 200
 
-    }else if (this.direction === 'down'){
-      player.vy = -this.knockback + 200
-    }
+    // }else if (this.direction === 'down'){
+    //   player.vy = -this.knockback + 200
+    // }
   }
 
   applyPlayerCollisions(){
@@ -105,31 +104,69 @@ class PunchBox extends Hitbox {
 class SpinBox extends Hitbox {
   constructor(owner, charge, direction){
     super()
+    this.owner = owner
     this.direction = direction
-    this.knockback = 3000 + charge
+    this.knockback = 2000
+    this.radius = 40
+    this.duration = 1
+
     if (direction === 'left'){
-      this.knockbackx = -this.knockback
+      this.x = owner.x - 100
+      this.y = owner.y
     }else if (direction === 'right'){
-      this.knockbackx = this.knockback
+      this.x = owner.x + 100
+      this.y = owner.y
 
-    }else if (direction === 'up'){
-      this.knockbacky = this.knockback
-
-    }else if (direction === 'down'){
-      this.knockbacky = -this.knockback
     }
 
+  }
 
-    this.x = owner.x
-    this.y = owner.y
+  applyKnockback(player){
+    if (this.direction === 'left'){
+      player.vx = -this.knockback
+    }else if (this.direction === 'right'){
+      player.vx = this.knockback
+    }
+  }
+}
+
+class SwingBox extends Hitbox {
+  constructor(owner, charge, direction){
+    super()
     this.owner = owner
-    this.radius = owner.radius + 60
+    this.direction = direction
+    this.knockback = 1000
+    this.radius = 40
+    this.duration = 1
 
+    if (direction === 'left'){
+      this.x = owner.x - 100
+      this.y = owner.y
+    }else if (direction === 'right'){
+      this.x = owner.x + 100
+      this.y = owner.y
+
+    }
+
+  }
+
+  applyKnockback(player){
+    if (this.direction === 'left'){
+      player.vx = -this.knockback
+      player.vy = 1500
+      player.action = 'roll'
+    }else if (this.direction === 'right'){
+      player.vx = this.knockback
+      player.vy = 1500
+      player.action = 'roll'
+
+    }
   }
 }
 
 module.exports = {
   Hitbox, 
   PunchBox,
-  SpinBox
+  SpinBox,
+  SwingBox,
 }

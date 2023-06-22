@@ -1,4 +1,40 @@
 {
+  "swing": {
+    "right": {
+      "release": [
+        "swing/right/release/49.png",
+        "swing/right/release/50.png",
+        "swing/right/release/51.png",
+        "swing/right/release/53.png",
+        "swing/right/release/54.png"
+      ],
+      "effects": [
+        "swing/right/effects/48.png",
+        "swing/right/effects/52.png"
+      ],
+      "charge": [
+        "swing/right/charge/46.png",
+        "swing/right/charge/47.png"
+      ]
+    },
+    "left": {
+      "release": [
+        "swing/left/release/49.png",
+        "swing/left/release/50.png",
+        "swing/left/release/51.png",
+        "swing/left/release/53.png",
+        "swing/left/release/54.png"
+      ],
+      "effects": [
+        "swing/left/effects/48.png",
+        "swing/left/effects/52.png"
+      ],
+      "charge": [
+        "swing/left/charge/46.png",
+        "swing/left/charge/47.png"
+      ]
+    }
+  },
   "spin": {
     "right": {
       "release": [
@@ -34,26 +70,26 @@
       "spin/effects/charge.png"
     ]
   },
-  "slam": [
-    "slam/46.png",
-    "slam/47.png",
-    "slam/48.png",
-    "slam/49.png",
-    "slam/50.png",
-    "slam/51.png",
-    "slam/52.png",
-    "slam/53.png",
-    "slam/54.png"
-  ],
-  "roll": [
-    "roll/55.png",
-    "roll/56.png",
-    "roll/57.png",
-    "roll/58.png",
-    "roll/59.png",
-    "roll/60.png",
-    "roll/61.png"
-  ],
+  "roll": {
+    "right": [
+      "roll/right/55.png",
+      "roll/right/56.png",
+      "roll/right/57.png",
+      "roll/right/58.png",
+      "roll/right/59.png",
+      "roll/right/60.png",
+      "roll/right/61.png"
+    ],
+    "left": [
+      "roll/left/55.png",
+      "roll/left/56.png",
+      "roll/left/57.png",
+      "roll/left/58.png",
+      "roll/left/59.png",
+      "roll/left/60.png",
+      "roll/left/61.png"
+    ]
+  },
   "look": {
     "up": [
       "look/up/5.png",

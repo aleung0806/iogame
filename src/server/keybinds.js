@@ -9,7 +9,9 @@ const binds = {
   jump: 'Space',
 
   attack1: 'KeyJ',
-  attack2: 'KeyK'
+  attack2: 'KeyK',
+  attack3: 'KeyL'
+
 }
 
 module.exports = binds

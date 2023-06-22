@@ -25,7 +25,7 @@ const Look = (player) => {
       player.direction = 'left'
       player.lastDirection = 'left'
 
-    }else {
+    }else if (player.action === 'idle'){
       player.direction = 'neutral'
     }
   }
@@ -33,9 +33,11 @@ const Look = (player) => {
   const update = () => {
     receiveInputs()
 
-    player.animate = animationMap[player.direction][Math.floor(frame) % 4]
+    if (player.action === 'idle'){
+      player.animate = animationMap[player.direction][Math.floor(frame) % 4]
 
-    frame += 1 * animationSpeed
+      frame += 1 * animationSpeed
+    }
   }
 
   return {

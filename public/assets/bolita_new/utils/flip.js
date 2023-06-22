@@ -2,8 +2,8 @@ const fs = require('fs');
 const path = require('path');
 const sharp = require('sharp');
 
-const sourceDirectory = './right';
-const outputDirectory = './left';
+const sourceDirectory = './release';
+const outputDirectory = './leftR';
 
 fs.readdir(sourceDirectory, (err, files) => {
   if (err) {

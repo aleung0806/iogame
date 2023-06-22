@@ -1,7 +1,6 @@
 const { PunchBox } = require('./hitbox')
 const { hitboxes } = require('./state')
 const constants = require('../shared/constants')
-const Animate = require('./animate')
 const binds = require('./keybinds')
 
 const Movement = (player) => {

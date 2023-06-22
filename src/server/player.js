@@ -3,9 +3,8 @@ const constants = require('../shared/constants')
 const { JUMP_V, PLAYER_RADIUS } = require('../shared/constants')
 const { v4: uuidv4 } = require('uuid');
 const { hitboxes } = require('./state')
-const Input = require('./input2')
-const Animate = require('./animate')
-const Actions = require('./actions')
+const Input = require('./input')
+
 const Look = require('./look')
 const Movement = require('./movement')
 const Respawn = require('./respawn')
@@ -26,6 +25,7 @@ class Player extends Object{
     this.action = 'idle'
     this.animate = 'look/neutral/10.png'
     this.direction = 'neutral'
+    this.lastDirection = 'right'
 
     // this.animate = Animate(this)
     // this.actions = Actions(this)
@@ -52,7 +52,7 @@ class Player extends Object{
     this.spinAttack.update()
 
     this.updateObjectState()
-    
+
     this.input.update()
     this.respawn.update()
   }

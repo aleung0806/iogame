@@ -5,64 +5,41 @@ const keyCodes = ['KeyW', 'KeyA', 'KeyS', 'KeyD', 'KeyJ', 'KeyK', 'KeyL', 'Space
 
 const Input = (player) => {
 
-
-
-  let state = {
-    lastKey: '',
-    sinceLastKey: 0, //in frames
-
-    //left or right
-    lastDirection: 'right',
-    
-    //up, down, left, or right
-    lookDirection: '',
+  let state = { 
     keys: {}
-
-    //press, down, release, up
-    //press, release are the 1st frames where the key is down, up
   }
   
   keyCodes.forEach(code => {
     state.keys[code] = {
       down: false,
-      duration: 0
+      duration: 0,
+      state: 'up' //press, hold, release, up
     }
   })
 
-
-
-
-
   const update = () => {
-
     for (const keyCode in state.keys){
+      const key = state.keys[keyCode]
 
-      //update lastDirection
-      if (keyCode === 'KeyA' && state.keys[keyCode].down && state.keys[keyCode].duration === 0){
-        state.lastDirection = 'left'
-      }
-      if (keyCode === 'KeyD' && state.keys[keyCode].down && state.keys[keyCode].duration === 0){
-        state.lastDirection = 'right'
-      }
-
-
-
-      
-
-      //update lastKey
-      if (state.keys[keyCode].down){
-        state.lastKey = keyCode
-        state.sinceLastKey = 0
+      if (key.down){
+        if(key.duration === 0){
+          key.state = 'press'
+        }else{
+          key.state = 'hold'
+        }
       }else{
-        state.sinceLastKey += 1
+        if(key.duration > 0){
+          key.state = 'release'
+        }else{
+          key.state = 'up'
+        }
       }
 
       //update duration
-      if (state.keys[keyCode].down){
-        state.keys[keyCode].duration += 1
-      }
-      if (!state.keys[keyCode].down){
-        state.keys[keyCode].duration = 0
+      if (key.down){
+        key.duration += 1
+      }else{
+        key.duration = 0
       }
 
     }

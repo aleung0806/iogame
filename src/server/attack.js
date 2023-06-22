@@ -21,11 +21,12 @@ const Attack = (player) => {
 
   const init = () => {
     player.action = 'attack'
-    direction = player.direction
     if (player.direction === 'neutral'){
-      direction = 'right'
+      direction = player.lastDirection
+    }else{
+      direction = player.direction
+
     }
-    //console.log(player.direction)
   }
 
 

@@ -1,7 +1,6 @@
 const { PunchBox } = require('./hitbox')
 const { hitboxes } = require('./state')
 const constants = require('../shared/constants')
-const Animate = require('./animate')
 const binds = require('./keybinds')
 const assetMap = require('./assetMap.json')
 
@@ -21,8 +20,11 @@ const Look = (player) => {
       player.direction = 'down'
     }else if (keys[binds['lookRight']].down) {
       player.direction = 'right'
+      player.lastDirection = 'right'
     }else if (keys[binds['lookLeft']].down) {
       player.direction = 'left'
+      player.lastDirection = 'left'
+
     }else {
       player.direction = 'neutral'
     }

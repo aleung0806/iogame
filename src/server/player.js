@@ -2,7 +2,7 @@ const Object = require('./object')
 const constants = require('../shared/constants')
 const { JUMP_V, PLAYER_RADIUS } = require('../shared/constants')
 const { v4: uuidv4 } = require('uuid');
-const { hitboxes } = require('./state')
+const { hitboxes, platforms, players } = require('./state')
 const Input = require('./input')
 
 const Look = require('./look')
@@ -47,9 +47,6 @@ class Player extends Object{
 
   }
 
-  onDeath() {
-
-  }
 
   update() {
     // this.actions.update()
@@ -68,7 +65,7 @@ class Player extends Object{
 
     this.input.update()
     if (this.username === 'test'){
-      console.log(this.animate)
+      console.log(platforms)
     }
   }
 

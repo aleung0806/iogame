@@ -23,7 +23,8 @@ const createGame = () => {
   let lastUpdate = new Date()
 
   const initState = () => {
-    players['test'] = new Player(-200, 300, 'test','#6e78ff')
+    // players['test'] = new Player(-200, 300, 'test','#6e78ff')
+    // players['test'].init()
     platforms.push(new Platform(0, -200, 1000))
     //platforms.push(new Platform(-200, 0, 300))
     // walls.push(new Wall(500, -150, 300))

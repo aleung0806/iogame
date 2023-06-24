@@ -6,7 +6,8 @@
         "swing/right/release/50.png",
         "swing/right/release/51.png",
         "swing/right/release/53.png",
-        "swing/right/release/54.png"
+        "swing/right/release/54.png",
+        "swing/right/release/55.png"
       ],
       "effects": [
         "swing/right/effects/48.png",
@@ -23,7 +24,8 @@
         "swing/left/release/50.png",
         "swing/left/release/51.png",
         "swing/left/release/53.png",
-        "swing/left/release/54.png"
+        "swing/left/release/54.png",
+        "swing/left/release/55.png"
       ],
       "effects": [
         "swing/left/effects/48.png",
@@ -153,6 +155,14 @@
       "fall/neutral/16.png"
     ]
   },
+  "cloud": [
+    "cloud/1.png",
+    "cloud/2.png",
+    "cloud/3.png",
+    "cloud/4.png",
+    "cloud/5.png",
+    "cloud/6.png"
+  ],
   "bounce": {
     "right": [
       "bounce/right/62.png",

@@ -1,12 +1,13 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>io game</title>
+    <title>bolitas.io</title>
     <link type="text/css" rel="stylesheet" href="/game.bundle.css">
     <script>src="index.js"</script>
   </head>
   <body>
     <div id="start-menu">
+      <h1>bolitas.io</h1>
       <form id="username-form">
         <input id="username-input"/>
         <select name="colors" id= "color-select" value="purple">
@@ -16,12 +17,12 @@
           <option id="blue" value="blue">blue</option>
         </select>
         <button id="join-game-button">
-          JOIN GAME
+          Join Game
         </button>
       </form>
     </div>
 
     <canvas id="game-canvas"></canvas>
-
+    <div id="score-box"></div>
   </body>
 </html>

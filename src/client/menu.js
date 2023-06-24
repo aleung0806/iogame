@@ -19,8 +19,7 @@ const joinGamePromise = new Promise((resolve, reject) => {
       })
 
       input.value = ''
-      menu.style = 'visibility: hidden'
-      canvas.style = 'visibility: visible'
+      menu.style = 'display: flex'
       resolve()
     }
   })
@@ -31,8 +30,8 @@ const autoJoinGamePromise = new Promise((resolve, reject) => {
     username: 'P1',
     color: '#eac4d5'
   })
-  menu.style = 'visibility: hidden'
-  canvas.style = 'visibility: visible'
+  menu.style = 'display: none'
+  canvas.style = 'display: flex'
   resolve()
 })
 

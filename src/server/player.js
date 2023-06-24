@@ -25,6 +25,7 @@ class Player extends Object{
     this.y = y
     this.radius = PLAYER_RADIUS
     
+    this.inRespawn = true
     this.action = 'idle'
     this.animate = 'look/neutral/10.png'
     this.direction = 'neutral'
@@ -38,10 +39,11 @@ class Player extends Object{
     this.look = Look(this)
     this.input = Input(this)
     this.attack = Attack(this)
-    this.respawn = Respawn(this)
     this.spinAttack = SpinAttack(this)
     this.swingAttack = SwingAttack(this)
     this.roll = Roll(this)
+    this.respawn = Respawn(this)
+
 
   }
 
@@ -60,11 +62,11 @@ class Player extends Object{
     this.attack.update()
     this.spinAttack.update()
     this.swingAttack.update()
+    this.respawn.update()
 
     this.updateObjectState()
 
     this.input.update()
-    this.respawn.update()
     if (this.username === 'test'){
       console.log(this.animate)
     }

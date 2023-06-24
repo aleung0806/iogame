@@ -6,14 +6,22 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-
+  justify-content: center;
 }
 
 #game-canvas {
-  visibility: hidden;
+  display: none;
+  height: 100vh;
+  width: 100vw;
 }
 
 #start-menu {
+  display: flex;
+  flex-direction: column;
+
+}
+
+#score-box {
   display: flex;
   flex-direction: column;
 

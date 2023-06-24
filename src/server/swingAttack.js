@@ -21,7 +21,7 @@ const SwingAttack = (player) => {
   ]
 
   const releaseAnimationFrames = [
-    0, 2, 3, 4, 4, 4, 4, 4
+    0, 2, 3, 4, 4, 4, 5, 5
   ]
 
   let frame = 0
@@ -52,7 +52,7 @@ const SwingAttack = (player) => {
   const update = () => {
     receiveInputs()
 
-    if(player.action === 'swingAttackRelease' && frame >= 8){
+    if(player.action === 'swingAttackRelease' && frame >= 9){
       frame = 0
       player.action = 'idle'
       power = 0

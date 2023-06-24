@@ -66,6 +66,21 @@ const renderPlayer = (player) => {
     radius * 2 * 4.25)
 
   context.restore()
+
+  if (animate.prop){
+    const propImage = getAsset(animate.prop)
+    console.log(propImage)
+    context.save()
+    context.translate(canvasX, canvasY)
+    context.drawImage( //img, x, y, width, height
+      propImage, 
+      x - radius - 125,
+      - y - radius - 125,
+      radius * 2 *  4.25,
+      radius * 2 * 4.25)
+  
+    context.restore()
+  }
 }
 
 const renderBackground = () => {
@@ -75,12 +90,28 @@ const renderBackground = () => {
 
 const renderPlatform = (platform) => {
   const {x, y, length } = platform
+  // context.save()
+  // context.translate(canvasX, canvasY)
+  // context.fillStyle = 'black'
+  // context.fillRect(x - length / 2, -y, length, 5)   //x, y, width, height
+  // context.restore()
+
+  const ratio =  322 / 1971
+
+  const image = getAsset('background/platform-large.png')
   context.save()
   context.translate(canvasX, canvasY)
-  context.fillStyle = 'black'
-  context.fillRect(x - length / 2, -y, length, 5)   //x, y, width, height
+  context.drawImage(
+    image, 
+    x - ((length + 10) / 2),
+    -y - ((length + 10) * ratio / 2),
+    length + 10, 
+    (length + 10) * ratio
+    )  //img, x, y, width, height
   context.restore()
 }
+
+
 
 const renderWall = (wall) => {
   console.log('render: wall', wall)
@@ -115,9 +146,12 @@ const renderGame = () => {
   if (!_.isEmpty(state)){
 
     renderBackground()
+
     platforms.forEach(platform => {
       return renderPlatform(platform)
     })
+
+
     walls.forEach(wall => {
       return renderWall(wall)
     })

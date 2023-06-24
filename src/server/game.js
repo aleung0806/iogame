@@ -1,6 +1,6 @@
 const Player = require('./player')
 const constants = require('../shared/constants')
-const Platform = require('./platform')
+const { Platform }= require('./platform')
 const Wall = require('./platform')
 
 const uuid = require('uuid')

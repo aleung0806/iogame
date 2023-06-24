@@ -18,4 +18,15 @@ class Platform {
   }
 }
 
-module.exports = Platform
+
+class Cloud extends Platform {
+  constructor(x, y, id){
+    super()
+    this.id = id
+    this.x = x
+    this.y = y
+    this.length = 100
+  }
+
+}
+module.exports = {Platform, Cloud }

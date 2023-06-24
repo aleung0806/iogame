@@ -90,6 +90,21 @@
       "roll/left/61.png"
     ]
   },
+  "projectile": {
+    "right": [
+      "projectile/right/1.png",
+      "projectile/right/10.png",
+      "projectile/right/11.png",
+      "projectile/right/2.png",
+      "projectile/right/3.png",
+      "projectile/right/4.png",
+      "projectile/right/5.png",
+      "projectile/right/6.png",
+      "projectile/right/7.png",
+      "projectile/right/8.png",
+      "projectile/right/9.png"
+    ]
+  },
   "look": {
     "up": [
       "look/up/5.png",
@@ -144,6 +159,9 @@
       "bounce/right/63.png"
     ]
   },
+  "background": [
+    "background/platform-large.png"
+  ],
   "attack2": {
     "up": [
       "attack2/up/33.png",

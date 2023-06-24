@@ -17,7 +17,7 @@ class Platform {
       x: this.x, 
       y: this.y,
       length: this.length,
-      animate: this.animate.asset
+      animate: this.animate
     }
   }
 }

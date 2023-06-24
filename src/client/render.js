@@ -97,17 +97,16 @@ const renderPlatform = (platform) => {
       )  //img, x, y, width, height
     context.restore()
   }else if (type === 'cloud'){
+    const radius = 40
     const image = getAsset(animate.asset)
-    const ratio = 
     context.save()
     context.translate(canvasX, canvasY)
     context.drawImage(
       image, 
-      x - ((length) / 2),
-      -y - ((length) * ratio / 2),
-      length, 
-      (length) * ratio
-      )  //img, x, y, width, height
+      x - radius - 125,
+      - y - radius * 2 - 120,
+      radius * 2 *  4.25,
+      radius * 2 * 4.25)
     context.restore()
 
     // context.save()

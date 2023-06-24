@@ -52,7 +52,7 @@ const SwingAttack = (player) => {
   const update = () => {
     receiveInputs()
 
-    if(player.action === 'swingAttackRelease' && frame >= 9){
+    if(player.action === 'swingAttackRelease' && frame >= 8){
       frame = 0
       player.action = 'idle'
       power = 0

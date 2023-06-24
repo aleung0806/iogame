@@ -4,7 +4,6 @@ const animationMap = assetMap.cloud
 const {Cloud, Platform }= require('./platform')
 const { v4: uuidv4} = require('uuid')
 
-
 const Respawn = (player) => {
 
   const animationSpeed = 1/16
@@ -12,6 +11,7 @@ const Respawn = (player) => {
   const y = 300
   const x = -300
   let cloudDisappear = false
+  
 
   const respawn = () => {
 
@@ -25,6 +25,12 @@ const Respawn = (player) => {
 
   respawn()
 
+  const endRespawn = () => {
+    player.inRespawn = false
+    cloudDisappear = true
+    frame = 0
+  }
+
   const update = () => {
 
     if(player.y < -1000){
@@ -32,9 +38,12 @@ const Respawn = (player) => {
     }
 
     if(player.inRespawn && (player.y < y)){
-      player.inRespawn = false
-      cloudDisappear = true
-      frame = 0
+      endRespawn()
+    }
+
+    if (player.inRespawn && frame > 20){
+      endRespawn()
+
     }
 
     if(player.inRespawn){
@@ -56,9 +65,6 @@ const Respawn = (player) => {
       platforms[index].animate.asset = animationMap[Math.floor(frame) + 4]
       frame += animationSpeed
     }
-
-
-
   }
 
   return {

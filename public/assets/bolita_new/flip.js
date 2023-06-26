@@ -2,8 +2,8 @@ const fs = require('fs');
 const path = require('path');
 const sharp = require('sharp');
 
-const sourceDirectory = './projectile/right';
-const outputDirectory = './projectile/left';
+const sourceDirectory = './jump/right';
+const outputDirectory = './jump/left';
 
 fs.readdir(sourceDirectory, (err, files) => {
   if (err) {

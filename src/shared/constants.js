@@ -23,7 +23,7 @@ module.exports = Object.freeze({
   JUMP_V: 1000,
   JUMP_MAX_V: 10000,
 
-  MOVE_V: 300,
+  MOVE_V: 200,
   MOVE_MAX_V: 750,
   FRICTION_V: 50,
 

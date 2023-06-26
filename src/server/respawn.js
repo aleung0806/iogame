@@ -9,7 +9,7 @@ const Respawn = (player) => {
   const animationSpeed = 1/16
   let frame = 0
   const y = 300
-  const x = -300
+  const x = 0
   let cloudDisappear = false
   
 

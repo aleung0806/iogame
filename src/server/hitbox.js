@@ -85,6 +85,7 @@ class PunchBox extends Hitbox {
   }
 
   applyKnockback(player){
+    player.action = 'roll'
     if (this.direction === 'left'){
       player.vx = -this.knockback
       player.vy = 500
@@ -122,6 +123,8 @@ class SpinBox extends Hitbox {
   }
 
   applyKnockback(player){
+    player.action = 'roll'
+
     if (this.direction === 'left'){
       player.vx = -this.knockback
     }else if (this.direction === 'right'){
@@ -151,14 +154,14 @@ class SwingBox extends Hitbox {
   }
 
   applyKnockback(player){
+    player.action = 'roll'
+
     if (this.direction === 'left'){
       player.vx = -this.knockback
       player.vy = 1500
-      player.action = 'roll'
     }else if (this.direction === 'right'){
       player.vx = this.knockback
       player.vy = 1500
-      player.action = 'roll'
 
     }
   }

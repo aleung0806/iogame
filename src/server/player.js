@@ -11,7 +11,8 @@ const Respawn = require('./respawn')
 const Attack = require('./attack')
 const SpinAttack = require('./spinAttack')
 const SwingAttack = require('./swingAttack')
-
+const Example = require('./example')
+const Fall = require('./fall')
 const Roll = require('./roll')
 
 class Player extends Object{
@@ -37,6 +38,7 @@ class Player extends Object{
     //controls
     this.movement = Movement(this)
     this.look = Look(this)
+    this.fall = Fall(this)
     this.input = Input(this)
     this.attack = Attack(this)
     this.spinAttack = SpinAttack(this)
@@ -44,16 +46,20 @@ class Player extends Object{
     this.roll = Roll(this)
     this.respawn = Respawn(this)
 
+    this.example = Example(this)
+
 
   }
+
+
 
 
   update() {
     // this.actions.update()
     // this.animate.update()
     this.roll.update()
-
     this.look.update()
+    this.fall.update()
 
     this.movement.update()
     this.attack.update()
@@ -64,9 +70,9 @@ class Player extends Object{
     this.updateObjectState()
 
     this.input.update()
-    if (this.username === 'test'){
-      console.log(platforms)
-    }
+
+
+    this.example.update()
   }
 
   serialize() {

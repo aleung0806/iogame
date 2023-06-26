@@ -7,7 +7,7 @@ const assetMap = require('./assetMap.json')
 const animationMap = assetMap.look
 
 const Look = (player) => {
-  const animationSpeed = 1/8
+  const animationSpeed = 1/16
   let frame = 0
   player.direction = 'neutral'
 

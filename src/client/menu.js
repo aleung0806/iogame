@@ -27,7 +27,7 @@ const joinGamePromise = new Promise((resolve, reject) => {
 
 const autoJoinGamePromise = new Promise((resolve, reject) => {
   sendJoinGame({
-    username: 'P1',
+    username: 'player one',
     color: '#eac4d5'
   })
   menu.style = 'display: none'

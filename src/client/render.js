@@ -42,7 +42,7 @@ const renderHitbox = (hitbox) => {
 
 const renderPlayer = (player) => {
   //console.log('rendering', JSON.stringify(player, null, 2))
-  const {x, y, radius, color, animate} = player
+  const {x, y, radius, color, animate, username} = player
   //const animate = animationStates[animateId]
   const image = getAsset(animate.asset)
   console.log('rendering', animate.asset)
@@ -54,6 +54,28 @@ const renderPlayer = (player) => {
   // context.arc(x, - y, radius, 0, 2 * Math.PI);
   // context.fill();
   // context.restore()
+
+
+  // context.save()
+  // context.translate(canvasX, canvasY)
+  // const gradient = context.createRadialGradient(x, -y, radius, x, -y, radius)
+  // gradient.addColorStop(0, 'pink')
+  // gradient.addColorStop(1, 'white')
+  // context.fillStyle = gradient
+  // context.beginPath()
+  // context.arc(x, -y, radius, 0, 2 * Math.PI);
+  // context.closePath()
+  // context.fill()
+  // context.restore()
+
+  context.save()
+  context.translate(canvasX, canvasY)
+  context.font = "16px Arial";
+  context.fillStyle = color;
+  context.textAlign = "center";
+
+  context.fillText(username, x, - y - radius - 20);
+  context.restore()
 
   //render png
   context.save()
@@ -162,9 +184,9 @@ const renderGame = () => {
       return renderWall(wall)
     })
 
-    hitboxes.forEach(hitbox => {
-      return renderHitbox(hitbox)
-    })
+    // hitboxes.forEach(hitbox => {
+    //   return renderHitbox(hitbox)
+    // })
     
     renderPlayer(me)
 

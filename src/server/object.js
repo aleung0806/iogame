@@ -59,6 +59,9 @@ class Object {
         this.vy = 0
         this.y = platform.y + this.radius //set object on platform
         onPlatform = true
+        if(this.action === 'roll'){
+          this.vy = 1000
+        }
       }
     }
     this.onPlatform = onPlatform
